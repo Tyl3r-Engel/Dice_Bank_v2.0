@@ -23,9 +23,9 @@ export default function NavBar() {
   return (
     <>
       {
-        navElements.map(element => {
+        navElements.map((element, index) => {
           return (
-            <Grid item xs='auto'>
+            <Grid key={`${index} nem`} item xs='auto'>
               <Paper
                 sx={{
                   display : 'inline-block',
@@ -91,9 +91,9 @@ export default function NavBar() {
                     </Grid>
 
                     {
-                      currentSelection.options.map(element => {
+                      currentSelection.options.map((element, index) => {
                         return (
-                          <Grid item sx={{padding : '1em'}}>
+                          <Grid key={`${index} csm`} item sx={{padding : '1em'}}>
                             <Button onClick={(e) => element.onClick(e)}>{element.name}</Button>
                             <Typography variant='h6'>
                               {element.description}
