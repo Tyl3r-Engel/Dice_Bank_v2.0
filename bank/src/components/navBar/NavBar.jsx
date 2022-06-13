@@ -17,7 +17,7 @@ export default function NavBar ({windowWidth}) {
       <Grid item xs={4} />
       <Grid item xs={1} sx={{alignSelf: 'center'}}>
         {
-          !windowWidth &&
+         ((!windowWidth) || (isAuth)) &&
             (
               <NavBarMenu />
             )
