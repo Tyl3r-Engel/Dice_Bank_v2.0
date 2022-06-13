@@ -17,14 +17,14 @@ export default function LetterAvatars() {
 
   return (
     <Box sx={{background : 'lightgrey'}}>
-      <Grid container sx={{placeContent : 'center'}}>
-        <Grid item sx={{padding : '1em'}}>
+      <Grid container sx={{placeContent : 'center', textAlignLast : 'center'}}>
+        <Grid item sx={{padding : '1em'}} xs={12}>
           <Input autoComplete='off' placeholder='User Name' name = 'userName' onChange={handleChange}/>
         </Grid>
-        <Grid item sx={{padding : '1em'}}>
+        <Grid item sx={{padding : '1em'}} xs={12}>
           <Input type='password' autoComplete='off' placeholder='Password' name = 'userPass' onChange={handleChange} />
         </Grid>
-        <Grid item sx={{padding : '1em'}}>
+        <Grid item sx={{padding : '1em'}} xs={12}>
           <Button onClick={handleLogin}>
             Login
           </Button>

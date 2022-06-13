@@ -2,8 +2,9 @@ import React from 'react';
 import NavTabs from './tabs/NavTabs';
 import NavBar from '../navBar/NavBar';
 import Login from '../login/Login'
+import Advert from './Advert';
 import useWindowSize from '../hooks/useWindowSize';
-import { Grid, Box, Paper } from '@mui/material';
+import { Grid, Box } from '@mui/material';
 
 export default function LoginPage () {
   const windowWidth = !(useWindowSize().width < 1120)
@@ -35,15 +36,11 @@ export default function LoginPage () {
         <Login />
       </Grid>
 
-      <Grid item xs={1} />
-
-      <Grid item xs={6}>
-          {/* <Advert /> */}
-          <Box sx={{background : 'blue', height: '50', width: '50'}}>
-            <Paper>tsetat</Paper>
-          </Box>
+      <Grid item xs={7} sx={{padding: '1em'}}>
+        <Advert />
       </Grid>
 
+      <Grid item xs={1} />
     </Grid>
   )
 }
