@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {navElements} from '../loginPage/tabs/navElements.js'
+import {navElements} from '../HomePage/tabs/navElements.js'
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Drawer from '@mui/material/Drawer';

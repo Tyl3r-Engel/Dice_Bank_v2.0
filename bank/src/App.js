@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginPage from './components/loginPage/LoginPage';
+import LoginPage from './components/HomePage/HomePage';
 //import Box from '@mui/material/Box';
 
 function App() {

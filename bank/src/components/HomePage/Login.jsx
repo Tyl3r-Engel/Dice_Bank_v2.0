@@ -16,7 +16,7 @@ export default function LetterAvatars() {
   }
 
   return (
-    <Box sx={{background : 'lightgrey'}}>
+    <Box sx={{background : '#cc171d', borderRadius : '12px'}}>
       <Grid container sx={{placeContent : 'center', textAlignLast : 'center'}}>
         <Grid item sx={{padding : '1em'}} xs={12}>
           <Input autoComplete='off' placeholder='User Name' name = 'userName' onChange={handleChange}/>
@@ -25,14 +25,15 @@ export default function LetterAvatars() {
           <Input type='password' autoComplete='off' placeholder='Password' name = 'userPass' onChange={handleChange} />
         </Grid>
         <Grid item sx={{padding : '1em'}} xs={12}>
-          <Button onClick={handleLogin}>
+          <Button variant='outlined' color='inherit' sx={{color : 'white'}} onClick={handleLogin}>
             Login
           </Button>
         </Grid>
+
         <Grid item sx={{padding : '1em'}}>
-          <Box sx={{background : 'lightblue', padding : '1em'}}>
-            <Typography>Don't have an account?</Typography>
-            <Button sx={{padding : '.5em'}}>create an account</Button>
+          <Box sx={{background : '#4d818c', padding : '1em', borderRadius : '12px'}}>
+            <Typography sx={{textAlign : 'center', color : 'white', padding : '1em'}}>Don't have an account?</Typography>
+            <Button variant='outlined' color='inherit' sx={{padding : '.5em', color : 'white'}}>create an account</Button>
           </Box>
         </Grid>
       </Grid>
