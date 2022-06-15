@@ -1,9 +1,10 @@
 import React from 'react';
-import { Box, Button, Grid, Paper } from '@mui/material';
-import advertBackground from './advertBackground.png'
-import goldCard from './goldCard.png'
-import deal from './deal.png'
-import stocks from './stocks.png'
+import { Box, Button, Grid } from '@mui/material';
+import advertBackground from './images/advertBackground.png'
+import goldCard from './images/goldCard.png'
+import deal from './images/deal.png'
+import stocks from './images/stocks.png'
+import GetMainAd from './mainAd'
 
 export default function Advert () {
   return (
@@ -14,14 +15,10 @@ export default function Advert () {
       width : '100%',
       height : '100%'
     }}>
-      <Grid container sx={{width : '100%', height : '100%'}}>
-        <Grid item xs={8}>
-
-        </Grid>
-        <Grid item xs={0}  md={4} sx={{padding : '1em'}} >
-          <Paper>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque elit risus, mollis et tortor non, porttitor ultricies libero. Aenean at justo et mi suscipit porttitor ac eget nisi. Aenean urna est, dignissim sit amet mi non</Paper>
-        </Grid>
-
+      <Grid container>
+        {
+          GetMainAd()
+        }
         {
           [
             {name : 'goldCard', imgSrc : goldCard, description : 'Gold Rewards'},
