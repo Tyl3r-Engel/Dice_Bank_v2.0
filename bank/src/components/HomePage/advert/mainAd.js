@@ -5,7 +5,6 @@ import moneyBagImage from './images/moneyBagImage.png';
 import creditCardAd from './images/creditCardAd.png';
 import loanAd from './images/loanAd.png';
 
-//Don't take the chance with those other guys. Roll with us and save here at Dice Bank
 const mainAds = [
   {
     'name': 'SavingsAd',
