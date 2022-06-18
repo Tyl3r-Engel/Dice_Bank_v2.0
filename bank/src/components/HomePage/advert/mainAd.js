@@ -41,7 +41,6 @@ export default function GetMainAd() {
   useEffect(() => {
     setRandomAd(Math.floor(Math.random() * 3))
   },[setRandomAd])
-  console.log(randomAd)
   return (
     <>
     {

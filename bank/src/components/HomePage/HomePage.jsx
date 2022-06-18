@@ -8,7 +8,7 @@ import useWindowSize from '../hooks/useWindowSize';
 import { Grid, Box, Paper, Typography } from '@mui/material';
 import Footer from '../footer/Footer';
 
-export default function LoginPage () {
+export default function HomePage () {
   const windowWidth = !(useWindowSize().width < 1120)
   return (
     <Grid container >
