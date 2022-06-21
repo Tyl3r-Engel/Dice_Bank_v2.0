@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios'
-import { Grid, Typography, Box, Button, TextField } from '@mui/material';
+import { Grid, Typography, Box, Button, TextField, Alert } from '@mui/material';
+import AuthContext from '../../context/AuthProvider';
+import { Navigate } from 'react-router-dom';
+
 
 export default function LetterAvatars() {
-  const [formValues, setFormValues] = useState({userName : '', userPass : ''});
+  const { auth, setAuth } = useContext(AuthContext)
+  const [formValues, setFormValues] = useState({userName : '', userPass : '', errMsg: ''});
+  const [hasFailed, setHasFailed] = useState(false)
 
   const handleChange = e => {
     const { name, value } = e.target
@@ -13,11 +18,30 @@ export default function LetterAvatars() {
     })
   }
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault()
-    axios.post('/login', formValues)
+    try {
+      const response = await axios.post('/login',
+        formValues,
+        {
+          headers : 'application/json',
+          withCredential : true
+        }
+      )
+      const accessToken = response?.data?.accessToken
+      setAuth({
+        isAuth : true,
+        userName : formValues.userName,
+        userPass : formValues.userPass,
+        accessToken
+      })
+      setFormValues({userName : '', userPass : '', errMsg : ''})
+    } catch(err) {
+      setFormValues({userName : '', userPass : '', errMsg : err.message})
+      setHasFailed(true)
+    }
   }
-
+  if(auth?.isAuth) return <Navigate to='/dashBoard' />
   return (
     <Box sx={{background : '#cc171d', borderRadius : '12px'}}>
       <Grid container
@@ -27,15 +51,22 @@ export default function LetterAvatars() {
         }}
       >
         <Grid item sx={{padding : '1em'}} xs={12}>
-          <form onSubmit={handleSubmit}>
-            <Box
-              sx={{
-                textAlign: 'center',
-                background: 'white',
-                padding : '1em',
-                borderRadius : '12px'
-              }}
-            >
+          <Box
+            sx={{
+              textAlign: 'center',
+              background: 'white',
+              padding : '1em',
+              borderRadius : '12px'
+            }}
+          >
+            {
+              hasFailed && (
+                <>
+                  <Alert severity="error">{formValues.errMsg}</Alert>
+                </>
+              )
+            }
+            <form onSubmit={handleSubmit}>
               <Box sx={{padding : '1em'}}>
                 <TextField
                   type='text'
@@ -45,6 +76,7 @@ export default function LetterAvatars() {
                   onChange={handleChange}
                   value={formValues.userName}
                   autoComplete='off'
+                  required
                 />
               </Box>
 
@@ -56,7 +88,7 @@ export default function LetterAvatars() {
                   variant='filled'
                   onChange={handleChange}
                   value={formValues.userPass}
-                  autoComplete='off'
+                  required
                 />
               </Box>
 
@@ -70,8 +102,8 @@ export default function LetterAvatars() {
                   Login
                 </Button>
               </Box>
-            </Box>
-          </form>
+            </form>
+          </Box>
         </Grid>
 
         <Grid item sx={{padding : '1em'}}>

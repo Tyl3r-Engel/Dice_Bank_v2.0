@@ -1,30 +1,30 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
+import AuthContext from '../../context/AuthProvider';
 import NavBarMenu from './NavMenu';
-import { Divider, Grid, Input, Typography } from '@mui/material';
-import Box from '@mui/material/Box';
+import { Grid } from '@mui/material';
 import logo from './logo.png'
-import Avatar from '@mui/material/Avatar';
-import { deepOrange, deepPurple } from '@mui/material/colors'
 
 
 export default function NavBar ({windowWidth}) {
-  const [isAuth, setIsAuth] = useState(false);
+  const { auth } = useContext(AuthContext)
   return (
     <Grid container>
       <Grid item xs={7}>
-        <img src={logo} alt='Logo' height={75}></img>
+        <a href={auth.isAuth ? '/dashBoard' : '/'} onClick={(e) => e.preventDefault()}>
+          <img src={logo} alt='Logo' height={75}></img>
+        </a>
       </Grid>
       <Grid item xs={4} />
-      <Grid item xs={1} sx={{alignSelf: 'center'}}>
+      <Grid item xs={1} sx={{alignSelf: 'center', textAlign: 'right'}}>
         {
-         ((!windowWidth) || (isAuth)) &&
+         ((!windowWidth) || (auth.isAuth)) &&
             (
               <NavBarMenu />
             )
         }
       </Grid>
       {
-        isAuth ?
+        auth.isAuth ?
           (
             <>
             </>
