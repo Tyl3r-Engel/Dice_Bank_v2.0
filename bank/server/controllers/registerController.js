@@ -1,29 +1,23 @@
 const pool = require('../../dataBase/pool')
 const bcrypt = require('bcrypt');
 
-const userNameCheck = (userName, cb) => {
+const isUserNameTaken = (userName, cb) => {
   pool.query('SELECT userName FROM users WHERE userName=$1', [userName], (err, { rowCount }) => {
     if (err) cb(err, null)
-    if (rowCount > 0) cb(null, false)
+    if (rowCount === 0) cb(null, false)
     else cb(null, true)
   })
-}
-
-const handleErr = (err, res) => {
-  console.log(err)
-  res.send(err)
-  res.end()
 }
 
 const registerController = (req, res) => {
   const { userName, userPass } = req.body
   const queryString = `INSERT INTO users (userName, userPass) VALUES ($1, $2)`;
+  const handleErr = (err, res) => res.send(err).end()
 
-  userNameCheck(userName, (err, result) => {
+  isUserNameTaken(userName, (err, result) => {
     if (err) handleErr(err)
-    if (!result) {
-      res.status(407).send('User Name already exists')
-      res.end()
+    if (result) {
+      res.status(409).end()
       return
     }
     bcrypt.genSalt(10, (err, salt) => {
@@ -32,8 +26,7 @@ const registerController = (req, res) => {
         if (err) handleErr(err)
         pool.query(queryString, [userName, hash], (err, result) => {
           if (err) handleErr(err)
-          res.send(result)
-          res.end()
+          res.send('user created').end()
         });
       })
     })

@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Grid, TextField, Box, Button, Paper, Typography, Alert } from '@mui/material';
 import logo from '../navBar/logo.png';
 import axios from 'axios';
+import handleLogin from '../HomePage/handleLogin';
+import AuthContext from '../../context/AuthProvider';
+import { Navigate } from 'react-router-dom';
 
 export default function Register() {
+  const { auth, setAuth } = useContext(AuthContext);
   const [hasFailed, setHasFailed] = useState(false)
   const [formValues, setFormValues] = useState({userName : '', userPass : '', errMsg : ''})
-
   const handleChange = e => {
     const { name, value }= e.target
     setFormValues({
@@ -18,16 +21,21 @@ export default function Register() {
   const handleSubmit = async e => {
     e.preventDefault()
     try {
-      const response = await axios.post('/register', formValues)
-      console.log(response)
-      setFormValues({userName : '', userPass : '', errMsg : ''})
-      setHasFailed(false)
-    } catch(err) {
-      console.log(err)
-      setFormValues({userName : '', userPass : '', errMsg : err.message})
+      const { data } = await axios.post('/register', formValues)
+      if (data === 'user created') handleLogin(e, formValues, setFormValues, setHasFailed, setAuth)
+    } catch({ response: { status} }) {
+      switch (status) {
+        case 409:
+          setFormValues({userName : '', userPass : '', errMsg : 'User name already exists'})
+          break;
+
+        default:
+          break;
+      }
       setHasFailed(true)
     }
   }
+  if(auth?.isAuth) return <Navigate to='/dashBoard' />
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -60,6 +68,7 @@ export default function Register() {
                 onChange={handleChange}
                 value={formValues.userName}
                 autoComplete='off'
+                required
               />
             </Box>
 
@@ -72,6 +81,7 @@ export default function Register() {
                 onChange={handleChange}
                 value={formValues.userPass}
                 autoComplete='off'
+                required
               />
             </Box>
 

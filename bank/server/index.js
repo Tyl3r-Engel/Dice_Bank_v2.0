@@ -7,15 +7,11 @@ app.use('/', express.static(path.join(__dirname, '../build')));
 app.use(express.json())
 
 app.use('/register', require('./routes/register'))
+app.use('/login', require('./routes/login'))
 
 app.get('/dashBoard', (req, res) => {
   console.log(req.body)
   res.redirect('/')
-})
-
-app.post('/login', (req, res) => {
-  console.log(req.body)
-  res.end()
 })
 
 app.get('*', (req, res) => {

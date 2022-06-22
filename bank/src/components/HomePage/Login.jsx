@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
-import axios from 'axios'
 import { Grid, Typography, Box, Button, TextField, Alert } from '@mui/material';
 import AuthContext from '../../context/AuthProvider';
+import handleLogin from './handleLogin';
 import { Navigate } from 'react-router-dom';
 
 
@@ -17,31 +17,7 @@ export default function LetterAvatars() {
       [name] : value
     })
   }
-
-  const handleSubmit = async e => {
-    e.preventDefault()
-    try {
-      const response = await axios.post('/login',
-        formValues,
-        {
-          headers : 'application/json',
-          withCredential : true
-        }
-      )
-      const accessToken = response?.data?.accessToken
-      setAuth({
-        isAuth : true,
-        userName : formValues.userName,
-        userPass : formValues.userPass,
-        accessToken
-      })
-      setFormValues({userName : '', userPass : '', errMsg : ''})
-    } catch(err) {
-      setFormValues({userName : '', userPass : '', errMsg : err.message})
-      setHasFailed(true)
-    }
-  }
-  if(auth?.isAuth) return <Navigate to='/dashBoard' />
+  if(auth?.isAuth) return <Navigate to='/dashboard' />
   return (
     <Box sx={{background : '#cc171d', borderRadius : '12px'}}>
       <Grid container
@@ -66,7 +42,7 @@ export default function LetterAvatars() {
                 </>
               )
             }
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={(e) => handleLogin(e, formValues, setFormValues, setHasFailed, setAuth)}>
               <Box sx={{padding : '1em'}}>
                 <TextField
                   type='text'
