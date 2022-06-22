@@ -1,22 +1,16 @@
 const express = require('express')
 const path = require('path')
 const app = express()
+require('../dataBase/pool')
 
 app.use('/', express.static(path.join(__dirname, '../build')));
 app.use(express.json())
 
-app.get('/register', (req, res) => {
-  res.sendFile('index.html', { root: path.join(__dirname, '../build') });
-})
+app.use('/register', require('./routes/register'))
 
 app.get('/dashBoard', (req, res) => {
   console.log(req.body)
   res.redirect('/')
-})
-
-app.post('/register', (req, res) => {
-  console.log(req.body)
-  res.end()
 })
 
 app.post('/login', (req, res) => {

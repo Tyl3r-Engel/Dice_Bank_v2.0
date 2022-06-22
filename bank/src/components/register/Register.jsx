@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Grid, TextField, Box, Button, Paper, Typography } from '@mui/material';
+import { Grid, TextField, Box, Button, Paper, Typography, Alert } from '@mui/material';
 import logo from '../navBar/logo.png';
 import axios from 'axios';
 
 export default function Register() {
-  const [formValues, setFormValues] = useState({userName : '', userPass : ''})
+  const [hasFailed, setHasFailed] = useState(false)
+  const [formValues, setFormValues] = useState({userName : '', userPass : '', errMsg : ''})
 
   const handleChange = e => {
     const { name, value }= e.target
@@ -14,9 +15,18 @@ export default function Register() {
     })
   }
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault()
-    axios.post('/register', formValues)
+    try {
+      const response = await axios.post('/register', formValues)
+      console.log(response)
+      setFormValues({userName : '', userPass : '', errMsg : ''})
+      setHasFailed(false)
+    } catch(err) {
+      console.log(err)
+      setFormValues({userName : '', userPass : '', errMsg : err.message})
+      setHasFailed(true)
+    }
   }
   return (
     <Grid container>
@@ -33,6 +43,13 @@ export default function Register() {
         <Typography variant='h4'>
           Welcome to Dice Bank, Register here
         </Typography>
+        {
+          hasFailed && (
+            <>
+              <Alert severity="error">{formValues.errMsg}</Alert>
+            </>
+          )
+        }
           <form onSubmit={handleSubmit}>
             <Box sx={{padding : '1em'}}>
               <TextField
