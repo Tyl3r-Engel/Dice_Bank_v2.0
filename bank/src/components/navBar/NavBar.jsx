@@ -1,12 +1,14 @@
 import React, { useContext } from 'react';
 import AuthContext from '../../context/AuthProvider';
 import NavBarMenu from './NavMenu';
-import { Grid } from '@mui/material';
+import { Grid, Stack } from '@mui/material';
 import logo from './logo.png'
+import NavUserMenu from './NavUserMenu';
 
 
 export default function NavBar ({windowWidth}) {
   const { auth } = useContext(AuthContext)
+
   return (
     <Grid container>
       <Grid item xs={7}>
@@ -16,23 +18,17 @@ export default function NavBar ({windowWidth}) {
       </Grid>
       <Grid item xs={4} />
       <Grid item xs={1} sx={{alignSelf: 'center', textAlign: 'right'}}>
+        {((!windowWidth) && (windowWidth !== undefined)) && ( <NavBarMenu /> )}
         {
-         ((!windowWidth) || (auth.isAuth)) &&
+          auth.isAuth &&
             (
-              <NavBarMenu />
+              <Stack direction='row'>
+                <NavBarMenu />
+                <NavUserMenu />
+              </Stack>
             )
         }
       </Grid>
-      {
-        auth.isAuth ?
-          (
-            <>
-            </>
-          ) : (
-            <>
-            </>
-          )
-      }
     </Grid>
   )
 }
