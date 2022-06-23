@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Grid, TextField, Box, Button, Paper, Typography, Alert } from '@mui/material';
 import logo from '../navBar/logo.png';
-import axios from 'axios';
+import axios from '../../api/axios';
 import handleLogin from '../HomePage/handleLogin';
 import AuthContext from '../../context/AuthProvider';
 import { Navigate } from 'react-router-dom';
@@ -29,7 +29,8 @@ export default function Register() {
           setFormValues({userName : '', userPass : '', errMsg : 'User name already exists'})
           break;
 
-        default:
+          default:
+          setFormValues({userName : '', userPass : '', errMsg : 'User name already exists'})
           break;
       }
       setHasFailed(true)

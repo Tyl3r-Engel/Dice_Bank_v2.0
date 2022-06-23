@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../../api/axios';
 
 export default async function handleLogin (e, { userName, userPass }, setFormValues, setHasFailed, setAuth) {
   e.preventDefault()
@@ -9,7 +9,10 @@ export default async function handleLogin (e, { userName, userPass }, setFormVal
         userPass
       },
       {
-        headers : 'application/json',
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': 'http://localHost:9999',
+          },
         withCredential : true
       }
     )
@@ -28,7 +31,8 @@ export default async function handleLogin (e, { userName, userPass }, setFormVal
         setFormValues({userName : '', userPass : '', errMsg : message})
         break;
 
-      default:
+        default:
+        setFormValues({userName : '', userPass : '', errMsg : message})
         break;
     }
     setHasFailed(true)

@@ -1,10 +1,18 @@
 const express = require('express')
 const path = require('path')
+const cors = require('cors')
 const app = express()
 require('../dataBase/pool')
 
-app.use('/', express.static(path.join(__dirname, '../build')));
+const whiteList = ['http://localhost:3000']
+const corsOptions = {
+  origin : (origin, callback) => whiteList.indexOf(origin) !== -1 ? callback(null, true) : callback(new Error('Blocked by CORS'), null),
+  optionsSuccessStatus : 200
+}
+
+app.use(cors(corsOptions))
 app.use(express.json())
+app.use('/', express.static(path.join(__dirname, '../build')));
 
 app.use('/register', require('./routes/register'))
 app.use('/login', require('./routes/login'))
