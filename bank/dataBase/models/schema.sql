@@ -6,15 +6,14 @@ DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
-  userName VARCHAR(25) NOT NULL,
-  userPass VARCHAR(60)
+  userName VARCHAR(255),
+  userPass VARCHAR(255)
 );
 
 DROP TABLE IF EXISTS sessions;
 
 CREATE TABLE sessions (
   id SERIAL PRIMARY KEY,
-  sid VARCHAR(32) UNIQUE,
-  expire TIMESTAMP,
-  sess VARCHAR(255)
+  userName VARCHAR(255),
+  refreshToken VARCHAR(255)
 );

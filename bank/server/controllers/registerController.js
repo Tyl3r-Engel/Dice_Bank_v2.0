@@ -11,6 +11,7 @@ const isUserNameTaken = (userName, cb) => {
 
 const registerController = (req, res) => {
   const { userName, userPass } = req.body
+  if (!userName || !userPass) return res.status(400).send('userName and password are required').end()
   const queryString = `INSERT INTO users (userName, userPass) VALUES ($1, $2)`;
   const handleErr = (err, res) => res.send(err).end()
 
@@ -24,7 +25,7 @@ const registerController = (req, res) => {
       if (err) handleErr(err)
       bcrypt.hash(userPass, salt, (err, hash) => {
         if (err) handleErr(err)
-        pool.query(queryString, [userName, hash], (err, result) => {
+        pool.query(queryString, [ userName, hash], (err, result) => {
           if (err) handleErr(err)
           res.send('user created').end()
         });
