@@ -4,10 +4,13 @@ import { fakeAccount } from './fakeAccount'
 import useSortAccounts from '../../hooks/useSortAccounts';
 import Checking from './accounts/Checking';
 import Savings from './accounts/Savings';
-
+import useAuth from '../../hooks/useAuth'
 export default function AccountList() {
+  const { auth } = useAuth()
   const { savingsAccounts, checkingAccounts, loansAccounts, creditCardAccounts, tradeAccounts} = useSortAccounts(fakeAccount)
   return (
+    <>
+    <Typography variant='h2' sx={{padding : '.3em'}}>Welcome, {auth.userName}</Typography>
     <Box sx={{background : '#325765', padding : '2em'}}>
       <Typography
         sx={{
@@ -22,5 +25,6 @@ export default function AccountList() {
       <Checking checkingAccounts={checkingAccounts} />
       <Savings savingsAccounts={savingsAccounts} />
     </Box>
+    </>
   )
 }

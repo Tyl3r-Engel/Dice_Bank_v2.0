@@ -1,13 +1,12 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Grid, TextField, Box, Button, Paper, Typography, Alert } from '@mui/material';
 import logo from '../navBar/logo.png';
 import axios from '../../api/axios';
 import handleLogin from '../HomePage/handleLogin';
-import AuthContext from '../../context/AuthProvider';
-import { Navigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
 export default function Register() {
-  const { auth, setAuth } = useContext(AuthContext);
+  const { setAuth } = useAuth()
   const [hasFailed, setHasFailed] = useState(false)
   const [formValues, setFormValues] = useState({userName : '', userPass : '', errMsg : ''})
   const handleChange = e => {
@@ -30,13 +29,12 @@ export default function Register() {
           break;
 
           default:
-          setFormValues({userName : '', userPass : '', errMsg : 'User name already exists'})
+          setFormValues({userName : '', userPass : '', errMsg : 'An Error as ocurred, try again'})
           break;
       }
       setHasFailed(true)
     }
   }
-  if(auth?.isAuth) return <Navigate to='/dashBoard' />
   return (
     <Grid container>
       <Grid item xs={12}>

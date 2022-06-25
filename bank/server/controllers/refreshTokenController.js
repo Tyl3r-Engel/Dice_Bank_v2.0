@@ -6,7 +6,7 @@ const handleRefreshToken = (req, res) => {
   const cookies = req.cookies
   if (!cookies?.jwt) return res.sendStatus(401)
   const refreshToken = cookies.jwt
-
+  console.log(refreshToken)
   pool.query('SELECT userName FROM sessions WHERE refreshToken=$1', [refreshToken], (err, { rows: [ { username } ] }) => {
     if (err) {console.log(err); return res.sendStatus(403)}
     jwt.verify(
@@ -20,7 +20,7 @@ const handleRefreshToken = (req, res) => {
           { expiresIn : '15m'}
         )
 
-        res.json({ accessToken })
+        res.json({ accessToken, username })
       }
     )
   })

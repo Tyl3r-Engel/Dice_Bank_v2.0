@@ -1,12 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Grid, Typography, Box, Button, TextField, Alert } from '@mui/material';
-import AuthContext from '../../context/AuthProvider';
 import handleLogin from './handleLogin';
-import { Navigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
 
 export default function LetterAvatars() {
-  const { auth, setAuth } = useContext(AuthContext)
+  const { setAuth } = useAuth()
   const [formValues, setFormValues] = useState({userName : '', userPass : '', errMsg: ''});
   const [hasFailed, setHasFailed] = useState(false)
 
@@ -17,7 +16,6 @@ export default function LetterAvatars() {
       [name] : value
     })
   }
-  if(auth?.isAuth) return <Navigate to='/dashboard' />
   return (
     <Box sx={{background : '#cc171d', borderRadius : '12px'}}>
       <Grid container

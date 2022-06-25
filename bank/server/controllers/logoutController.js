@@ -7,7 +7,8 @@ const handleLogout = (req, res) => {
 
   pool.query('DELETE FROM sessions WHERE refreshToken=$1', [refreshToken], (err, result) => {
     if (err) return res.stats(500).send(err).end()
-    res.clearCookie('jwt', { httpOnly : true })
+    console.log('logged put')
+    res.clearCookie('jwt', { httpOnly : true, sameSite: 'None', secure : true })
     res.sendStatus(204)
   })
 }

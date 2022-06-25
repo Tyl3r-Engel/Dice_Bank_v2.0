@@ -8,8 +8,9 @@ require('../dataBase/pool')
 
 const whiteList = ['http://localhost:3000']
 const corsOptions = {
-  origin : '*', //(origin, callback) => whiteList.indexOf(origin) !== -1 ? callback(null, true) : callback(new Error('Blocked by CORS'), null),
-  optionsSuccessStatus : 200
+  origin : (origin, callback) => whiteList.indexOf(origin) !== -1 ? callback(null, true) : callback(new Error('Blocked by CORS'), null),
+  optionsSuccessStatus : 200,
+  credentials : true
 }
 
 app.use(cors(corsOptions))
@@ -29,7 +30,6 @@ app.use('/logout', require('./routes/logout'))
 app.use(verifyJWT)
 
 app.get('/dashBoard', (req, res) => {
-  console.log(req.body)
   res.json('yayayay').end()
 })
 

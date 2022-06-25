@@ -1,16 +1,24 @@
-import React, { useContext } from 'react';
-import { Navigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import { Grid } from '@mui/material';
-import AuthContext from '../../context/AuthProvider';
 import NavBar from '../navBar/NavBar';
 import AccountList from './accountList/AccountList';
 import Transactions from './transactions/Transactions';
 import Graph from './graph/Graph';
 import Footer from '../footer/Footer';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import useAuth from '../hooks/useAuth';
 
 export default function DashBoard() {
-  const { auth } = useContext(AuthContext)
-  if(!auth?.isAuth) return <Navigate to='/' />
+  const axiosPrivate = useAxiosPrivate()
+  const { auth } = useAuth()
+  useEffect(() => {
+    const getDash = async () => {
+      console.log(auth)
+      const response = await axiosPrivate.get('/dashBoard')
+      console.log(response.data)
+    }
+    getDash()
+  })
   return(
     <Grid container direction='column'>
       <Grid item xs={12} >

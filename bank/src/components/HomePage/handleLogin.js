@@ -13,7 +13,7 @@ export default async function handleLogin (e, { userName, userPass }, setFormVal
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': 'http://localHost:9999',
           },
-        withCredential : true
+        withCredentials : true
       }
     )
     console.log(data)
