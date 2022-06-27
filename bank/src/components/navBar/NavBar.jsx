@@ -1,13 +1,13 @@
-import React, { useContext } from 'react';
-import AuthContext from '../../context/AuthProvider';
+import React from 'react';
 import NavBarMenu from './NavMenu';
 import { Grid, Stack } from '@mui/material';
 import logo from './logo.png'
 import NavUserMenu from './NavUserMenu';
+import useAuth from '../hooks/useAuth';
 
 
 export default function NavBar ({windowWidth}) {
-  const { auth } = useContext(AuthContext)
+  const { auth } = useAuth()
 
   return (
     <Grid container>

@@ -29,7 +29,7 @@ export default function useAxiosPrivate() {
           prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`
           return axiosPrivate(prevRequest)
         }
-        return err => Promise.reject(err)
+        return error
       }
     )
     return () => {

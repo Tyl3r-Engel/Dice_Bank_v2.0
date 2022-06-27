@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import NavBar from '../navBar/NavBar';
 import AccountList from './accountList/AccountList';
@@ -7,18 +7,36 @@ import Graph from './graph/Graph';
 import Footer from '../footer/Footer';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import useAuth from '../hooks/useAuth';
+import useDash from '../hooks/useDash';
+import { Navigate } from 'react-router-dom';
 
 export default function DashBoard() {
+  const [errorFlag, setErrorFlag] = useState(false)
+  const { isMounted, setIsMounted } = useDash()
+  const { auth, setAuth } = useAuth()
   const axiosPrivate = useAxiosPrivate()
-  const { auth } = useAuth()
+
   useEffect(() => {
     const getDash = async () => {
-      console.log(auth)
-      const response = await axiosPrivate.get('/dashBoard')
-      console.log(response.data)
+      try {
+        const response = await axiosPrivate.get('/dashBoard')
+        console.log(response)
+        if (response?.response?.status === 403) throw new Error('unauthorized')
+        else setIsMounted(true)
+
+        const { data } = response
+        console.log(data)
+
+      } catch(e) {
+        console.log('ERROR:::', e)
+        setAuth({})
+        setErrorFlag(true)
+      }
     }
     getDash()
   })
+  if (errorFlag) return <Navigate to='/' />
+  if (!isMounted) return <p>Loading Dash Board...</p>
   return(
     <Grid container direction='column'>
       <Grid item xs={12} >
