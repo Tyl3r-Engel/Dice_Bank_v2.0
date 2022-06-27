@@ -13,7 +13,7 @@ import { Navigate } from 'react-router-dom';
 export default function DashBoard() {
   const [errorFlag, setErrorFlag] = useState(false)
   const { isMounted, setIsMounted } = useDash()
-  const { auth, setAuth } = useAuth()
+  const { setAuth } = useAuth()
   const axiosPrivate = useAxiosPrivate()
 
   useEffect(() => {

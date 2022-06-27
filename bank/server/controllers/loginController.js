@@ -27,7 +27,7 @@ const loginController = (req, res) => {
             const accessToken = jwt.sign(
               { userName},
               process.env.ACCESS_TOKEN_SECRET,
-              { expiresIn: '15m' }
+              { expiresIn: '30s' }
             )
 
             const refreshToken = jwt.sign(
