@@ -1,4 +1,4 @@
-const pool = require('../../dataBase/pool')
+const pool = require('../../../dataBase/pool')
 
 const handleLogout = (req, res) => {
   const cookies = req.cookies

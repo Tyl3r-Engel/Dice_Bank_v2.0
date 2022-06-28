@@ -1,10 +1,10 @@
 const express = require('express')
 const path = require('path')
 const cors = require('cors')
-const verifyJWT = require('./middleware/verifyJWT')
+const verifyJWT = require('../middleware/verifyJWT')
 const cookieParser = require('cookie-parser')
 const app = express()
-require('../dataBase/pool')
+require('../../dataBase/pool')
 
 const whiteList = ['http://localhost:3000']
 const corsOptions = {
@@ -17,18 +17,13 @@ app.use(cors(corsOptions))
 app.use(express.json())
 app.use(cookieParser())
 
-app.use('/', express.static(path.join(__dirname, '../build')));
+app.use('/', express.static(path.join(__dirname, '../../build')));
 app.use('/register', require('./routes/register'))
 app.use('/login', require('./routes/login'))
 app.use('/refresh', require('./routes/refresh'))
 app.use('/logout', require('./routes/logout'))
 
 app.use(verifyJWT)
-
-app.get('/dashBoard', (req, res) => {
-  res.json('yayayay').end()
-})
-
 
 
 app.listen(9999, () => console.log('server running on 9999'))

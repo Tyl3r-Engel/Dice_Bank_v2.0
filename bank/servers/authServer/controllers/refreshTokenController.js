@@ -1,4 +1,4 @@
-const pool = require('../../dataBase/pool')
+const pool = require('../../../dataBase/pool')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
@@ -7,7 +7,7 @@ const handleRefreshToken = (req, res) => {
   if (!cookies?.jwt) return res.sendStatus(401)
   const refreshToken = cookies.jwt
   console.log(refreshToken)
-  pool.query('SELECT userName FROM sessions WHERE refreshToken=$1', [refreshToken], (err, { rows: [ { username } ] }) => {
+  pool.query('SELECT username FROM sessions WHERE refreshToken=$1', [refreshToken], (err, { rows: [ { username } ] }) => {
     if (err) {console.log(err); return res.sendStatus(403)}
     jwt.verify(
       refreshToken,

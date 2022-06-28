@@ -1,4 +1,4 @@
-const pool = require('../../dataBase/pool')
+const pool = require('../../../dataBase/pool')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
