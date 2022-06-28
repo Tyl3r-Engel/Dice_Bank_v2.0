@@ -18,10 +18,6 @@ app.use(express.json())
 app.use(cookieParser())
 
 app.use('/', express.static(path.join(__dirname, '../build')));
-// app.get('*', (req, res) => {
-//  res.sendFile(path.join(__dirname, './pageNotFound.html'))
-// })
-
 app.use('/register', require('./routes/register'))
 app.use('/login', require('./routes/login'))
 app.use('/refresh', require('./routes/refresh'))
