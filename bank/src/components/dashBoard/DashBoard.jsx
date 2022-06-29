@@ -12,21 +12,25 @@ import { Navigate } from 'react-router-dom';
 
 export default function DashBoard() {
   const [errorFlag, setErrorFlag] = useState(false)
-  const { isMounted, setIsMounted } = useDash()
+  const { isMounted, setIsMounted, setAccounts } = useDash()
   const { setAuth } = useAuth()
   const axiosPrivate = useAxiosPrivate()
+
+  useEffect(() => {
+    const checkedLoggedIn = async () => {
+      const response = await axiosPrivate.get('/dashBoard')
+      if (response?.response?.status === 403 || response?.response?.status === 401) {setErrorFlag(true); setAuth({})}
+    }
+    checkedLoggedIn()
+  })
 
   useEffect(() => {
     const getDash = async () => {
       try {
         const response = await axiosPrivate.get('/dashBoard')
-        console.log(response)
         if (response?.response?.status === 403 || response?.response?.status === 401) throw new Error('unauthorized')
-        else setIsMounted(true)
-
-        const { data } = response
-        console.log(data)
-
+        setAccounts(response.data)
+        setIsMounted(true)
       } catch(e) {
         console.log('ERROR:::', e)
         setAuth({})
@@ -34,7 +38,9 @@ export default function DashBoard() {
       }
     }
     getDash()
-  })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
+
   if (errorFlag) return <Navigate to='/' />
   if (!isMounted) return <p>Loading Dash Board...</p>
   return(
@@ -45,10 +51,10 @@ export default function DashBoard() {
 
       <Grid item xs={12} sx={{padding : '2em'}}>
         <Grid container spacing={2}>
-          <Grid item xs={6}>
+          <Grid item xs={7}>
             <AccountList />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={5}>
             <Grid container direction='column'>
               <Grid item xs={12}>
                 <Transactions />

@@ -10,7 +10,8 @@ module.exports = (req, res, next) => {
     process.env.ACCESS_TOKEN_SECRET,
     (err, token) => {
       if(err) return res.sendStatus(403)
-      req.userName = token.userName
+      req.username = token.username
+      req.userid = token.userid
       next()
     }
   )

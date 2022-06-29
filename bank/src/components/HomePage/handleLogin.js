@@ -16,10 +16,10 @@ export default async function handleLogin (e, { userName, userPass }, setFormVal
         withCredentials : true
       }
     )
-    console.log(data)
     const accessToken = data?.accessToken
     setAuth({
       isAuth : true,
+      userid : data.id,
       userName : userName,
       userPass : userPass,
       accessToken

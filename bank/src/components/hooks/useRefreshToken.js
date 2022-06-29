@@ -6,8 +6,8 @@ export default function useRefreshToken () {
 
   const refresh = async () => {
     try {
-      const { data: {accessToken, username: userName} } = await axios.get('/refresh', { withCredentials : true })
-      setAuth(prev =>({ ...prev, accessToken : accessToken, userName, isAuth : true}))
+      const { data: {accessToken, username: userName, userid} } = await axios.get('/refresh', { withCredentials : true })
+      setAuth(prev =>({ ...prev, accessToken : accessToken, userName, userid, isAuth : true}))
       return accessToken
     } catch(e) {
       return e
