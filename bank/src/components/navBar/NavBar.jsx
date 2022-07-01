@@ -4,15 +4,17 @@ import { Grid, Stack } from '@mui/material';
 import logo from './logo.png'
 import NavUserMenu from './NavUserMenu';
 import useAuth from '../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function NavBar ({windowWidth}) {
   const { auth } = useAuth()
+  const navigate = useNavigate()
 
   return (
     <Grid container>
       <Grid item xs={7}>
-        <a href={auth.isAuth ? '/dashBoard' : '/'} onClick={(e) => e.preventDefault()}>
+        <a href='/' onClick={(e) =>{e.preventDefault(); navigate('/')}}>
           <img src={logo} alt='Logo' height={75}></img>
         </a>
       </Grid>

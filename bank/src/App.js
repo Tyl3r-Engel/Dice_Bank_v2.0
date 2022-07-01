@@ -1,5 +1,6 @@
 import React from 'react';
 import HomePage from './components/HomePage/HomePage';
+import CheckingAndSavings from './components/serviceInfo/CheckingAndSavings';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Register from './components/register/Register';
 import DashBoard from './components/dashBoard/DashBoard';
@@ -17,6 +18,7 @@ function App() {
           <Route element={<PersistLogin />} >
             <Route path="/" element={!auth.isAuth ? <HomePage /> :  <Navigate to="/dashboard" replace /> }/>
             <Route path="/register" element={!auth.isAuth ? <Register /> : <Navigate to="/" replace /> }/>
+            <Route path="/checkingAndSavings" element={<CheckingAndSavings />} replace/>
 
             <Route element={<ProtectedRoute auth={auth} />}>
               <Route

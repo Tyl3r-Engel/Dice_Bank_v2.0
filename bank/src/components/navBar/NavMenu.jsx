@@ -4,9 +4,20 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Drawer from '@mui/material/Drawer';
 import { Grid, Paper } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 export default function NavMenu () {
   const [isOpen, setIsOpen] = useState(false)
+  const navigate = useNavigate()
+
+  const handleOpen = () => {
+    setIsOpen(!isOpen)
+  }
+
+  const handelNav = (page) => {
+    handleOpen()
+    navigate(`/${page}`)
+  }
 
   return (
     <>
@@ -14,7 +25,7 @@ export default function NavMenu () {
         size="large"
         edge="start"
         aria-label="menu"
-        onClick={() => setIsOpen(true)}
+        onClick={handleOpen}
       >
         <MenuIcon />
       </IconButton>
@@ -22,7 +33,7 @@ export default function NavMenu () {
       <Drawer
         anchor={'left'}
         open={isOpen}
-        onClose={() => setIsOpen(false)}
+        onClose={handleOpen}
       >
         <Grid container direction = 'column'>
           {
@@ -44,7 +55,7 @@ export default function NavMenu () {
                       },
                       }}
                       elevation={5}
-                      onClick={(e) => setIsOpen(false)}
+                      onClick={() => handelNav(element.type)}
                   >
                     {element.name}
                   </Paper>

@@ -4,22 +4,27 @@ import { IconButton, Menu, MenuItem } from '@mui/material';
 import axios from '../../api/axios';
 import useAuth from '../hooks/useAuth';
 import useDash from '../hooks/useDash';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function NavUserMenu() {
   const [anchorEl, setAnchorEl] = useState(null)
   const { setAuth } = useAuth()
-  const { setIsMounted} = useDash()
+  const { setIsMounted } = useDash()
+  const navigate = useNavigate()
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget)
   }
 
-  const handleClose = async () => {
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  const handleLogout = async () => {
     await axios.get('/logout', { withCredentials : true })
     setIsMounted(false)
     setAuth({})
-    return <Navigate to='/' />
+    navigate('/', { replace : true })
   }
 
   return (
@@ -33,7 +38,7 @@ export default function NavUserMenu() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Log Out</MenuItem>
+        <MenuItem onClick={handleLogout}>Log Out</MenuItem>
       </Menu>
     </>
   )

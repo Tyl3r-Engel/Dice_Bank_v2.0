@@ -4,9 +4,12 @@ import Button from '@mui/material/Button';
 import { Divider, Grid, Typography } from '@mui/material';
 import { Paper } from '@mui/material';
 import { navElements } from './navElements';
+import { useNavigate } from 'react-router-dom';
 
 export default function NavBar() {
   const [currentSelection, setCurrentSelection] = useState({})
+  const navigate = useNavigate()
+
   const onClickHandler = (e, element) => {
     e.target.style.backgroundColor = 'gainsboro'
     element.tag = e
@@ -68,7 +71,7 @@ export default function NavBar() {
                     </Grid>
 
                     <Grid item sx={{alignSelf : 'center'}}>
-                      <Button color='primary'>get started</Button>
+                      <Button color='primary' onClick={() => navigate(`/${currentSelection.type}`)}>get started</Button>
                     </Grid>
 
                  </Grid>
@@ -94,7 +97,14 @@ export default function NavBar() {
                       currentSelection.options.map((element, index) => {
                         return (
                           <Grid key={`${index} csm`} item sx={{padding : '1em'}}>
-                            <Button onClick={(e) => element.onClick(e)}>{element.name}</Button>
+                            <Button
+                              onClick={
+                                (e) => {
+                                  element.onClick(e, (page) => navigate(`/${page}`))}
+                              }
+                            >
+                              {element.name}
+                            </Button>
                             <Typography variant='h6'>
                               {element.description}
                             </Typography>
