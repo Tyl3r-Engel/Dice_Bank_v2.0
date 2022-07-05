@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material'
 import React from 'react'
-import Footer from '../footer/Footer'
-import NavBar from '../navBar/NavBar'
+import Footer from '../../footer/Footer'
+import NavBar from '../../navBar/NavBar'
 
 export default function Loan() {
   return(

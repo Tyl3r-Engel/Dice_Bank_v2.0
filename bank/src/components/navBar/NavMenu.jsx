@@ -6,6 +6,8 @@ import Drawer from '@mui/material/Drawer';
 import { Grid, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth.js';
+import NavUserMenu from './NavUserMenu.jsx';
+import { Box } from '@mui/system';
 
 export default function NavMenu () {
   const [isOpen, setIsOpen] = useState(false)
@@ -37,35 +39,46 @@ export default function NavMenu () {
         open={isOpen}
         onClose={handleOpen}
       >
-        <Grid container direction = 'column'>
-          {
-            [{type : 'dashboard', name : auth.isAuth ? 'Dashboard' : 'Home' }, ...navElements].map((element, index) => {
-              return (
-                <Grid item key={`${index} nmem`}>
-                  <Paper
-                    sx={{
-                      display : 'inline-block',
-                      margin: '.5em',
-                      padding: '1em',
-                      width: 200,
-                      hight: 20,
-                      textAlign: 'center',
-                      '&:hover': {
-                        backgroundColor: 'grey',
-                        opacity: [0.9, 0.8, 0.7],
-                        cursor: 'pointer'
-                      },
-                      }}
-                      elevation={5}
-                      onClick={() => handelNav(element.type)}
-                  >
-                    {element.name}
-                  </Paper>
+        <Box sx={{background : '#cc171d', width : '100%', height : '100%'}}>
+
+          <Grid container direction = 'column' spacing={5}>
+            {
+              auth.isAuth && (
+                <Grid item xs={12}>
+                  <NavUserMenu />
                 </Grid>
               )
-            })
-          }
-        </Grid>
+            }
+
+            {
+              [{type : 'dashboard', name : auth.isAuth ? 'Dashboard' : 'Home' }, ...navElements].map((element, index) => {
+                return (
+                  <Grid item key={`${index} nmem`}>
+                    <Paper
+                      sx={{
+                        display : 'inline-block',
+                        margin: '.5em',
+                        padding: '1em',
+                        width: 200,
+                        hight: 20,
+                        textAlign: 'center',
+                        '&:hover': {
+                          backgroundColor: 'grey',
+                          opacity: [0.9, 0.8, 0.7],
+                          cursor: 'pointer'
+                        },
+                        }}
+                        elevation={5}
+                        onClick={() => handelNav(element.type)}
+                    >
+                      {element.name}
+                    </Paper>
+                  </Grid>
+                )
+              })
+            }
+          </Grid>
+        </Box>
       </Drawer>
     </>
   )

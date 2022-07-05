@@ -1,5 +1,5 @@
 import React from 'react';
-import NavBarMenu from './NavMenu';
+import NavMenu from './NavMenu';
 import { Grid, Stack } from '@mui/material';
 import logo from './logo.png'
 import NavUserMenu from './NavUserMenu';
@@ -20,12 +20,12 @@ export default function NavBar ({windowWidth}) {
       </Grid>
       <Grid item xs={4} />
       <Grid item xs={1} sx={{alignSelf: 'center', textAlign: 'right'}}>
-        {((!windowWidth) && (windowWidth !== undefined)) && ( <NavBarMenu /> )}
+        {(((!windowWidth) && (windowWidth !== undefined)) || (window.location.pathname !== '/' && !auth.isAuth)) && ( <NavMenu /> )}
         {
           auth.isAuth &&
             (
               <Stack direction='row'>
-                <NavBarMenu />
+                <NavMenu />
                 <NavUserMenu />
               </Stack>
             )

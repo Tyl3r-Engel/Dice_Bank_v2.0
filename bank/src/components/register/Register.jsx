@@ -9,6 +9,7 @@ export default function Register() {
   const { setAuth } = useAuth()
   const [hasFailed, setHasFailed] = useState(false)
   const [formValues, setFormValues] = useState({userName : '', userPass : '', errMsg : ''})
+
   const handleChange = e => {
     const { name, value }= e.target
     setFormValues({
