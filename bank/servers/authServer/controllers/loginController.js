@@ -38,6 +38,7 @@ const loginController = (req, res) => {
             pool.query('INSERT INTO sessions (username, userid, refreshtoken) VALUES ($1, $2, $3)', [userName, userid, refreshToken], (err, result) => {
               if(err) handleErr(err)
               res.cookie('jwt', refreshToken, { httpOnly : true, maxAge : new Date(Date.now() + 900000), path : '/'})
+              res.set({ 'Cache-Control' : 'no-cache' })
               return res.json({ accessToken, userid }).end()
             })
           } else res.status(401).send('Password Incorrect').end()

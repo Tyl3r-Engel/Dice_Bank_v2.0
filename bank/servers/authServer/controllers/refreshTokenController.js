@@ -24,7 +24,7 @@ const handleRefreshToken = (req, res) => {
             process.env.ACCESS_TOKEN_SECRET,
             { expiresIn : '30s'}
           )
-          res.json({ accessToken, username, userid })
+          res.set({ 'Cache-Control' : 'no-cache' }).json({ accessToken, username, userid })
         }
       )
     })
