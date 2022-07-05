@@ -17,14 +17,6 @@ export default function DashBoard() {
   const axiosPrivate = useAxiosPrivate()
 
   useEffect(() => {
-    const checkedLoggedIn = async () => {
-      const response = await axiosPrivate.get('/dashBoard')
-      if (response?.response?.status === 403 || response?.response?.status === 401) {setErrorFlag(true); setAuth({})}
-    }
-    checkedLoggedIn()
-  })
-
-  useEffect(() => {
     const getDash = async () => {
       try {
         const response = await axiosPrivate.get('/dashBoard')

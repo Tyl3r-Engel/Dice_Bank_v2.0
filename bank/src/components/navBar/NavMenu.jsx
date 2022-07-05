@@ -5,9 +5,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Drawer from '@mui/material/Drawer';
 import { Grid, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth.js';
 
 export default function NavMenu () {
   const [isOpen, setIsOpen] = useState(false)
+  const { auth } = useAuth()
   const navigate = useNavigate()
 
   const handleOpen = () => {
@@ -37,7 +39,7 @@ export default function NavMenu () {
       >
         <Grid container direction = 'column'>
           {
-            navElements.map((element, index) => {
+            [{type : 'dashboard', name : auth.isAuth ? 'Dashboard' : 'Home' }, ...navElements].map((element, index) => {
               return (
                 <Grid item key={`${index} nmem`}>
                   <Paper

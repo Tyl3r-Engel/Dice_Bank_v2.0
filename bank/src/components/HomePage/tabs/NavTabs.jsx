@@ -43,7 +43,7 @@ export default function NavBar() {
                     cursor: 'pointer'
                   },
                   }}
-                  elevation={5}
+                  elevation={2}
                   onClick={(e) => onClickHandler(e, element)}
               >
                 {element.name}
