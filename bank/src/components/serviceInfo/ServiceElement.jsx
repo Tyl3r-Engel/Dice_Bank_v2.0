@@ -1,11 +1,25 @@
 import React, { useState } from 'react';
-import { Button, Grid, Typography, Box } from '@mui/material';
+import { Button, Grid, Typography, Box, Snackbar, Alert } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import { useNavigate } from 'react-router-dom';
+import useAccountSignUp from '../hooks/useAccountSignUp';
+import useAuth from '../hooks/useAuth';
 
 export default function ServiceElement({ element }) {
   const [isOpen, setIsOpen] = useState(false)
-  const handleClick = () => setIsOpen(!isOpen)
+  const [isAlertOpen, setIsAlertOpen] = useState(false)
+  const handleClose = () => setIsOpen(!isOpen)
+  const handleAlert = () => setIsAlertOpen(!isAlertOpen)
+  const { auth } = useAuth()
+  const navigate = useNavigate()
+  const { setSelectedAccount } = useAccountSignUp()
+
+  const handleSignUp = () => {
+    if (!auth.isAuth){ setIsAlertOpen(true); return}
+    setSelectedAccount(element)
+    navigate('/accountSignUp', { replace : true})
+  }
 
   return (
     <Box
@@ -46,7 +60,7 @@ export default function ServiceElement({ element }) {
                 'background' : isOpen ? 'lightgray' : '',
                 marginTop : '.5em'
               }}
-              onClick={handleClick}
+              onClick={handleClose}
             >
               {isOpen ? 'Show Less' : 'Show More' }
               {isOpen ? <ArrowDropUpIcon />  : <ArrowDropDownIcon /> }
@@ -55,10 +69,28 @@ export default function ServiceElement({ element }) {
             {
               isOpen && (
                 <Box sx={{background : 'lightgray', borderRadius : '25px'}}>
+
                   <Typography sx={{padding : '.5em'}}>
                     {element.dis}
                   </Typography>
-                  <Button>Sign up now!</Button>
+
+                  <Button onClick={handleSignUp}>Sign up now!</Button>
+
+                  <Snackbar
+                    open={isAlertOpen}
+                    autoHideDuration={6000}
+                    onClose={handleAlert}
+                  >
+                    <Alert onClose={handleAlert} severity="warning" sx={{ width: '100%' }}>
+                      <span>
+                        {'You need to be logged in! You can register '}
+                        <a href='/register'>
+                          here.
+                        </a>
+                      </span>
+                    </Alert>
+                  </Snackbar>
+
                 </Box>
               )
             }

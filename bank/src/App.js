@@ -11,6 +11,8 @@ import PersistLogin from './components/PersistLogin';
 import CreditCard from './components/serviceInfo/creditCard/CreditCard';
 import Loan from './components/serviceInfo/loan/Loan';
 import Trading from './components/serviceInfo/trading/Trading';
+import AccountSignUp from './components/accountSignUp/AccountSignUp';
+import { AccountSignUpProvider } from './context/AccountSignUpProvider';
 
 function App() {
   const { auth } = useAuth()
@@ -18,14 +20,73 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/checkingAndSavings" element={<CheckingAndSavings />} replace/>
-          <Route path="/creditCard" element={<CreditCard />} replace/>
-          <Route path="/loan" element={<Loan />} replace/>
-          <Route path="/trading" element={<Trading />} replace/>
-
           <Route element={<PersistLogin />} >
-            <Route path="/" element={ auth?.isAuth ? <Navigate to="/dashboard" replace /> : <HomePage /> }/>
-            <Route path="/register" element={ auth?.isAuth ? <Navigate to="/dashboard" replace /> : <Register /> }/>
+            <Route
+              path="/checkingAndSavings"
+              element={
+                <AccountSignUpProvider>
+                  <CheckingAndSavings />
+                </AccountSignUpProvider>
+              }
+              replace
+            />
+
+            <Route
+              path="/creditCard"
+              element={
+                <AccountSignUpProvider>
+                  <CreditCard />
+                </AccountSignUpProvider>
+              }
+              replace
+            />
+
+            <Route
+              path="/loan"
+              element={
+                <AccountSignUpProvider>
+                  <Loan />
+                </AccountSignUpProvider>
+              }
+              replace
+            />
+
+            <Route
+              path="/trading"
+              element={
+                <AccountSignUpProvider>
+                  <Trading />
+                </AccountSignUpProvider>
+              }
+              replace
+            />
+
+            <Route
+              path="/accountSignUp"
+              element={
+                <AccountSignUpProvider>
+                  <AccountSignUp />
+                </AccountSignUpProvider>
+              }
+            />
+
+            <Route
+              path="/"
+              element={
+                auth?.isAuth
+                ? <Navigate to="/dashboard" replace />
+                : <HomePage />
+              }
+            />
+
+            <Route
+              path="/register"
+              element={
+                auth?.isAuth
+                ? <Navigate to="/dashboard" replace />
+                : <Register />
+              }
+            />
 
             <Route element={<ProtectedRoute auth={auth} />}>
               <Route
