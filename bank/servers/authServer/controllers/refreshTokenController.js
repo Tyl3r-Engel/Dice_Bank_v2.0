@@ -22,7 +22,7 @@ const handleRefreshToken = (req, res) => {
           const accessToken = jwt.sign(
             { username, userid },
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn : '30s'}
+            { expiresIn : '15m'}
           )
           res.set({ 'Cache-Control' : 'no-cache' }).json({ accessToken, username, userid })
         }

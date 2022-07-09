@@ -8,25 +8,34 @@ export const CheckingAndSavingsInfo = [
     image : standardChecking,
     options : {
       'type' : 'checking',
-      'interestRate' : '10%'
+      'interestRate' : '10'
     }
   },
   {
     name : 'You Set Your Rate Savings',
-    dis : 'With these kinds of savings you never lose with the Set Your Rate Savings you can set how much interest you want to make per year on your saving account.(amount must not be over 100%)',
+    dis : 'With these kinds of savings you never lose with the Set Your Rate Savings you can set how much interest you want to make per year on your saving account. (amount must not be over 100%)',
     image : savings,
     options : {
       'type' : 'savings',
-      'interestRate' : '100%',
+      'interestRate' : 100,
       'extraInput' : {
         'name' : 'Interest Rate',
         'helperText' : 'Input must be numbers and less then or equal to 100',
+        'getter' : function () {
+          const index = CheckingAndSavingsInfo.findIndex(element => element.name === 'You Set Your Rate Savings')
+          return CheckingAndSavingsInfo[index].options.interestRate
+        },
+        'setter' : function(newRate) {
+          const index = CheckingAndSavingsInfo.findIndex(element => element.name === 'You Set Your Rate Savings')
+          CheckingAndSavingsInfo[index].options.interestRate = `${newRate}%`
+        },
         'handleChange' : function ({ target: { value }}, setExtraInput, setIsExtraInputError) {
           if(value > 100 || !(value - 0)) {
             setIsExtraInputError(true)
-            setTimeout(() => setIsExtraInputError(false), 2000)
+            setTimeout(() => setIsExtraInputError(false), 5000)
             return
           }
+          this.setter(value)
           setExtraInput(value)
         },
         'isConflict' : function (val, errFunc) {

@@ -22,6 +22,7 @@ app.use('/', express.static(path.join(__dirname, '../../build')));
 app.use(verifyJWT)
 
 app.use('/dashBoard', require('./routes/dashBoard'))
+app.use('/accountSignUp', require('./routes/accountSignUp'))
 
 
 
