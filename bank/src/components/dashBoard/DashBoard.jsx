@@ -21,6 +21,7 @@ export default function DashBoard() {
       try {
         const response = await axiosPrivate.get('/dashBoard')
         if (response?.response?.status === 403 || response?.response?.status === 401) throw new Error('unauthorized')
+        console.log(response.data)
         setAccounts(response.data)
         setIsMounted(true)
       } catch(e) {

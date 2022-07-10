@@ -19,7 +19,7 @@ export default async function handleLogin (e, { userName, userPass }, setFormVal
     const accessToken = data?.accessToken
     setAuth({
       isAuth : true,
-      userid : data.id,
+      userid : data.userid,
       userName : userName,
       userPass : userPass,
       accessToken

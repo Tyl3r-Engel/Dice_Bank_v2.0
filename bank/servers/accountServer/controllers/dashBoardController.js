@@ -1,6 +1,6 @@
 const pool = require('../../../dataBase/pool')
 
-const dashBoardController = (req, res) => {
+const dashBoardController = async (req, res) => {
   const QUERY_STRING = `
     SELECT type,
     JSON_AGG(
@@ -10,22 +10,27 @@ const dashBoardController = (req, res) => {
         'options', options,
         'status', status,
         'name', name,
-        'amount', amount,
+        'defaultname', defaultname,
         'dateopened', dateopened,
-        'number', number,
-        'routing', routing
+        'amount', amount,
+        'accountnumber', accountnumber,
+        'accountsecret', accountsecret
       )) accounts
     FROM accounts
     where userid = $1
     GROUP BY type;
   `;
 
-  pool.query(QUERY_STRING, [req.userid], (err, { rows }) => {
-    if (err){console.log(err); return res.sendStatus(500)}
+  try {
+    const { rows } = await pool.query(QUERY_STRING, [req.userid])
     const accounts = {}
     rows.forEach(accGroup => accounts[accGroup.type] = accGroup.accounts)
     res.json(accounts)
-  })
+
+  } catch(e) {
+    console.log(e)
+    return res.sendStatus(500)
+  }
 }
 
 module.exports = dashBoardController
