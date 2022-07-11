@@ -3,6 +3,14 @@ import { Box, Typography } from '@mui/material'
 import AccountElement from '../AccountElement';
 
 export default function CreditCard({creditCardAccounts: creditCard}) {
+  const getCreditCardList = () => (
+    creditCard.map((account, index) => (
+      <Box sx={{ margin : '1.5em'}} key={`${index} cam`}>
+        <AccountElement account={account} />
+      </Box>
+    ))
+  )
+
   return(
     <Box>
       <Typography
@@ -15,12 +23,16 @@ export default function CreditCard({creditCardAccounts: creditCard}) {
       >
         Credit Card Accounts:
       </Typography>
+
       {
-        creditCard.map((account, index) => (
-          <Box sx={{padding : '.5em'}} key={`${index} cam`}>
-            <AccountElement account={account} />
-          </Box>
-        ))
+        creditCard.length > 3
+          ? (
+            <Box sx={{ height : '300px', width : '100%', overflow : 'scroll'}}>
+              {getCreditCardList()}
+            </Box>
+          ) : (
+            getCreditCardList()
+          )
       }
     </Box>
   )

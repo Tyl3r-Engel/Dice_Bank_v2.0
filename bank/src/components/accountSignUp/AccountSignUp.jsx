@@ -3,27 +3,19 @@ import Footer from '../footer/Footer';
 import NavBar from '../navBar/NavBar';
 import { Grid, Typography, Box } from '@mui/material';
 import useAccountSignUp from '../hooks/useAccountSignUp';
-import { CheckingAndSavingsInfo as cas } from '../serviceInfo/checkingAndSavings/CheckingAndSavingsInfo';
-import { CreditCardInfo as cc } from '../serviceInfo/creditCard/CreditCardInfo';
-import ServiceElement from '../serviceInfo/ServiceElement';
 import useAuth from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import AccountDisplay from './AccountDisplay';
+import SignUpAdFiller from './SignUpAdFiller';
 
 export default function AccountSignUp() {
   const { selectedAccount } = useAccountSignUp()
   const { auth } = useAuth()
   const navigate = useNavigate()
   const [isMounted, setIsMounted] = useState(false)
-  const [account1, setAccount1] = useState({})
-  const [account2, setAccount2] = useState({})
-  const [account3, setAccount3] = useState({})
 
   useEffect(() => {
-    if (!auth.isAuth) navigate('/register', { replace : true })
-    setAccount1(Math.floor(Math.random()*cas.length))
-    setAccount2(Math.floor(Math.random()*cc.length))
-    setAccount3(Math.floor(Math.random()*cc.length))
+    if (!auth.isAuth) return navigate('/register', { replace : true })
     setIsMounted(true)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
@@ -36,6 +28,7 @@ export default function AccountSignUp() {
         <Grid item>
           <NavBar />
         </Grid>
+
         <Grid item>
           <Box
             sx={{
@@ -51,14 +44,10 @@ export default function AccountSignUp() {
               </Typography>
             </Box>
           </Box>
-          {
-            [
-              cas[account1],
-              cc[account2],
-              cc[account3]
-            ].map((element, index) => <ServiceElement key={`${index} asuam`} element={element}/>)
-          }
+
+          <SignUpAdFiller />
         </Grid>
+
         <Grid item>
           <Footer />
         </Grid>

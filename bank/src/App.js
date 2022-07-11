@@ -62,24 +62,6 @@ function App() {
             />
 
             <Route
-              path="/accountSignUp"
-              element={
-                <AccountSignUpProvider>
-                  <AccountSignUp />
-                </AccountSignUpProvider>
-              }
-            />
-
-            <Route
-              path="/"
-              element={
-                auth?.isAuth
-                ? <Navigate to="/dashboard" replace />
-                : <HomePage />
-              }
-            />
-
-            <Route
               path="/register"
               element={
                 auth?.isAuth
@@ -98,6 +80,24 @@ function App() {
                 }
               />
             </Route>
+
+            <Route
+              path="/accountSignUp"
+              element={
+                <AccountSignUpProvider>
+                  <AccountSignUp />
+                </AccountSignUpProvider>
+              }
+            />
+
+            <Route
+              path="/"
+              element={
+                auth?.isAuth
+                ? <Navigate to="/dashboard" replace />
+                : <HomePage />
+              }
+            />
           </Route>
 
           <Route path="*" element={<Navigate to="/" replace /> }/>

@@ -7,6 +7,7 @@ import checkmark from './checkmark.png';
 import useWindowSize from '../hooks/useWindowSize';
 import { Grid, Box, Paper, Typography } from '@mui/material';
 import Footer from '../footer/Footer';
+import AccountAdFiller from '../accountAdFiller/AccountAdFiller';
 
 export default function HomePage () {
   const windowWidth = !(useWindowSize().width < 1120)
@@ -64,6 +65,15 @@ export default function HomePage () {
           )
       }
 
+
+
+      <Grid item xs={12}>
+          <Typography variant='h2' sx={{ textAlign : 'center', padding : '1em'}}>
+            Check out these accounts!
+          </Typography>
+          <AccountAdFiller size={windowWidth ? 3 : 1} />
+      </Grid>
+
       <Grid item xs={12}>
         <Box sx={{
           backgroundColor : '#162337',
@@ -88,8 +98,10 @@ export default function HomePage () {
                 </Paper>
               </Box>
             </Grid>
+
           </Grid>
         </Box>
+
       </Grid>
       <Grid item xs={12}>
         <Footer />

@@ -46,7 +46,6 @@ export const CheckingAndSavingsInfo = [
     }
   },
   {
-    'type' : 'checking',
     name : 'Business Checking',
     dis : 'Here at Dice Bank we support your gamble in building your own business, so we want to give back to you! When opening a Business Checking account we will match 25% of your initial deposit on us!',
     image : business,

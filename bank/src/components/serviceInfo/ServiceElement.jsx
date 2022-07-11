@@ -6,7 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import useAccountSignUp from '../hooks/useAccountSignUp';
 import useAuth from '../hooks/useAuth';
 
-export default function ServiceElement({ element }) {
+export default function ServiceElement({ element, size }) {
+  if (!size) {
+     size = 3
+  } else if (!(size === 1 || size === 2 || size === 3)) throw new Error('size prop not set to 1, 2, or 3')
   const [isOpen, setIsOpen] = useState(false)
   const [isAlertOpen, setIsAlertOpen] = useState(false)
   const handleClose = () => setIsOpen(!isOpen)
@@ -25,9 +28,9 @@ export default function ServiceElement({ element }) {
     <Box
       sx={{
         background : '#325765',
-        marginBottom : '3em',
-        marginLeft : '6em',
-        marginRight : '6em',
+        marginBottom : `${size}em`,
+        marginLeft : `${size * 2}em`,
+        marginRight : `${size * 2}em`,
         borderRadius : '100px'
       }}
     >
@@ -40,7 +43,12 @@ export default function ServiceElement({ element }) {
         columnSpacing={4}
       >
         <Grid item xs={4}>
-          <img src={element.image} alt='' />
+            <img
+              src={element.image}
+              width={( ((size === 1 || size === 2) && ('150px')) || (size === 3 && ('300px')) )}
+              height={( ((size === 1 || size === 2) && ('150px')) || (size === 3 && ('300px')) )}
+              alt=''
+            />
         </Grid>
 
         <Grid item xs={7}>
@@ -51,7 +59,7 @@ export default function ServiceElement({ element }) {
               borderRadius : '50px'
             }}
           >
-            <Typography variant='h4'>
+            <Typography variant={(size === 1  && ('h5')) || (size === 2 && ('h3')) || (size === 3 && ('h2'))} >
               {element.name}
             </Typography>
 
@@ -70,11 +78,25 @@ export default function ServiceElement({ element }) {
               isOpen && (
                 <Box sx={{background : 'lightgray', borderRadius : '25px'}}>
 
-                  <Typography sx={{padding : '.5em'}}>
+                  <Typography sx={{padding : '1em', paddingBottom : '0'}}>
                     {element.dis}
                   </Typography>
 
-                  <Button onClick={handleSignUp}>Sign up now!</Button>
+                  <Button
+                    onClick={
+                      () => {
+                        const { noSignUp, options: { type }} = element
+                        if (noSignUp) {
+                          const path = type === 'checking' || type === 'savings' ? 'checkingAndSavings' : element.options.type
+                          element.noSignUp = false
+                          return navigate(`/${path}`)
+                        }
+                        handleSignUp()
+                      }
+                    }
+                  >
+                    {element.noSignUp ? 'See Deals Here!' : 'Sign up now!'}
+                  </Button>
 
                   <Snackbar
                     open={isAlertOpen}

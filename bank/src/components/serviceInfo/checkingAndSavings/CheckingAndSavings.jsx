@@ -17,7 +17,7 @@ export default function CheckingAndSavings() {
     <Grid item xs={12}>
       <Box sx={{ backgroundImage : `url(${backgroundImage})`, padding : '1em'}}>
         {
-          CheckingAndSavingsInfo.map((element, index) => <ServiceElement key={`${index} casem`} element={element}/> )
+          CheckingAndSavingsInfo.map((element, index) => { element.onSignUp = false; return <ServiceElement key={`${index} casem`} element={element}/> })
         }
       </Box>
     </Grid>

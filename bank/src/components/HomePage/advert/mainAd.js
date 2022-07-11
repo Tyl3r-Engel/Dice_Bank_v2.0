@@ -1,46 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Grid, Paper, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 import moneyBagImage from './images/moneyBagImage.png';
 import creditCardAd from './images/creditCardAd.png';
 import loanAd from './images/loanAd.png';
 
-const mainAds = [
-  {
-    'name': 'SavingsAd',
-    'description' : 'Sign up with us for a savings account that works for you',
-    'imgSrc' : moneyBagImage,
-    'ButtonText' : 'Start saving',
-    'onClick' : function () {
-      console.log('savings')
-    }
-  },
-  {
-    'name': 'CreditCardAd',
-    'description' : 'Sign up for one of our newest 0% Credit Cards',
-    'imgSrc' : creditCardAd,
-    'ButtonText' : 'Sign up now',
-    'onClick' : function () {
-      console.log('Credit Card')
-    }
-  },
-  {
-    'name': 'LoanAd',
-    'description' : 'Take out a personal loan to keep you rolling',
-    'imgSrc' : loanAd,
-    'ButtonText' : 'Get loan',
-    'onClick' : function () {
-      console.log('Loan')
-    }
-  },
-]
-
-
 export default function GetMainAd() {
   const [randomAd, setRandomAd] = useState(-1)
+  const navigate = useNavigate()
+  const mainAds = [
+    {
+      'name': 'SavingsAd',
+      'description' : 'Sign up with us for a savings account that works for you',
+      'imgSrc' : moneyBagImage,
+      'ButtonText' : 'Start saving',
+      'onClick' : function () {
+        navigate('/checkingAndSavings')
+      }
+    },
+    {
+      'name': 'CreditCardAd',
+      'description' : 'Sign up for one of our newest Credit Cards',
+      'imgSrc' : creditCardAd,
+      'ButtonText' : 'Sign up now',
+      'onClick' : function () {
+        navigate('/creditCard')
+      }
+    },
+    {
+      'name': 'LoanAd',
+      'description' : 'Take out a personal loan to keep you rolling',
+      'imgSrc' : loanAd,
+      'ButtonText' : 'Get loan',
+      'onClick' : function () {
+        navigate('loan')
+      }
+    },
+  ]
+
   useEffect(() => {
     setRandomAd(Math.floor(Math.random() * 3))
   },[setRandomAd])
+
   return (
     <>
     {

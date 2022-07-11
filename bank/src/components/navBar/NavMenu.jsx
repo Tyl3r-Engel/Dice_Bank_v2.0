@@ -3,11 +3,11 @@ import {navElements} from '../HomePage/tabs/navElements.js'
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Drawer from '@mui/material/Drawer';
-import { Grid, Paper } from '@mui/material';
+import { Grid, Paper, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth.js';
 import NavUserMenu from './NavUserMenu.jsx';
-import { Box } from '@mui/system';
+import logo from './logo.png';
 
 export default function NavMenu () {
   const [isOpen, setIsOpen] = useState(false)
@@ -41,42 +41,65 @@ export default function NavMenu () {
       >
         <Box sx={{background : '#cc171d', width : '100%', height : '100%'}}>
 
-          <Grid container direction = 'column' spacing={5}>
+          <Grid container
+          direction = 'column'
+          spacing={5}
+          sx={{ textAlign : 'center' }}
+          >
             {
               auth.isAuth && (
-                <Grid item xs={12}>
-                  <NavUserMenu />
+                <Grid item xs={12} >
+                  <Box
+                    sx={{
+                      background : 'white',
+                      margin : '1em',
+                      borderRadius : '24px'
+                    }}
+                  >
+                    <img src={logo} alt='logo' />
+                    <Box sx={{ padding : '0'}}>
+                      <NavUserMenu />
+                    </Box>
+                  </Box>
                 </Grid>
               )
             }
 
-            {
-              [{type : 'dashboard', name : auth.isAuth ? 'Dashboard' : 'Home' }, ...navElements].map((element, index) => {
-                return (
-                  <Grid item key={`${index} nmem`}>
-                    <Paper
-                      sx={{
-                        display : 'inline-block',
-                        margin: '.5em',
-                        padding: '1em',
-                        width: 200,
-                        hight: 20,
-                        textAlign: 'center',
-                        '&:hover': {
-                          backgroundColor: 'grey',
-                          opacity: [0.9, 0.8, 0.7],
-                          cursor: 'pointer'
-                        },
-                        }}
-                        elevation={5}
-                        onClick={() => handelNav(element.type)}
-                    >
-                      {element.name}
-                    </Paper>
-                  </Grid>
-                )
-              })
-            }
+            <Grid item>
+              <Box sx={{background : 'white', borderRadius : '24px'}}>
+                <Grid container direction='column' spacing={5}>
+                  {
+                    [{type : 'dashboard', name : auth.isAuth ? 'Dashboard' : 'Home' }, ...navElements].map((element, index) => (
+                      <Grid item key={`${index} nmem`}>
+                        <Paper
+                          sx={{
+                            background : '#325765',
+                            color : 'white',
+                            display : 'inline-block',
+                            padding: '1em',
+                            width: 200,
+                            hight: 20,
+                            textAlign: 'center',
+                            '&:hover': {
+                              backgroundColor: 'grey',
+                              opacity: [0.9, 0.8, 0.7],
+                              cursor: 'pointer'
+                            },
+                            }}
+                            elevation={5}
+                            onClick={() => handelNav(element.type)}
+                        >
+                          {element.name}
+                        </Paper>
+                      </Grid>
+                     )
+                    )
+                  }
+                <Grid item xs={12} />
+                </Grid>
+              </Box>
+            </Grid>
+
           </Grid>
         </Box>
       </Drawer>

@@ -3,13 +3,11 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import axios from '../../api/axios';
 import useAuth from '../hooks/useAuth';
-import useDash from '../hooks/useDash';
 import { useNavigate } from 'react-router-dom';
 
 export default function NavUserMenu() {
   const [anchorEl, setAnchorEl] = useState(null)
   const { setAuth } = useAuth()
-  const { setIsMounted } = useDash()
   const navigate = useNavigate()
 
   const handleMenu = (event) => {
@@ -22,7 +20,6 @@ export default function NavUserMenu() {
 
   const handleLogout = async () => {
     await axios.get('/logout', { withCredentials : true })
-    setIsMounted(false)
     setAuth({})
     navigate('/', { replace : true })
   }
