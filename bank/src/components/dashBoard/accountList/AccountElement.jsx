@@ -3,8 +3,11 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function CreateAccountElement({ account }) {
-  const { status, name, balance } = account
-  const formatBal = () => balance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  const { status, name } = account
+  const formatBal = () => {
+    account.balance = account.balance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    return account.balance;
+  }
   const navigate = useNavigate()
   return (
     <Box sx={{background : `${status ? 'lime' : 'red'}`, borderRadius : '100px'}}>
@@ -22,7 +25,7 @@ export default function CreateAccountElement({ account }) {
             </Typography>
           </Grid>
           <Grid item xs={4}>
-            {formatBal()}
+            ${formatBal()}
           </Grid>
           <Grid item xs={4}>
             <Button onClick={()=>navigate('/viewAccount' , { state : account })}>view account</Button>

@@ -1,11 +1,13 @@
 import React,{ useState } from 'react';
-import { Grid } from '@mui/material';
+import { Grid, Typography} from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import NavBar from '../navBar/NavBar';
 import Footer from '../footer/Footer';
 import { useEffect } from 'react';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import TransactionsList from './transactionsList/TransactionsList';
+import AccountOptions from './accountOptions/AccountOptions';
+import SpendingGraph from './spendingGraph/SpendingGraph';
 
 export default function ViewAccount() {
   const location = useLocation()
@@ -33,12 +35,35 @@ export default function ViewAccount() {
       </Grid>
 
       <Grid item xs={12} sx={{ margin : '2em'}}>
-        <Grid container>
+        <Grid container spacing={6}>
           <Grid item xs={8}>
+            <Typography
+              sx={{
+                textAlign : 'center',
+                padding : '1em',
+                paddingBottom : '0',
+                textDecoration : 'underline',
+              }}
+              variant='h2'
+            >
+              {currentAccount.name}
+            </Typography>
+            <br />
+            <Typography
+              sx={{
+                textAlign : 'center',
+                padding : '.1em',
+              }}
+              variant='h2'
+              >
+              ${currentAccount.balance}
+            </Typography>
             <TransactionsList transactions={currentAccount.transactions} type={currentAccount.type} />
           </Grid>
-          <Grid item xs={4}>
-
+          <Grid item xs={4} sx={{ display : 'block'}}>
+            <AccountOptions currentAccount={currentAccount} />
+            <br/>
+            <SpendingGraph transactions={currentAccount.transactions} type={currentAccount.type}/>
           </Grid>
         </Grid>
       </Grid>

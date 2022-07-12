@@ -12,7 +12,7 @@ export default function AccountList() {
   return (
     <>
       <Typography variant='h2' sx={{padding : '.3em'}}>Welcome, {auth.userName}</Typography>
-      <Box sx={{background : '#325765', padding : '2em'}}>
+      <Box sx={{background : '#325765', padding : '2em', borderRadius : '50px'}}>
         <Typography
           sx={{
             textAlign : 'center',
@@ -23,7 +23,7 @@ export default function AccountList() {
         >
           Accounts
         </Typography>
-        <Box sx={{background : '#FAF9F6', padding : '1em'}} >
+        <Box sx={{background : '#FAF9F6', padding : '1em', borderRadius : '25px'}} >
           {accounts.checking &&( <Checking checkingAccounts={accounts.checking}/> )}
           {accounts.savings && ( <Savings savingsAccounts={accounts.savings}/> )}
           {accounts.creditCard && ( <CreditCard creditCardAccounts={accounts.creditCard}/> )}

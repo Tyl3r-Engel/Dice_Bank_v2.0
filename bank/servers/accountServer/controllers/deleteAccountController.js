@@ -10,23 +10,21 @@ const checkIfUserAccount = async (accountId, reqUserId) => {
   return false
 }
 
-
-
-const accountTransactionsController = async (req, res) => {
+const deleteAccountController = async (req, res) => {
   const [accountNumber, accountid] = req.baseUrl.substr(req.baseUrl.length - 12).split('-')
   const QUERY_STRING = `
-    SELECT *
-    FROM transactions
+    DELETE
+    FROM accounts
     WHERE accountNumber = $1
   `;
   try {
     if (!(await checkIfUserAccount(accountid, req.userid))) return res.sendStatus(403)
-    const { rows: transactions } = await pool.query(QUERY_STRING, [Number(accountNumber)])
-    res.json(transactions)
+    await pool.query(QUERY_STRING, [Number(accountNumber)])
+    res.sendStatus(200)
   } catch(e) {
     console.log(e)
     res.sendStatus(500)
   }
 }
 
-module.exports = accountTransactionsController
+module.exports = deleteAccountController

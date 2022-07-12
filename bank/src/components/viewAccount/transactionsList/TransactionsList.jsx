@@ -30,7 +30,7 @@ export default function TransactionsList({ transactions, type }) {
               }}
             >
               <Typography variant='h4' sx={{textAlign : 'center', padding : '1em'}}>
-                There are no transactions for this account
+                There are no transactions available for this account
               </Typography>
             </Box>
           </Box>
@@ -48,6 +48,7 @@ export default function TransactionsList({ transactions, type }) {
                 const [formateDate, time] = formatDate(element.date)
                 return (
                   <Box
+                    key={`${index} tlm`}
                     sx={{
                       background : `${ element.waswithdrawl ? 'red' :'lime' }`,
                       padding : '.2em',

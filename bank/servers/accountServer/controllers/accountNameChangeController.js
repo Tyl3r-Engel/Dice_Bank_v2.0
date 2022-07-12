@@ -10,23 +10,22 @@ const checkIfUserAccount = async (accountId, reqUserId) => {
   return false
 }
 
-
-
-const accountTransactionsController = async (req, res) => {
+const accountNameChangeController = async (req, res) => {
   const [accountNumber, accountid] = req.baseUrl.substr(req.baseUrl.length - 12).split('-')
+  const { newAccountName } = req.body
   const QUERY_STRING = `
-    SELECT *
-    FROM transactions
-    WHERE accountNumber = $1
+    UPDATE accounts
+    SET name = $1
+    WHERE accountNumber = $2
   `;
   try {
     if (!(await checkIfUserAccount(accountid, req.userid))) return res.sendStatus(403)
-    const { rows: transactions } = await pool.query(QUERY_STRING, [Number(accountNumber)])
-    res.json(transactions)
+    await pool.query(QUERY_STRING, [newAccountName, Number(accountNumber)])
+    res.sendStatus(200)
   } catch(e) {
     console.log(e)
     res.sendStatus(500)
   }
 }
 
-module.exports = accountTransactionsController
+module.exports = accountNameChangeController
