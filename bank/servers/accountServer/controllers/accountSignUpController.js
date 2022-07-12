@@ -21,7 +21,7 @@ const accountSignUpController = async (req, res) => {
   const date = new Date()
   const regex = /[0-9]/g
   const QUERY_STRING=`
-    INSERT INTO accounts (userid, type, options, status, name, defaultname, dateopened, amount, accountnumber, accountsecret)
+    INSERT INTO accounts (userid, type, options, status, name, defaultname, dateopened, balance, accountnumber, accountsecret)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);
   `;
 
@@ -51,6 +51,7 @@ const accountSignUpController = async (req, res) => {
     await pool.query(QUERY_STRING, [userid, type, otherOptions, true, userAccountName, accountName, date, accountBal, genAccountNumber(), await genAccountSecret()])
     res.sendStatus(200)
   } catch (e) {
+    console.log(e)
     res.sendStatus(500)
   }
 }

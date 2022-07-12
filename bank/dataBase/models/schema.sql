@@ -19,7 +19,7 @@ CREATE TABLE users (
 
 DROP TABLE IF EXISTS accounts;
 CREATE TABLE accounts (
-  id SERIAL PRIMARY KEY,
+  id SERIAL,
   userid INT,
   type VARCHAR(255),
   options JSON,
@@ -27,8 +27,8 @@ CREATE TABLE accounts (
   name VARCHAR(255),
   defaultname VARCHAR(255),
   dateopened DATE,
-  amount REAL,
-  accountnumber BIGINT,
+  balance REAL,
+  accountnumber BIGINT PRIMARY KEY,
   accountsecret VARCHAR(255),
   FOREIGN KEY (userid) REFERENCES users (id)
 );
@@ -36,39 +36,45 @@ CREATE TABLE accounts (
 DROP TABLE IF EXISTS transactions;
 CREATE TABLE transactions (
   id SERIAL PRIMARY KEY,
-  accountid INT,
+  accountnumber BIGINT,
   fromname VARCHAR(255),
   amount FLOAT,
   date DATE,
   waswithdrawl BOOLEAN,
-  FOREIGN KEY (accountid) REFERENCES accounts (id)
+  FOREIGN KEY (accountnumber) REFERENCES accounts (accountnumber)
 );
 
--- INSERT INTO users (username, userpass) VALUES ('admin', '$2b$10$S8fevy2Ibi2JNIQ1msQHcuh/ES5oTya2l83mgz3PjAzSUlArCGCgW');
+INSERT INTO users (username, userpass) VALUES ('admin', '$2b$10$S8fevy2Ibi2JNIQ1msQHcuh/ES5oTya2l83mgz3PjAzSUlArCGCgW');
 
--- INSERT INTO accounts (userid, type, options, status, name, amount, dateopened, number, routing)
--- VALUES ('1', 'checking', '{}', true, 'my checking', 100422.22, '02/12/2001', 314323, 323142);
+INSERT INTO accounts (userid,type,options, status,name,defaultname,dateopened,balance,accountnumber,accountsecret)
+VALUES (1,'creditCard','{"maxBal":1000000,"interestRate":".005"}',false,'test card cc','Standard Credit Card','1/01/01',0,1000000000,'test-test');
 
--- INSERT INTO transactions (accountid, fromname, amount, date, waswithdrawl)
--- VALUES ('1', 'CostCo', 100.32, '03/11/2011', true);
+INSERT INTO transactions (accountnumber, fromname, amount, date, waswithdrawl)
+VALUES ('1000000000', 'CostCo', 100.32, '03/11/2011', true);
 
--- INSERT INTO transactions (accountid, fromname, amount, date, waswithdrawl)
--- VALUES ('1', 'Target', 33.22, '05/21/2012', true);
+INSERT INTO transactions (accountnumber, fromname, amount, date, waswithdrawl)
+VALUES ('1000000000', 'Payment Made', 50, '01/17/2021', false);
 
--- INSERT INTO transactions (accountid, fromname, amount, date, waswithdrawl)
--- VALUES ('1', 'Wally World', 100.32, '01/17/2021', true);
+INSERT INTO transactions (accountnumber, fromname, amount, date, waswithdrawl)
+VALUES ('1000000000', 'Target', 33.22, '05/21/2012', true);
 
--- INSERT INTO accounts (userid, type, options, status, name, amount, dateopened, number, routing)
--- VALUES ('1', 'checking', '{}', true, 'my other checking', 1422.22, '02/12/2001', 124523, 945234);
+INSERT INTO transactions (accountnumber, fromname, amount, date, waswithdrawl)
+VALUES ('1000000000', 'Wally World', 100.32, '01/17/2021', true);
 
--- INSERT INTO transactions (accountid, fromname, amount, date, waswithdrawl)
--- VALUES ('2', 'yellow', 42.22, '03/11/2011', false);
 
--- INSERT INTO transactions (accountid, fromname, amount, date, waswithdrawl)
--- VALUES ('2', 'store', 77.42, '05/21/2012', true);
+INSERT INTO accounts (userid,type,options, status,name,defaultname,dateopened,balance,accountnumber,accountsecret)
+VALUES (1,'checking','{"interestRate":"10"}',false,'test card c','Standard Checking','1/01/01',100000000000,2000000000,'test-test');
 
--- INSERT INTO transactions (accountid, fromname, amount, date, waswithdrawl)
--- VALUES ('2', 'other store', 101.32, '01/17/2021', true);
+INSERT INTO transactions (accountnumber, fromname, amount, date, waswithdrawl)
+VALUES ('2000000000', 'yellow', 42.22, '03/11/2011', false);
+
+INSERT INTO transactions (accountnumber, fromname, amount, date, waswithdrawl)
+VALUES ('2000000000', 'store', 77.42, '05/21/2012', true);
+
+INSERT INTO transactions (accountnumber, fromname, amount, date, waswithdrawl)
+VALUES ('2000000000', 'other store', 101.32, '01/17/2021', true);
+
+
 
 -- INSERT INTO accounts (userid, type, options, status, name, amount, dateopened, number, routing)
 -- VALUES ('1', 'savings', '{}', true, 'my savings', 142222, '02/12/2001', 133323, 78354);
@@ -81,45 +87,3 @@ CREATE TABLE transactions (
 
 -- INSERT INTO transactions (accountid, fromname, amount, date, waswithdrawl)
 -- VALUES ('3', 'other bill', 132, '01/17/2021', true);
-
--- INSERT INTO users (username, userpass) VALUES ('admin2', '$2b$10$S8fevy2Ibi2JNIQ1msQHcuh/ES5oTya2l83mgz3PjAzSUlArCGCgW');
-
--- INSERT INTO accounts (userid, type, options, status, name, amount, dateopened, number, routing)
--- VALUES ('2', 'checking', '{}', true, 'my cool checking', 100422.22, '02/12/2001', 314323, 323142);
-
--- INSERT INTO transactions (accountid, fromname, amount, date, waswithdrawl)
--- VALUES ('4', 'CostCo', 100.32, '03/11/2011', true);
-
-
--- select * --, transactions as transactions
--- from accounts
--- where userid = 1;
-
--- select *
--- from transactions
--- where accountid = 1;
-
--- select *
--- from transactions
--- where accountid = 2;
-
--- select *
--- from transactions
--- where accountid = 3;
-
--- select type,
---   JSON_AGG(
---     json_build_object(
---       'userid', userid,
---       'type', type,
---       'options', options,
---       'status', status,
---       'name', name,
---       'amount', amount,
---       'dateopened', dateopened,
---       'number', number,
---       'routing', routing
---     )) account
--- FROM accounts
--- where userid = 1
--- GROUP BY type;

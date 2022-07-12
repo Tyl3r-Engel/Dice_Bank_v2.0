@@ -5,6 +5,7 @@ const dashBoardController = async (req, res) => {
     SELECT type,
     JSON_AGG(
       json_build_object(
+        'id', id,
         'userid', userid,
         'type', type,
         'options', options,
@@ -12,7 +13,7 @@ const dashBoardController = async (req, res) => {
         'name', name,
         'defaultname', defaultname,
         'dateopened', dateopened,
-        'amount', amount,
+        'balance', balance,
         'accountnumber', accountnumber,
         'accountsecret', accountsecret
       )) accounts

@@ -13,6 +13,7 @@ import Loan from './components/serviceInfo/loan/Loan';
 import Trading from './components/serviceInfo/trading/Trading';
 import AccountSignUp from './components/accountSignUp/AccountSignUp';
 import { AccountSignUpProvider } from './context/AccountSignUpProvider';
+import ViewAccount from './components/viewAccount/ViewAccount';
 
 function App() {
   const { auth } = useAuth()
@@ -69,16 +70,24 @@ function App() {
                 : <Register />
               }
             />
-
+            {/* these are the protected routes */}
             <Route element={<ProtectedRoute auth={auth} />}>
               <Route
                 path='/dashboard'
                 element={
                   <DashBoardProvider>
-                    <DashBoard />
+                      <DashBoard />
                   </DashBoardProvider>
                 }
               />
+
+              <Route
+                path='/viewAccount'
+                element={
+                  <ViewAccount />
+                }
+              />
+
             </Route>
 
             <Route
