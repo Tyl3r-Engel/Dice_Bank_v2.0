@@ -1,14 +1,15 @@
-import { Grid, Paper, Select, MenuItem, FormHelperText, TextField, Typography, Divider, Button } from '@mui/material';
+import { Grid, Paper, Select, MenuItem, FormHelperText, TextField, Typography, Divider, Button, Snackbar, Alert } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import Navbar from '../navBar/NavBar';
 import Footer from '../footer/Footer'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { Box } from '@mui/system';
 import transactionImg from './transactionImg.png'
 
 export default function Transfer() {
   const location = useLocation()
+  const navigate = useNavigate()
   const axios = useAxiosPrivate()
   const [redirectAccountName] = useState(location?.state?.name)
   const [fromAccount, setFromAccount] = useState({})
@@ -19,21 +20,48 @@ export default function Transfer() {
   const [accountList, setAccountList] = useState([])
   const [isMounted, setIsMounted] = useState(false)
   const [toOtherAccount, setToOtherAccount] = useState({ accountnumber : '', accountsecret : ''})
+  const [error, setError] = useState({ status : false , message : ''})
+  const handleErrorClose = () => setError({ state : false, message : ''})
 
   const handleTransfer = async () => {
     try {
       if (
-        Object.keys(toAccount).length !== 0
-        && (
-            ( toOtherAccount.accountnumber !== 0 || toOtherAccount.accountnumber !== '' )
-            || toOtherAccount.accountsecret !== ''
-          )
-      ) throw new Error('Both user and other user accounts selected')
+        ( Object.keys(toAccount).length === 0 || Object.keys(toAccount).length === 4 ) &&
+        (( toOtherAccount.accountnumber === '' || toOtherAccount.accountnumber === 0 ) && toOtherAccount.accountsecret === '')
+      ) throw new Error('A account to transfer to must be selected')
+      else if (
+        Object.keys(fromAccount).length === 0 || Object.keys(fromAccount).length === 4
+      ) throw new Error('A account to transfer from must be selected')
+      else if (
+        fromAccountAmount < 1 || fromAccountAmount === ''
+      ) throw new Error('A amount must be specified')
+      else if (
+        (
+          ( Object.keys(toAccount).length !== 0 || Object.keys(toAccount).length !== 4 ) &&
+          ( ( toOtherAccount.accountnumber === '' || toOtherAccount.accountnumber === 0 ) && toOtherAccount.accountsecret === '' )
+        ) || (
+          ( Object.keys(toAccount).length === 0 || Object.keys(toAccount).length === 4 ) &&
+          ( ( toOtherAccount.accountnumber !== '' || toOtherAccount.accountnumber !== 0 ) && toOtherAccount.accountsecret !== '' )
+        )
+      ) {
+         const data = {
+          to : (Object.keys(toAccount).length !== 0 || Object.keys(toAccount).length !== 4) ? toAccount : toOtherAccount,
+          from : fromAccount,
+          amount : fromAccountAmount,
+        }
+        const response = await axios.post('/transfer', data)
 
-      // const data = {}
-      //await axios.post('/transfer', data)
+        console.log(response)
+        if (response?.status === 200) {
+          setIsMounted(false)
+          setToAccount({})
+          setToOtherAccount({ accountnumber : '', accountsecret : ''})
+          fromAccount.balance = String(fromAccount.balance -= fromAccountAmount).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+          setTimeout(() => navigate('/viewAccount', { replace : true,  state : { ...fromAccount } }), 2000)
+        } else throw new Error(response.response.data)
+      } else throw new Error('Can not have 2 accounts to transfer to selected or forgot to fill out a field')
     } catch(e) {
-      console.log(e)
+      setError({ status : true, message : e.message})
     }
   }
 
@@ -56,14 +84,28 @@ export default function Transfer() {
         setAccountList(tempAccountList)
         setIsMounted(true)
       } catch(e) {
-        console.log('ERROR:::', e)
+        setError({ status : true, message : e.message})
+        setTimeout(() => navigate('/', { replace : true }), 3000)
       }
     }
     getAccounts()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
-  if(!isMounted) return <p>Loading...</p>
+  if(!isMounted) return (
+    <>
+      <p>Loading...</p>
+      <Snackbar
+        open={error.status}
+        autoHideDuration={5000}
+        onClose={handleErrorClose}
+      >
+        <Alert severity='warning' sx={{ width: '100%' }} onClose={handleErrorClose}>
+          {error.message}
+        </Alert>
+      </Snackbar>
+    </>
+  )
   return (
     <Grid container direction='column'>
       <Grid item xs={12}>
@@ -75,29 +117,47 @@ export default function Transfer() {
           <Grid container spacing={5} sx={{alignItems : 'center'}}>
             <Grid item xs={1} />
             <Grid item xs={4}>
-              <Box sx={{ background : '#325765', padding : '1em', borderRadius : '50px' }}>
-                <Box sx={{ background : 'white', margin : '2em', padding : '1em', borderRadius : '25px'}} >
-                  <Box sx={{padding : '1em', textAlignLast : 'center'}}>
-                    <Select
-                      defaultValue=''
-                      value={Object.keys(fromAccount).length > 0 ? fromAccount : ''}
-                      onChange={handleFromAccountChange}
-                    >
-                      {
-                        accountList.map((element, index) => element.name !== toAccount.name ? <MenuItem key={`${index} altm`} value={element}>{element.name}</MenuItem> : <MenuItem disabled key={`${index} altm`} value={element}>{element.name}</MenuItem>)
-                      }
-                    </Select>
-                    <FormHelperText>Your account to transfer from</FormHelperText>
-                    <TextField
-                        autoComplete='off'
-                        type='number'
-                        value={fromAccountAmount}
-                        onChange={(e) => !(String(e.target.value).match(/[1-9]/g) === null) && setFromAccountAmount(e.target.value)}
-                      />
-                      <FormHelperText>amount</FormHelperText>
+              <Paper elevation={24} sx={{ borderRadius : '50px'}}>
+                <Box
+                  sx={{
+                    background : '#325765',
+                    padding : '1em',
+                    borderRadius : '50px'
+                  }}
+                >
+                  <Box
+                    sx={{
+                      background : 'white',
+                      margin : '2em',
+                      padding : '1em',
+                      borderRadius : '25px'
+                    }}
+                  >
+                    <Box sx={{padding : '1em', textAlignLast : 'center'}}>
+                      <Select
+                        defaultValue=''
+                        value={Object.keys(fromAccount).length > 0 ? fromAccount : ''}
+                        onChange={handleFromAccountChange}
+                      >
+                        {
+                          accountList.map((element, index) => element.name !== toAccount.name
+                          ? <MenuItem key={`${index} altm`} value={element}>{element.name}</MenuItem>
+                          : <MenuItem disabled key={`${index} altm`} value={element}>{element.name}</MenuItem>)
+                        }
+                      </Select>
+                      <FormHelperText>Your account to transfer from</FormHelperText>
+                      <TextField
+                          autoComplete='off'
+                          type='number'
+                          value={fromAccountAmount}
+                          onChange={(e) => !(String(e.target.value).match(/[1-9]/g) === null) && setFromAccountAmount(e.target.value)}
+                        />
+                        <FormHelperText>amount</FormHelperText>
+                    </Box>
                   </Box>
                 </Box>
-              </Box>
+
+              </Paper>
             </Grid>
 
             <Grid item xs={2} sx={{ textAlign : 'center'}}>
@@ -105,53 +165,90 @@ export default function Transfer() {
               <Button onClick={handleTransfer}>
                 Make transfer
               </Button>
+
+              <Snackbar
+                open={error.status}
+                autoHideDuration={5000}
+                onClose={handleErrorClose}
+              >
+                <Alert severity='warning' sx={{ width: '100%' }} onClose={handleErrorClose}>
+                  {error.message}
+                </Alert>
+              </Snackbar>
             </Grid>
 
             <Grid item xs={4}>
-              <Box sx={{ background : '#325765', padding : '1em', borderRadius : '50px', marginRight : '1em' }}>
-                <Box sx={{ background : 'white', margin : '2em', padding : '1em', borderRadius : '25px'}} >
-                  <Box sx={{padding : '1em', textAlignLast : 'center'}}>
-                    <Select
-                      defaultValue='none'
-                      value={Object.keys(toAccount).length > 0 ? toAccount : 'none'}
-                      onChange={handleToAccountChange}
+              <Paper elevation={24} sx={{ borderRadius : '50px'}}>
+                <Box
+                  sx={{
+                    background : '#325765',
+                    padding : '1em',
+                    borderRadius : '50px'
+                  }}
+                >
+                  <Box
+                    sx={{
+                      background : 'white',
+                      margin : '2em',
+                      padding : '1em',
+                      borderRadius : '25px'
+                    }}
+                  >
+                    <Box sx={{padding : '1em', textAlignLast : 'center'}}>
+                      <Select
+                        defaultValue='none'
+                        value={Object.keys(toAccount).length > 0 ? toAccount : 'none'}
+                        onChange={handleToAccountChange}
+                      >
+                        <MenuItem value='none' onClick={() => setToAccount({})} >
+                          <em>None</em>
+                        </MenuItem>
+                        {
+                          accountList.map((element, index) => element.name !== fromAccount.name
+                          ? <MenuItem key={`${index} altm`} value={element}>{element.name}</MenuItem>
+                          : <MenuItem disabled key={`${index} altm`} value={element}>{element.name}</MenuItem>)
+                        }
+                      </Select>
+                      <FormHelperText>Your account to transfer to</FormHelperText>
+                    </Box>
+
+                    <Divider />
+                    <br />
+
+                    <Box
+                      sx={{
+                        background : '#cc171d',
+                        borderRadius : '24px',
+                        textAlignLast : 'center',
+                        padding : '1em'
+                      }}
                     >
-                      <MenuItem value='none' onClick={() => setToAccount({})} >
-                        <em>None</em>
-                      </MenuItem>
-                      {
-                        accountList.map((element, index) => element.name !== fromAccount.name ? <MenuItem key={`${index} altm`} value={element}>{element.name}</MenuItem> : <MenuItem disabled key={`${index} altm`} value={element}>{element.name}</MenuItem>)
-                      }
-                    </Select>
-                    <FormHelperText>Your account to transfer to</FormHelperText>
-                  </Box>
-
-                  <Divider />
-                  <br />
-
-                  <Box sx={{ background : '#cc171d', borderRadius : '24px', textAlignLast : 'center', padding : '1em'}}>
-                    <Box sx={{ background : 'white', borderRadius : '24px', padding : '1em'}}>
-                      <Typography>
-                        Send to another user:
-                      </Typography>
-                      <TextField
-                        autoComplete='off'
-                        type='number'
-                        value={toOtherAccount.accountnumber}
-                        onChange={(e) => String(e.target.value).split('').length <= 10 && ( setToOtherAccount(prev => ({ ...prev, accountnumber : Math.abs(e.target.value) })))}
-                      />
-                      <FormHelperText>account number</FormHelperText>
-                      <TextField
-                        type='text'
-                        autoComplete='off'
-                        value={toOtherAccount.accountsecret}
-                        onChange={(e) => setToOtherAccount(prev => ({ ...prev, accountsecret : e.target.value}))}
-                      />
-                      <FormHelperText>account secret</FormHelperText>
+                      <Box sx={{ background : 'white', borderRadius : '24px', padding : '1em'}}>
+                        <Typography>
+                          Send to another user:
+                        </Typography>
+                        <TextField
+                          autoComplete='off'
+                          type='number'
+                          value={toOtherAccount.accountnumber}
+                          onChange={(e) => (
+                            String(e.target.value).split('').length <= 10 &&
+                              setToOtherAccount(prev => ({ ...prev, accountnumber : Math.abs(e.target.value) }))
+                          )}
+                        />
+                        <FormHelperText>account number</FormHelperText>
+                        <TextField
+                          type='text'
+                          autoComplete='off'
+                          value={toOtherAccount.accountsecret}
+                          onChange={(e) => setToOtherAccount(prev => ({ ...prev, accountsecret : e.target.value}))}
+                        />
+                        <FormHelperText>account secret</FormHelperText>
+                      </Box>
                     </Box>
                   </Box>
                 </Box>
-              </Box>
+              </Paper>
             </Grid>
           </Grid>
         </Paper>

@@ -27,6 +27,7 @@ app.use('/toggleAccountStatus/:accountNumber-:id', require('./routes/toggleAccou
 app.use('/deleteAccount/:accountNumber-:id', require('./routes/deleteAccount'))
 app.use('/accountNameChange/:accountNumber-:id', require('./routes/accountNameChange'))
 app.use('/accountSignUp', require('./routes/accountSignUp'))
+app.use('/transfer', require('./routes/transfer'))
 
 
 

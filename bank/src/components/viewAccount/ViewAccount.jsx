@@ -1,6 +1,6 @@
 import React,{ useState } from 'react';
 import { Grid, Typography} from '@mui/material';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import NavBar from '../navBar/NavBar';
 import Footer from '../footer/Footer';
 import { useEffect } from 'react';
@@ -14,15 +14,19 @@ export default function ViewAccount() {
   const [currentAccount, setCurrentAccount] = useState(location.state)
   const axios = useAxiosPrivate()
   const [isMounted, setIsMounted] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const getTransactions = async () => {
-      const response = await axios.get(`/accountTransactions/${currentAccount.accountnumber}-${currentAccount.id}`)
-      if (response?.response?.status === 403 || response?.response?.status === 401) throw new Error('unauthorized')
-      setCurrentAccount(prev => ({ ...prev, transactions : response.data}))
-      setIsMounted(true)
+      try {
+        const response = await axios.get(`/accountTransactions/${currentAccount.accountnumber}-${currentAccount.id}`)
+        if (response?.response?.status === 403 || response?.response?.status === 401) throw new Error('unauthorized')
+        setCurrentAccount(prev => ({ ...prev, transactions : response.data}))
+        setIsMounted(true)
+      } catch(e) {
+        navigate('/', { replace : true})
+      }
     }
-
     getTransactions()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])

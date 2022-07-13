@@ -26,8 +26,7 @@ const dashBoardController = async (req, res) => {
     const { rows } = await pool.query(QUERY_STRING, [req.userid])
     const accounts = {}
     rows.forEach(accGroup => accounts[accGroup.type] = accGroup.accounts)
-    res.json(accounts)
-
+    res.set({ 'Cache-Control' : 'no-cache' }).json(accounts)
   } catch(e) {
     console.log(e)
     return res.sendStatus(500)

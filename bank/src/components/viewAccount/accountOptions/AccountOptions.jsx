@@ -7,6 +7,7 @@ export default function AccountOptions({ currentAccount }) {
   const [accountName, setAccountName] = useState('')
   const [accountStatus, setAccountStatus] = useState(currentAccount.status)
   const [isOpen, setIsOpen] = useState(false)
+  const [isAccountDetailsOpen, setIsAccountDetailsOpen] = useState(false)
   const navigate = useNavigate()
   const axios = useAxiosPrivate()
 
@@ -79,27 +80,68 @@ export default function AccountOptions({ currentAccount }) {
         <Divider />
         <List>
           {
-            isOpen ? (
-              <Box sx={{ background : '#FAF9F6', padding : '.5em'}}>
-                <TextField
-                  sx={{ margin : '1em'}}
-                  type='text'
-                  label='Account Name'
-                  value={accountName}
-                  onChange={(e) => setAccountName(e.target.value)}
-                  autoComplete='off'
-                  />
+            isOpen || isAccountDetailsOpen ? (
+              <>
                 {
-                  accountName.length > 0 && (
-                    <Button
-                      sx={{ display : 'block', margin : '1em'}}
-                      variant='contained'
-                      onClick={handleNameChange}
-                    >
-                      Change name
-                    </Button>)
+                  isOpen && (
+                    <Box sx={{ background : '#FAF9F6', padding : '.5em'}}>
+                      <TextField
+                        sx={{ margin : '1em'}}
+                        type='text'
+                        label='Account Name'
+                        value={accountName}
+                        onChange={(e) => setAccountName(e.target.value)}
+                        autoComplete='off'
+                        />
+                      {
+                        accountName.length > 0 && (
+                          <Button
+                            sx={{ display : 'block', margin : '1em'}}
+                            variant='contained'
+                            onClick={handleNameChange}
+                          >
+                            Change name
+                          </Button>)
+                      }
+                    </Box>
+                  )
                 }
-              </Box>
+                {
+                  isAccountDetailsOpen && (
+                    <Box
+                      sx={{
+                        background : '#FAF9F6',
+                        padding : '.7em',
+                        textAlign : 'left'
+                      }}
+                    >
+                      <button
+                        title='Click To Copy'
+                        style={{
+                          width : '100%',
+                          marginBottom : '.5em',
+                          borderRadius : '24px'
+                        }}
+                      >
+                        <Typography sx={{ padding : '1em'}}>
+                          Account Secret:
+                          <strong>{` ${currentAccount.accountsecret}`}</strong>
+                        </Typography>
+                      </button>
+
+                      <button title='Click To Copy' style={{ width : '100%', borderRadius : '24px'}}>
+                        <Typography
+                          sx={{ padding : '1em'}}
+                          onClick={() =>  navigator.clipboard.writeText(currentAccount.accountnumber)}
+                        >
+                          Account Number:
+                          <strong>{` ${currentAccount.accountnumber}`}</strong>
+                        </Typography>
+                      </button>
+                    </Box>
+                  )
+                }
+              </>
             ) : (
               <>
                 <ListItemButton onClick={handleTransfer} sx={{justifyContent : 'center'}} >
@@ -116,7 +158,14 @@ export default function AccountOptions({ currentAccount }) {
 
                 <ListItemButton onClick={toggleAccountStatus} sx={{justifyContent : 'center'}}>
                   <Box sx={{ background : `${accountStatus ? 'lime' : 'red'}`, borderRadius : '50px'}}>
-                    <Box sx={{ background : 'white', padding : '.01em', margin : '.4em', borderRadius : '50px'}}>
+                    <Box
+                      sx={{
+                        background : 'white',
+                        padding : '.01em',
+                        margin : '.4em',
+                        borderRadius : '50px'
+                      }}
+                    >
                       <Typography
                         sx={{
                           display : 'block',
@@ -144,18 +193,36 @@ export default function AccountOptions({ currentAccount }) {
               </>
             )
           }
-
-          <ListItemButton onClick={() => setIsOpen(!isOpen)} sx={{justifyContent : 'center'}}>
-            <Typography
-              sx={{
-                display : 'block',
-                margin : '1em',
-                textDecoration : 'underline',
-              }}
-            >
-              Change Account Name
-            </Typography>
-          </ListItemButton>
+          {
+            !isAccountDetailsOpen && (
+              <ListItemButton onClick={() => setIsOpen(!isOpen)} sx={{justifyContent : 'center'}}>
+                <Typography
+                  sx={{
+                    display : 'block',
+                    margin : '1em',
+                    textDecoration : 'underline',
+                  }}
+                >
+                  Change Account Name
+                </Typography>
+              </ListItemButton>
+            )
+          }
+          {
+            !isOpen && (
+              <ListItemButton onClick={() => setIsAccountDetailsOpen(!isAccountDetailsOpen)} sx={{justifyContent : 'center'}} >
+                <Typography
+                  sx={{
+                    display : 'block',
+                    margin : '1em',
+                    textDecoration : 'underline'
+                  }}
+                >
+                  Account Details
+                </Typography>
+              </ListItemButton>
+            )
+          }
         </List>
       </Box>
     </Box>
