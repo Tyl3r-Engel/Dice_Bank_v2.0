@@ -11,7 +11,8 @@ export default function AccountOptions({ currentAccount }) {
   const axios = useAxiosPrivate()
 
   const handleTransfer = () => {
-    navigate('/transfer' , { state : accountName})
+    navigate('/transfer' , { state : currentAccount })
+
   }
 
   const toggleAccountStatus = async () => {

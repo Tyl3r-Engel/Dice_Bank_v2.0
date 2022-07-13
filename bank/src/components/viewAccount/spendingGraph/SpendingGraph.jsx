@@ -10,16 +10,17 @@ export default function SpendingGraph({ transactions, type }) {
 
   useEffect(() => {
     if (transactions.length > 0) {
-      let tempDepos = 0
-      let tempwihdr = 0
+      let tempDeposit = 0
+      let tempWithdrawal = 0
       transactions.forEach(transaction => {
-        if(transaction.waswithdrawl) tempwihdr += 1
-        else tempDepos += 1
+        if(transaction.waswithdrawl) tempWithdrawal += 1
+        else tempDeposit += 1
       })
-      setDeposits(tempDepos)
-      setWithdrawals(tempwihdr)
+      setDeposits(tempDeposit)
+      setWithdrawals(tempWithdrawal)
       setIsMounted(true)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
   if (!isMounted) return <></>
@@ -46,7 +47,6 @@ export default function SpendingGraph({ transactions, type }) {
             labelStyle={{ fontSize : 'xx-small'}}
           />
         </Box>
-
       </Box>
     </Box>
   )

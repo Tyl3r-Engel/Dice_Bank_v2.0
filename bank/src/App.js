@@ -14,6 +14,7 @@ import Trading from './components/serviceInfo/trading/Trading';
 import AccountSignUp from './components/accountSignUp/AccountSignUp';
 import { AccountSignUpProvider } from './context/AccountSignUpProvider';
 import ViewAccount from './components/viewAccount/ViewAccount';
+import Transfer from './components/transfer/Transfer';
 
 function App() {
   const { auth } = useAuth()
@@ -79,16 +80,24 @@ function App() {
                       <DashBoard />
                   </DashBoardProvider>
                 }
-              />
+                />
 
               <Route
                 path='/viewAccount'
                 element={
                   <ViewAccount />
                 }
-              />
+                />
+
+              <Route
+                path='/transfer'
+                element={
+                  <Transfer />
+                }
+                />
 
             </Route>
+            {/* End of protected routes */}
 
             <Route
               path="/accountSignUp"
