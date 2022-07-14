@@ -122,6 +122,7 @@ export default function AccountOptions({ currentAccount }) {
                           marginBottom : '.5em',
                           borderRadius : '24px'
                         }}
+                        onClick={() =>  navigator.clipboard.writeText(currentAccount.accountsecret)}
                       >
                         <Typography sx={{ padding : '1em'}}>
                           Account Secret:
@@ -129,10 +130,13 @@ export default function AccountOptions({ currentAccount }) {
                         </Typography>
                       </button>
 
-                      <button title='Click To Copy' style={{ width : '100%', borderRadius : '24px'}}>
+                      <button
+                        title='Click To Copy'
+                        style={{ width : '100%', borderRadius : '24px'}}
+                        onClick={() =>  navigator.clipboard.writeText(currentAccount.accountnumber)}
+                      >
                         <Typography
                           sx={{ padding : '1em'}}
-                          onClick={() =>  navigator.clipboard.writeText(currentAccount.accountnumber)}
                         >
                           Account Number:
                           <strong>{` ${currentAccount.accountnumber}`}</strong>

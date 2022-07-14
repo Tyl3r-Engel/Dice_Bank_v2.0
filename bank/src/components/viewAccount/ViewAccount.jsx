@@ -30,7 +30,6 @@ export default function ViewAccount() {
     getTransactions()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
-
   if(!isMounted) return <p>Loading...</p>
   return(
     <Grid container direction='column'>
@@ -57,6 +56,7 @@ export default function ViewAccount() {
               sx={{
                 textAlign : 'center',
                 padding : '.1em',
+                marginBottom : '.6em'
               }}
               variant='h2'
               >

@@ -45,7 +45,7 @@ export default function Transfer() {
         )
       ) {
          const data = {
-          to : (Object.keys(toAccount).length !== 0 || Object.keys(toAccount).length !== 4) ? toAccount : toOtherAccount,
+          to : ((Object.keys(toAccount).length !== 0 || Object.keys(toAccount).length !== 4) && (toOtherAccount.accountnumber === '' || toOtherAccount.accountnumber === 0 ) && toOtherAccount.accountsecret !== '' ) ? toAccount : toOtherAccount,
           from : fromAccount,
           amount : fromAccountAmount,
         }
@@ -56,6 +56,7 @@ export default function Transfer() {
           setIsMounted(false)
           setToAccount({})
           setToOtherAccount({ accountnumber : '', accountsecret : ''})
+          setFromAccountAmount('')
           fromAccount.balance = String(fromAccount.balance -= fromAccountAmount).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
           setTimeout(() => navigate('/viewAccount', { replace : true,  state : { ...fromAccount } }), 2000)
         } else throw new Error(response.response.data)
@@ -89,6 +90,12 @@ export default function Transfer() {
       }
     }
     getAccounts()
+    return () => {
+      setIsMounted(false)
+      setToAccount({})
+      setToOtherAccount({ accountnumber : '', accountsecret : ''})
+      setFromAccountAmount('')
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
