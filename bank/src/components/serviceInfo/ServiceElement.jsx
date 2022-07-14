@@ -2,26 +2,30 @@ import React, { useState } from 'react';
 import { Button, Grid, Typography, Box, Snackbar, Alert } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import { useNavigate } from 'react-router-dom';
-import useAccountSignUp from '../hooks/useAccountSignUp';
+import { useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 
 export default function ServiceElement({ element, size }) {
   if (!size) {
      size = 3
   } else if (!(size === 1 || size === 2 || size === 3)) throw new Error('size prop not set to 1, 2, or 3')
+  const location = useLocation()
   const [isOpen, setIsOpen] = useState(false)
   const [isAlertOpen, setIsAlertOpen] = useState(false)
   const handleClose = () => setIsOpen(!isOpen)
   const handleAlert = () => setIsAlertOpen(!isAlertOpen)
   const { auth } = useAuth()
   const navigate = useNavigate()
-  const { setSelectedAccount } = useAccountSignUp()
-
   const handleSignUp = () => {
     if (!auth.isAuth){ setIsAlertOpen(true); return}
-    setSelectedAccount(element)
-    navigate('/accountSignUp', { replace : true})
+    navigate(
+      '/accountSignUp',
+      {
+        from : location.pathname,
+        replace : location.pathname === '/accountSignUp' ? false : true,
+        state : JSON.stringify(element, (key, value) => typeof value === 'function' ? value.toString() : value)
+      }
+    )
   }
 
   return (
@@ -82,20 +86,8 @@ export default function ServiceElement({ element, size }) {
                     {element.dis}
                   </Typography>
 
-                  <Button
-                    onClick={
-                      () => {
-                        const { noSignUp, options: { type }} = element
-                        if (noSignUp) {
-                          const path = type === 'checking' || type === 'savings' ? 'checkingAndSavings' : element.options.type
-                          element.noSignUp = false
-                          return navigate(`/${path}`)
-                        }
-                        handleSignUp()
-                      }
-                    }
-                  >
-                    {element.noSignUp ? 'See Deals Here!' : 'Sign up now!'}
+                  <Button onClick={handleSignUp}>
+                    Sign up now!
                   </Button>
 
                   <Snackbar

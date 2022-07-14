@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, Box, Typography, TextField, Checkbox, FormControl, FormLabel, FormGroup, FormControlLabel, Button, Snackbar, Alert } from '@mui/material';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import useAuth from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 
 export default function AccountDisplay({ account }) {
+  //! need a better way of doing this
+  // eslint-disable-next-line no-new-func
+  account = JSON.parse(JSON.stringify(account), (key, value) => value && typeof value === 'string' && value.startsWith('function') ? new Function('return ' + value)() : value)
   const { auth: { userName: username, userid } } = useAuth()
   const axios = useAxiosPrivate()
   const navigate = useNavigate()
   const [accountName, setAccountName] = useState(`My ${account.name}`)
-
   const [accountBal, setAccountBal] = useState({})
   const [balError, setBalError] = useState(false)
-
   const [isChecked, setIsChecked] = useState(false)
-
-  const [extraInput, setExtraInput] = useState(account.options?.extraInput?.getter())
+  const [extraInput, setExtraInput] = useState('')
   const [isExtraInputError, setIsExtraInputError] = useState(false)
-
+  const [isMounted, setIsMounted] = useState(false)
   const [isError, setIsError] = useState({ message : '', state : false })
 
   const handleClose = () => setIsError(false)
@@ -33,7 +33,8 @@ export default function AccountDisplay({ account }) {
 
   const handleSubmit = async () => {
     try{
-      if (account.options.type !== 'creditCard') {
+      setIsMounted(false)
+      if (account.options.type !== 'creditCard' && account.options.type !== 'loan') {
         if (
           Object.keys(accountBal).length === 0
           || accountBal < 0
@@ -44,15 +45,8 @@ export default function AccountDisplay({ account }) {
           throw new Error('Account balance is invalid!')
         }
       }
-
-      if (!isChecked){
-        throw new Error('Box must be checked to continue!')
-      }
-
-      if (account.options?.extraInput?.isConflict(extraInput, setIsExtraInputError)) {
-        throw Error(`${account.options?.extraInput?.name} ${account.options?.extraInput?.helperText}`)
-      }
-
+      if (!isChecked) throw new Error('Box must be checked to continue!')
+      if (account.options?.extraInput?.isConflict(extraInput, setIsExtraInputError)) throw Error(`${account.options?.extraInput?.name} ${account.options?.extraInput?.helperText}`)
       const { extraInput: extraInputInfo, ...otherOptions } = account.options
 
       const response = await axios.post(
@@ -61,19 +55,21 @@ export default function AccountDisplay({ account }) {
           user: { username , userid },
           accountName : account.name,
           userAccountName : accountName,
-          accountBal : Object.keys(accountBal).length === 0 ? 0 : Number(accountBal),
+          accountBal : Object.keys(accountBal).length === 0 ?(account.options.type === 'loan') ? extraInput : 0 : Number(accountBal),
           hasAgreed : isChecked,
           options : otherOptions
         }
       )
-
-      if (response?.status === 200) navigate('/dashBoard', { replace : true })
+      if (response?.status === 200) setTimeout(() => navigate('/dashBoard', { replace : true }), 2000)
       else throw new Error(response.message)
     } catch({ message, type }) {
+      setIsMounted(true)
       setIsError({message : message, state : true})
     }
   }
 
+  useEffect(() => { setIsMounted(true) },[])
+  if (!isMounted) return <p>Loading...</p>
   return (
     <Grid container direction='column'>
       <Grid item xs={12} >
@@ -145,10 +141,11 @@ export default function AccountDisplay({ account }) {
                   label='Account Name'
                   value={accountName}
                   onChange={(e) => setAccountName(e.target.value)}
+                  autoComplete='off'
                 />
               </Box>
              {
-              account.options.type !== 'creditCard' && (
+              ((account.options.type !== 'creditCard') && (account.options.type !== 'loan')) && (
                 <Box sx={{ padding : '1em' }}>
                   <TextField
                     type='number'
@@ -157,6 +154,7 @@ export default function AccountDisplay({ account }) {
                     helperText={balError && 'Invalid Key Press or Account Balance must be above 0 and less than 9007199254740991'}
                     value={accountBal}
                     onChange={handleBal}
+                    autoComplete='off'
                   />
                 </Box>
               )
@@ -171,6 +169,7 @@ export default function AccountDisplay({ account }) {
                     helperText={isExtraInputError && account.options.extraInput.helperText}
                     value={extraInput}
                     onChange={(e) => account.options.extraInput.handleChange(e,setExtraInput, setIsExtraInputError)}
+                    autoComplete='off'
                   />
                 </Box>
               )

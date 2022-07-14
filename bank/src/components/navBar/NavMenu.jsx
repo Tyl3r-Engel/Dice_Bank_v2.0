@@ -66,7 +66,8 @@ export default function NavMenu () {
             }
 
             <Grid item>
-              <Box sx={{background : 'white', borderRadius : '24px'}}>
+              <Box sx={{background : 'white', borderRadius : '24px', margin : '1em', marginTop : `${auth.isAuth ? '0' : '20%'}`}}>
+                { !auth.isAuth && <img src={logo} alt='logo' />}
                 <Grid container direction='column' spacing={5}>
                   {
                     [{type : 'dashboard', name : auth.isAuth ? 'Dashboard' : 'Home' }, ...navElements].map((element, index) => (

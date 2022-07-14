@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CheckingAndSavingsInfo as cas } from '../serviceInfo/checkingAndSavings/CheckingAndSavingsInfo';
 import { CreditCardInfo as cc } from '../serviceInfo/creditCard/CreditCardInfo';
+import { LoanInfo as li } from '../serviceInfo/loan/LoanInfo';
 import ServiceElement from '../serviceInfo/ServiceElement';
 
 export default function AccountAdFiller({ size }) {
@@ -21,7 +22,7 @@ export default function AccountAdFiller({ size }) {
     [
       cas[account1],
       cc[account2],
-      cc[account3]
+      li[account3]
     ].map((element, index) => {
       element.noSignUp = true
       return <ServiceElement key={`${index} asuam`} element={element} size={size}/>

@@ -21,21 +21,12 @@ export const CheckingAndSavingsInfo = [
       'extraInput' : {
         'name' : 'Interest Rate',
         'helperText' : 'Input must be numbers and less then or equal to 100',
-        'getter' : function () {
-          const index = CheckingAndSavingsInfo.findIndex(element => element.name === 'You Set Your Rate Savings')
-          return CheckingAndSavingsInfo[index].options.interestRate
-        },
-        'setter' : function(newRate) {
-          const index = CheckingAndSavingsInfo.findIndex(element => element.name === 'You Set Your Rate Savings')
-          CheckingAndSavingsInfo[index].options.interestRate = `${newRate}%`
-        },
         'handleChange' : function ({ target: { value }}, setExtraInput, setIsExtraInputError) {
           if(value > 100 || !(value - 0)) {
             setIsExtraInputError(true)
             setTimeout(() => setIsExtraInputError(false), 5000)
             return
           }
-          this.setter(value)
           setExtraInput(value)
         },
         'isConflict' : function (val, errFunc) {

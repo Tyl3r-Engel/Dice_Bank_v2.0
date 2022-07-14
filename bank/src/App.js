@@ -12,7 +12,6 @@ import CreditCard from './components/serviceInfo/creditCard/CreditCard';
 import Loan from './components/serviceInfo/loan/Loan';
 import Trading from './components/serviceInfo/trading/Trading';
 import AccountSignUp from './components/accountSignUp/AccountSignUp';
-import { AccountSignUpProvider } from './context/AccountSignUpProvider';
 import ViewAccount from './components/viewAccount/ViewAccount';
 import Transfer from './components/transfer/Transfer';
 
@@ -26,9 +25,7 @@ function App() {
             <Route
               path="/checkingAndSavings"
               element={
-                <AccountSignUpProvider>
-                  <CheckingAndSavings />
-                </AccountSignUpProvider>
+                <CheckingAndSavings />
               }
               replace
             />
@@ -36,9 +33,7 @@ function App() {
             <Route
               path="/creditCard"
               element={
-                <AccountSignUpProvider>
-                  <CreditCard />
-                </AccountSignUpProvider>
+                <CreditCard />
               }
               replace
             />
@@ -46,9 +41,7 @@ function App() {
             <Route
               path="/loan"
               element={
-                <AccountSignUpProvider>
-                  <Loan />
-                </AccountSignUpProvider>
+                <Loan />
               }
               replace
             />
@@ -56,9 +49,7 @@ function App() {
             <Route
               path="/trading"
               element={
-                <AccountSignUpProvider>
-                  <Trading />
-                </AccountSignUpProvider>
+                <Trading />
               }
               replace
             />
@@ -102,9 +93,7 @@ function App() {
             <Route
               path="/accountSignUp"
               element={
-                <AccountSignUpProvider>
-                  <AccountSignUp />
-                </AccountSignUpProvider>
+                <AccountSignUp />
               }
             />
 
