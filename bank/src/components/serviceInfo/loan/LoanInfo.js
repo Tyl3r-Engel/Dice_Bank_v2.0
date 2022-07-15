@@ -1,8 +1,12 @@
+import U4LoanImg from './4ULoanImg.png'
+import carLoanImg from './carLoanImg.png'
+import homeLoanImg from './homeLoanImg.png'
+import personalLoanImg from './personalLoanImg.png'
 export const LoanInfo = [
   {
     name : 'Home Loan',
     dis : 'Everyone needs a place to live and with Dice Bank\'s home loan you can get a set rate low rate (.1% Monthly) for the entirety of the loan.',
-    image : '',
+    image : homeLoanImg,
     options : {
       'type' : 'loan',
       'amount' : '',
@@ -30,7 +34,7 @@ export const LoanInfo = [
   {
     name : 'Personal Loan',
     dis : 'Maybe you need a boost or just a little bit more for that next thing you want to buy. With a Personal Loan you can take out as much money as you need, and with an interest rate of 12% per year (1% per month) you can finally get that bathroom redone that you have always wanted to do with a Dice Bank Personal Loan.',
-    image : '',
+    image : personalLoanImg,
     options : {
       'type' : 'loan',
       'amount' : '',
@@ -58,7 +62,7 @@ export const LoanInfo = [
   {
     name : 'Car Loan',
     dis : 'The car of your dreams can now be a reality with a Dice Bank Car Loan, its just like the other ones but its called a car loan and the interest is only 2% per month',
-    image : '',
+    image : carLoanImg,
     options : {
       'type' : 'loan',
       'amount' : '',
@@ -86,7 +90,7 @@ export const LoanInfo = [
   {
     name : '4U Loan',
     dis : 'Here at Dice Bank we want to thank you for being an awesome customer so with our new 4U Loan we just give you the amount of money you want (within reason of corse) no questions asked no strings attached, no interest not nothing just free money 4U.',
-    image : '',
+    image : U4LoanImg,
     options : {
       'type' : 'loan',
       'amount' : '',

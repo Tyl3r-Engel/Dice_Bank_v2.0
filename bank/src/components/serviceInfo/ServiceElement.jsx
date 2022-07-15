@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Grid, Typography, Box, Snackbar, Alert } from '@mui/material';
+import { Button, Grid, Typography, Box, Snackbar, Alert, Paper } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -47,12 +47,25 @@ export default function ServiceElement({ element, size }) {
         columnSpacing={4}
       >
         <Grid item xs={4}>
+           <Paper
+            sx={{
+              borderRadius : '50px',
+              margin : '1em',
+              textAlign : 'center',
+              background : 'white',
+              padding : '.1em',
+              width : '100%'
+            }}
+            elevation={24}
+           >
             <img
               src={element.image}
+              style={{ borderRadius : '50px'}}
               width={( ((size === 1 || size === 2) && ('150px')) || (size === 3 && ('300px')) )}
               height={( ((size === 1 || size === 2) && ('150px')) || (size === 3 && ('300px')) )}
               alt=''
             />
+           </Paper>
         </Grid>
 
         <Grid item xs={7}>
