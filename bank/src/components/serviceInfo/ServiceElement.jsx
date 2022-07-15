@@ -60,9 +60,9 @@ export default function ServiceElement({ element, size }) {
            >
             <img
               src={element.image}
-              style={{ borderRadius : '50px'}}
-              width={( ((size === 1 || size === 2) && ('150px')) || (size === 3 && ('300px')) )}
-              height={( ((size === 1 || size === 2) && ('150px')) || (size === 3 && ('300px')) )}
+              style={{ borderRadius : `${element.options.type === 'loan' ? '50px' : '0'}`}}
+              width={( (size === 1 && ('100px')) || (size === 2 && ('150px')) || (size === 3 && ('300px')) )}
+              height={( (size === 1 && ('100px')) || (size === 2 && ('150px')) || (size === 3 && ('300px')) )}
               alt=''
             />
            </Paper>
@@ -95,7 +95,10 @@ export default function ServiceElement({ element, size }) {
               isOpen && (
                 <Box sx={{background : 'lightgray', borderRadius : '25px'}}>
 
-                  <Typography sx={{padding : '1em', paddingBottom : '0'}}>
+                  <Typography
+                    sx={{padding : '1em', paddingBottom : '0'}}
+                    variant={(size === 1  && ('body2')) || (size === 2 && ('body1')) || (size === 3 && ('h5'))}
+                  >
                     {element.dis}
                   </Typography>
 

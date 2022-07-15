@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Grid, Typography, Box } from '@mui/material';
 import NavBar from '../navBar/NavBar';
 import AccountList from './accountList/AccountList';
-import Transactions from './transactions/Transactions';
-import Graph from './graph/Graph';
+import DashTransactions from './transactions/DashTransactions';
 import Footer from '../footer/Footer';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import useAuth from '../hooks/useAuth';
@@ -52,23 +51,35 @@ export default function DashBoard() {
                     <Typography variant='h3' sx={{ textAlign : 'center', margin : '1em'}}>
                       Looks like you don't have any accounts. Lets change that! Do any of these accounts interest you?
                     </Typography>
-                    <AccountAdFiller size={1}/>
+                    <AccountAdFiller size={2}/>
                   </Box>
                 </Box>
               )
             }
           </Grid>
+
           <Grid item xs={5}>
-            <Grid container direction='column'>
-              <Grid item xs={12}>
-                <Transactions />
-              </Grid>
-              <Grid item xs={12} >
-                <Graph />
-              </Grid>
-            </Grid>
+            {
+              Object.keys(accounts).length !== 0 && (
+                <>
+                  <Typography variant='h3' sx={{ textAlign : 'center', padding : '.5em'}}>
+                    Recent Transactions:
+                  </Typography>
+                  <DashTransactions />
+                </>
+              )
+            }
           </Grid>
         </Grid>
+
+
+        <Grid item xs={12}>
+          <Typography variant='h3' sx={{ textAlign : 'center', padding : '.5em'}}>
+            Other Accounts:
+          </Typography>
+          <AccountAdFiller size={3} />
+        </Grid>
+
       </Grid>
 
       <Grid item xs={12}>

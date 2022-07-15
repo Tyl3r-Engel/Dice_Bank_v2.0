@@ -23,6 +23,7 @@ app.use(verifyJWT)
 
 app.use('/dashBoard', require('./routes/dashBoard'))
 app.use('/accountTransactions/:accountNumber-:id', require('./routes/accountTransactions'))
+app.use('/recentTransactions/:accountNumbers', require('./routes/recentTransactions'))
 app.use('/toggleAccountStatus/:accountNumber-:id', require('./routes/toggleAccountStatus'))
 app.use('/deleteAccount/:accountNumber-:id', require('./routes/deleteAccount'))
 app.use('/accountNameChange/:accountNumber-:id', require('./routes/accountNameChange'))
