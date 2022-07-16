@@ -6,6 +6,7 @@ import useAuth from '../hooks/useAuth';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AccountDisplay from './AccountDisplay';
 import AccountAdFiller from '../accountAdFiller/AccountAdFiller';
+import Loading from '../../loading/Loading';
 
 export default function AccountSignUp() {
   const location = useLocation()
@@ -23,7 +24,7 @@ export default function AccountSignUp() {
 
   useEffect(() => {setSelectedAccount(JSON.parse(location?.state))}, [location?.state])
 
-  if (!isMounted) return <p>loading...</p>
+  if (!isMounted) return <Loading />
   return (
     !selectedAccount
       ? (

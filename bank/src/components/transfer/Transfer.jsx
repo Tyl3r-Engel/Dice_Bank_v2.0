@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { Box } from '@mui/system';
 import transactionImg from './transactionImg.png'
+import Loading from '../../loading/Loading';
 
 export default function Transfer() {
   const location = useLocation()
@@ -102,7 +103,7 @@ export default function Transfer() {
 
   if(!isMounted) return (
     <>
-      <p>Loading...</p>
+      <Loading />
       <Snackbar
         open={error.status}
         autoHideDuration={5000}

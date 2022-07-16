@@ -9,6 +9,7 @@ import useAuth from '../hooks/useAuth';
 import useDash from '../hooks/useDash';
 import { Navigate } from 'react-router-dom';
 import AccountAdFiller from '../accountAdFiller/AccountAdFiller';
+import Loading from '../../loading/Loading';
 
 export default function DashBoard() {
   const [errorFlag, setErrorFlag] = useState(false)
@@ -34,7 +35,7 @@ export default function DashBoard() {
   },[])
 
   if (errorFlag) return <Navigate to='/' />
-  if (!isMounted) return <p>Loading Dash Board...</p>
+  if (!isMounted) return <Loading />
   return(
     <Grid container direction='column'>
       <Grid item xs={12} >
@@ -42,49 +43,38 @@ export default function DashBoard() {
       </Grid>
 
       <Grid item xs={12} sx={{padding : '2em'}}>
-        <Grid container spacing={2}>
-          <Grid item xs={7}>
-            {
-              Object.keys(accounts).length !== 0 ? ( <AccountList /> ) : (
-                <Box sx={{background : '#325765', padding : '2em'}}>
-                  <Box sx={{background : '#FAF9F6', padding : '1em'}} >
-                    <Typography variant='h3' sx={{ textAlign : 'center', margin : '1em'}}>
-                      Looks like you don't have any accounts. Lets change that! Do any of these accounts interest you?
-                    </Typography>
-                    <AccountAdFiller size={2}/>
-                  </Box>
-                </Box>
-              )
-            }
-          </Grid>
+        {
+          Object.keys(accounts).length !== 0 ? (
+            <Grid container spacing={2}>
+              <Grid item xs={7}>
+                <AccountList />
+              </Grid>
 
-          <Grid item xs={5}>
-            {
-              Object.keys(accounts).length !== 0 && (
-                <>
+              <Grid item xs={5}>
                   <Typography variant='h3' sx={{ textAlign : 'center', padding : '.5em'}}>
                     Recent Transactions:
                   </Typography>
                   <DashTransactions />
-                </>
-              )
-            }
-          </Grid>
-        </Grid>
+              </Grid>
 
-        <Grid item xs={12}>
-            {
-              Object.keys(accounts).length !== 0 && (
-                <>
-                  <Typography variant='h3' sx={{ textAlign : 'center', padding : '.5em'}}>
-                    Other Accounts:
-                  </Typography>
-                  <AccountAdFiller size={3} />
-                </>
-              )
-            }
-        </Grid>
-
+              <Grid item xs={12}>
+                <Typography variant='h3' sx={{ textAlign : 'center', padding : '.5em'}}>
+                  Other Accounts:
+                </Typography>
+                <AccountAdFiller size={3} />
+              </Grid>
+            </Grid>
+          ) : (
+            <Box sx={{background : '#325765', padding : '2em'}}>
+              <Box sx={{background : '#FAF9F6', padding : '1em'}} >
+                <Typography variant='h3' sx={{ textAlign : 'center', margin : '1em'}}>
+                  Looks like you don't have any accounts. Lets change that! Do any of these accounts interest you?
+                </Typography>
+                <AccountAdFiller size={2}/>
+              </Box>
+            </Box>
+          )
+        }
       </Grid>
 
       <Grid item xs={12}>

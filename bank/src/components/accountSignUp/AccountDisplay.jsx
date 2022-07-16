@@ -3,6 +3,7 @@ import { Grid, Box, Typography, TextField, Checkbox, FormControl, FormLabel, For
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import useAuth from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../../loading/Loading';
 
 export default function AccountDisplay({ account }) {
   //! need a better way of doing this
@@ -69,7 +70,11 @@ export default function AccountDisplay({ account }) {
   }
 
   useEffect(() => { setIsMounted(true) },[])
-  if (!isMounted) return <p>Loading...</p>
+  if (!isMounted) return (
+    <Box sx={{ height : '100vh' }}>
+      <Loading />
+    </Box>
+  )
   return (
     <Grid container direction='column'>
       <Grid item xs={12} >

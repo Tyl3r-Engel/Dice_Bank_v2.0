@@ -8,6 +8,7 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import TransactionsList from './transactionsList/TransactionsList';
 import AccountOptions from './accountOptions/AccountOptions';
 import SpendingGraph from './spendingGraph/SpendingGraph';
+import Loading from '../../loading/Loading';
 
 export default function ViewAccount() {
   const location = useLocation()
@@ -30,7 +31,7 @@ export default function ViewAccount() {
     getTransactions()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
-  if(!isMounted) return <p>Loading...</p>
+  if(!isMounted) return <Loading />
   return(
     <Grid container direction='column'>
       <Grid item xs={12}>

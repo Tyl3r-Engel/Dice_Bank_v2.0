@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Loading from '../../loading/Loading';
 import { CheckingAndSavingsInfo as cas } from '../serviceInfo/checkingAndSavings/CheckingAndSavingsInfo';
 import { CreditCardInfo as cc } from '../serviceInfo/creditCard/CreditCardInfo';
 import { LoanInfo as li } from '../serviceInfo/loan/LoanInfo';
@@ -17,7 +18,7 @@ export default function AccountAdFiller({ size }) {
     setHasSet(true)
   },[])
 
-  if(!hasSet) return <p>loading...</p>
+  if(!hasSet) return <Loading />
   return (
     [
       cas[account1],

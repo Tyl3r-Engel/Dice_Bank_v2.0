@@ -19,47 +19,45 @@ export default function Footer () {
         </Grid>
 
         <Grid item xs={4}>
-          <Box sx={{ padding : '1em', display : 'inline'}}>
-            <Typography variant='body1' sx={{ textAlign : 'center', fontSize : 'small'}}>
-              Dice Bank, a passion project designed and built by Tyler Engel
-              <p style={{ marginBottom : '0', fontSize : 'medium'}}>
-                Get in contact:
-              </p>
-              <div>
-                <a href='https://www.linkedin.com/in/tylerengel' target='_blank' rel='noreferrer'>
-                  Linkedin
-                </a>
-              </div>
-              <div>
-                <a href='https://github.com/Tyl3r-Engel/Dice_Bank' target='_blank' rel='noreferrer'>
-                  Git Hub Repo
-                </a>
-              </div>
+          <div style={{ textAlign : 'center', fontSize : 'small'}}>
+            Dice Bank, a passion project designed and built by Tyler Engel
+            <Typography variant='body1' style={{ marginBottom : '0', fontSize : 'medium'}}>
+              Get in contact:
             </Typography>
-          </Box>
+            <Typography>
+              <a href='https://www.linkedin.com/in/tylerengel' target='_blank' rel='noreferrer'>
+                Linkedin
+              </a>
+            </Typography>
+            <Typography>
+              <a href='https://github.com/Tyl3r-Engel/Dice_Bank' target='_blank' rel='noreferrer'>
+                Git Hub Repo
+              </a>
+            </Typography>
+          </div>
         </Grid>
 
         <Grid item xs={4}>
-          <Typography variant='body1' sx={{ textAlign : 'center', fontSize : 'small'}}>
-            <p style={{marginBottom : '0', fontSize : 'medium'}}>
+          <div style={{ textAlign : 'center', fontSize : 'small'}}>
+            <Typography variant='body1' style={{marginBottom : '0', fontSize : 'medium'}}>
               Resources:
-            </p>
-            <div>
+            </Typography>
+            <Typography>
               <a href='http://clipart-library.com' target='_blank' rel='noreferrer'>
                 Images used
               </a>
-            </div>
-            <div>
+            </Typography>
+            <Typography>
               <a href='https://pixlr.com/' target='_blank' rel='noreferrer'>
                 Image editor
               </a>
-            </div>
-            <div>
+            </Typography>
+            <Typography>
               <a href='http://random-word-api.herokuapp.com/' target='_blank' rel='noreferrer'>
                 API for account secret generation
               </a>
-            </div>
-          </Typography>
+            </Typography>
+          </div>
         </Grid>
 
       </Grid>

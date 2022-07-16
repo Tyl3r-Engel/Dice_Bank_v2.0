@@ -1,5 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import React, { useState, useEffect } from 'react';
+import Loading from '../../../loading/Loading';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import useDash from '../../hooks/useDash';
 import TransactionListElement from '../../viewAccount/transactionsList/TransactionListElement';
@@ -63,7 +64,7 @@ export default function Transactions() {
           borderRadius : '50px'
         }}
       >
-        <p>Loading...</p>
+        <Loading />
       </Box>
     ) : (
       <Box
