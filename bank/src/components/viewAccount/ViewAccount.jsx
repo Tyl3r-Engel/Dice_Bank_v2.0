@@ -65,7 +65,7 @@ export default function ViewAccount() {
             <TransactionsList transactions={currentAccount.transactions} type={currentAccount.type} />
           </Grid>
           <Grid item xs={4} sx={{ display : 'block'}}>
-            <AccountOptions currentAccount={currentAccount} />
+            <AccountOptions currentAccount={currentAccount} setIsMounted={setIsMounted}/>
             <br/>
             <SpendingGraph transactions={currentAccount.transactions} type={currentAccount.type}/>
           </Grid>

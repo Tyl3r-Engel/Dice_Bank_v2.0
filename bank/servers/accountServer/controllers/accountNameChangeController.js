@@ -11,17 +11,17 @@ const checkIfUserAccount = async (accountId, reqUserId) => {
 }
 
 const accountNameChangeController = async (req, res) => {
-  const [accountNumber, accountid] = req.baseUrl.substr(req.baseUrl.length - 12).split('-')
+  const [accountNumber, accountid] = req.baseUrl.split('/')[2].split('-')
   const { newAccountName } = req.body
   const QUERY_STRING = `
     UPDATE accounts
     SET name = $1
-    WHERE accountNumber = $2
-  `;
+    WHERE accountnumber = $2
+  ;`;
   try {
     if (!(await checkIfUserAccount(accountid, req.userid))) return res.sendStatus(403)
     await pool.query(QUERY_STRING, [newAccountName, Number(accountNumber)])
-    res.sendStatus(200)
+    res.sendStatus(402)
   } catch(e) {
     console.log(e)
     res.sendStatus(500)

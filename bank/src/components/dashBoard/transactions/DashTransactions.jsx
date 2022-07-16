@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import useDash from '../../hooks/useDash';
@@ -9,6 +9,32 @@ export default function Transactions() {
   const axios = useAxiosPrivate()
   const [isMounted, setIsMounted] = useState(false)
   const [transactionsList, setTransactionsList] = useState([])
+
+  const sortAccounts = () => transactionsList.map((transaction, index) => {
+    let account;
+
+    for (let key in accounts) {
+      const result = accounts[key].find(element => element.accountnumber === Number(transaction.accountnumber))
+      if (result?.type) {account = result; break}
+    }
+
+    if(!account?.type) throw new Error('no type')
+    return (
+      <Box key={`${index} dtm`}>
+        <Typography
+        sx={{
+          textIndent : '2em',
+          textDecorationColor : 'lightgray',
+          fontSize : 'small'
+        }}
+        >
+          <em>in {account.name} ⬇️</em>
+        </Typography>
+        <TransactionListElement element={transaction} index={`${index} dtm tle`} type={account.type} />
+      </Box>
+    )
+  }).reverse()
+
 
   useEffect(() => {
     const tempList = []
@@ -49,16 +75,13 @@ export default function Transactions() {
       >
         <Box sx={{ background : 'white', padding : '.5em', borderRadius : '25px', margin : '.5em'}}>
         {
-          transactionsList.map((transaction, index) => {
-            let type;
-            for (let key in accounts) {
-              const result = accounts[key].find(element => element.accountnumber === Number(transaction.accountnumber))
-              if (result?.type) {type = result.type; break}
-            }
-
-            if(!type) throw new Error('no type')
-            return <TransactionListElement element={transaction} key={`${index} dtm`} index={`${index} dtm tle`}  type={type} />
-          })
+          transactionsList.length > 0 ? (
+            sortAccounts()
+          ) : (
+            <Typography variant='body1' sx={{ textAlign : 'center', padding : '1em'}}>
+              <em>You Don't have any transactions</em>
+            </Typography>
+          )
         }
         </Box>
       </Box>

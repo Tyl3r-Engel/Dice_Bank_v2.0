@@ -3,7 +3,7 @@ import { Box, Typography, TextField, Button, Divider, List, ListItemButton } fro
 import { useNavigate } from 'react-router-dom';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
-export default function AccountOptions({ currentAccount }) {
+export default function AccountOptions({ currentAccount, setIsMounted }) {
   const [accountName, setAccountName] = useState('')
   const [accountStatus, setAccountStatus] = useState(currentAccount.status)
   const [isOpen, setIsOpen] = useState(false)
@@ -13,7 +13,6 @@ export default function AccountOptions({ currentAccount }) {
 
   const handleTransfer = () => {
     navigate('/transfer' , { state : currentAccount })
-
   }
 
   const toggleAccountStatus = async () => {
@@ -21,6 +20,7 @@ export default function AccountOptions({ currentAccount }) {
       await axios.post(`/toggleAccountStatus/${currentAccount.accountnumber}-${currentAccount.id}`, { status : !accountStatus})
       setAccountStatus(!accountStatus)
     } catch(e) {
+      setIsMounted(true)
       console.log(e)
     }
   }
@@ -28,9 +28,11 @@ export default function AccountOptions({ currentAccount }) {
   const handleAccountDelete = () => {
     if (window.confirm('Press "OK" to confirm account deletion') === true) {
       try {
+        setIsMounted(false)
         axios.delete(`/deleteAccount/${currentAccount.accountnumber}-${currentAccount.id}`)
-        navigate('/', { repalce : true })
+        setTimeout(() => navigate('/', { repalce : true }), 2000)
       } catch(e){
+        setIsMounted(true)
         console.log(e)
       }
       return
@@ -40,9 +42,11 @@ export default function AccountOptions({ currentAccount }) {
   const handleNameChange = () => {
     if (window.confirm('Press "OK" to confirm account rename') === true) {
       try {
+        setIsMounted(false)
         axios.post(`/accountNameChange/${currentAccount.accountnumber}-${currentAccount.id}`, { newAccountName : accountName})
-        navigate('/', { replace : true })
+        setTimeout(() => navigate('/', { replace : true }), 2000)
       } catch(e){
+        setIsMounted(true)
         console.log(e)
       }
       return

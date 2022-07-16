@@ -30,7 +30,7 @@ CREATE TABLE accounts (
   balance REAL,
   accountnumber BIGINT PRIMARY KEY,
   accountsecret VARCHAR(255),
-  FOREIGN KEY (userid) REFERENCES users (id)
+  FOREIGN KEY (userid) REFERENCES users (id) ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS transactions;
@@ -41,7 +41,7 @@ CREATE TABLE transactions (
   amount FLOAT,
   date DATE,
   waswithdrawl BOOLEAN,
-  FOREIGN KEY (accountnumber) REFERENCES accounts (accountnumber)
+  FOREIGN KEY (accountnumber) REFERENCES accounts (accountnumber) ON DELETE CASCADE
 );
 
 INSERT INTO users (username, userpass) VALUES ('admin', '$2b$10$S8fevy2Ibi2JNIQ1msQHcuh/ES5oTya2l83mgz3PjAzSUlArCGCgW');

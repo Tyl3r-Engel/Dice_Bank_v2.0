@@ -11,7 +11,7 @@ const checkIfUserAccount = async (accountId, reqUserId) => {
 }
 
 const toggleAccountStatusController = async (req, res) => {
-  const [accountNumber, accountid] = req.baseUrl.substr(req.baseUrl.length - 12).split('-')
+  const [accountNumber, accountid] = req.baseUrl.split('/')[2].split('-')
   const { status } = req.body
   const QUERY_STRING = `
     UPDATE accounts

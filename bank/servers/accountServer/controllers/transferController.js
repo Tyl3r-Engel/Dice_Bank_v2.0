@@ -61,7 +61,6 @@ const getToUserName = async accountnumber => {
 
 const transferController = async (req, res) => {
   const { to, from, amount: tempAmount } = req.body
-  console.log(to)
   try {
     if (!to || !from || !tempAmount) throw new Error('the amount or the to or from user is undefined')
     if (from.userid !== req.userid) throw new Error('User does not own the account being withdrawn from')

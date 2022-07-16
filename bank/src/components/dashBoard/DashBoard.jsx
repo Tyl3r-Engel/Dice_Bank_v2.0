@@ -72,12 +72,17 @@ export default function DashBoard() {
           </Grid>
         </Grid>
 
-
         <Grid item xs={12}>
-          <Typography variant='h3' sx={{ textAlign : 'center', padding : '.5em'}}>
-            Other Accounts:
-          </Typography>
-          <AccountAdFiller size={3} />
+            {
+              Object.keys(accounts).length !== 0 && (
+                <>
+                  <Typography variant='h3' sx={{ textAlign : 'center', padding : '.5em'}}>
+                    Other Accounts:
+                  </Typography>
+                  <AccountAdFiller size={3} />
+                </>
+              )
+            }
         </Grid>
 
       </Grid>

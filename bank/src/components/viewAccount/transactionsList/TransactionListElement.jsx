@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Grid, Box, Typography } from '@mui/material';
 
 export default function TransactionListElement({ element, index, type }) {
   const formatBal = (amount) => `$${String(amount).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
-  const [isCredit] = useState(type === 'creditCard' || type === 'loan')
   const formateDate = element.date.slice(0, element.date.length - 5).split('T')[0].replaceAll('-','/')
   return (
     <Box
@@ -34,9 +33,7 @@ export default function TransactionListElement({ element, index, type }) {
             <Typography variant='h6'>
               {
                 (
-                  ( (element.waswithdrawl && !isCredit) && `-${formatBal(element.amount)}` )
-                  || ( (!element.waswithdrawl && isCredit) && `-${formatBal(element.amount)}` )
-                  || `+${formatBal(element.amount)}`
+                  element.waswithdrawl ? `-${formatBal(element.amount)}` : `+${formatBal(element.amount)}`
                 )
               }
             </Typography>
