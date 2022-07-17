@@ -10,7 +10,7 @@ export const CreditCardInfo = [
     options : {
       'type' : 'creditCard',
       'maxBal' : 1000000,
-      'interestRate' : '.005'
+      'interestRate' : .005
     }
   },
   {
@@ -33,12 +33,12 @@ export const CreditCardInfo = [
   },
   {
     name : 'Railway+ Credit Card',
-    dis : 'Not every roll gives box cars but here at Dice Bank it is our belief that if you need a box car for transportation of your businesses goods, it should come at a cost effective rate. The Railway+ Credit Card gives you 12, two 6s be exact 6% interest and 6% cash back at all minor railways.',
+    dis : 'Not every roll gives box cars but here at Dice Bank it is our belief that if you need a box car for transportation of your businesses goods, it should come at a cost effective rate. The Railway+ Credit Card gives you 12, two 6s be exact 6% interest and 6% back initial deposit at all minor railways.',
     image : railway,
     options : {
       'type' : 'creditCard',
-      'interestRate' : '4%',
-      'cashBack' : '4%'
+      'interestRate' : 6,
+      'promo' : '25% init deposit'
     }
   }
 ]

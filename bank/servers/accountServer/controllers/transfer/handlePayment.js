@@ -34,6 +34,9 @@ module.exports = async (to, from, amount, update, Transaction, handleFail) => {
       if (newPaymentAmount < 0) return new Error(`payment amount over by ${Math.abs(newPaymentAmount)}`)
       creditAccount.options.paymentAmount = newPaymentAmount
 
+      const newMinPaymentDue = Number(creditAccount.options.minPaymentDue) - amount
+      creditAccount.options.minPaymentDue = (newMinPaymentDue < 0) ? 0 : newMinPaymentDue
+
       await pool.query(`
         UPDATE accounts
         SET options = $1
@@ -41,10 +44,23 @@ module.exports = async (to, from, amount, update, Transaction, handleFail) => {
       `, [creditAccount.options, creditAccount.accountnumber])
 
       await update(payingAmount, payingAccount)
-    } else {
-      await update(payingAmount, payingAccount)
+
+    } else if (creditAccount.type === 'creditCard') {
+      if (await checkOptions(creditAccount.options, creditAccount.accountnumber)) throw new Error()
+      if (Number(creditAccount.options.minPaymentDue) === 0) return new Error('Payment already made')
+
+      const newPaymentAmount = Number(creditAccount.options.minPaymentDue) - amount
+      creditAccount.options.minPaymentDue = (newPaymentAmount < 0) ? 0 : newPaymentAmount
+
+      await pool.query(`
+        UPDATE accounts
+        SET options = $1
+        WHERE accountnumber = $2
+      `, [creditAccount.options, creditAccount.accountnumber])
+
       await update(creditAmount, creditAccount)
-    }
+      await update(payingAmount, payingAccount)
+    } else throw new Error()
 
     const payingAccountTransaction = new Transaction(
       payingAccount.accountnumber,

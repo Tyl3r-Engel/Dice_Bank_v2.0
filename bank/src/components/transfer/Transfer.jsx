@@ -65,7 +65,10 @@ export default function Transfer() {
 
           if (toAccount.isPayment && fromAccount.type === 'loan') {
             fromAccount.options.paymentAmount -= fromAccountAmount
-          } else {
+            fromAccount.options.minPaymentDue  = (fromAccount.options.minPaymentDue - fromAccountAmount) < 0 ? 0 : fromAccount.options.minPaymentDue - fromAccountAmount
+          } else if (toAccount.isPayment && fromAccount.type === 'creditCard')
+            fromAccount.options.minPaymentDue  = (fromAccount.options.minPaymentDue - fromAccountAmount) < 0 ? 0 : fromAccount.options.minPaymentDue - fromAccountAmount
+          else {
             fromAccount.balance = String(fromAccount.balance -= toAccount.isPayment ? (0 - fromAccountAmount) : fromAccountAmount).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
           }
           setTimeout(() => navigate('/viewAccount', { replace : true,  state : { ...fromAccount } }), 2000)

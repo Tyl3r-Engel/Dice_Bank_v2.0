@@ -104,9 +104,9 @@ export default function ViewAccount() {
                         >
                           Payment balance : ${currentAccount.options.paymentAmount}
                           <br />
-                          Next payment due by : {new Date().getFullYear()}
+                          Next payment due by : {currentAccount.options.nextPaymentDue}
                           <br />
-                          Minimum payment : ${3242234243}
+                          Minimum payment : ${currentAccount.options.minPaymentDue}
                           <br />
                           <Button
                             variant='contained'
@@ -154,9 +154,9 @@ export default function ViewAccount() {
                           }}
                           variant='h6'
                         >
-                          Next payment due by : {new Date().getFullYear()}
+                          Next payment due by : {currentAccount.options.nextPaymentDue}
                           <br />
-                          Minimum payment : ${3242234243}
+                          Minimum payment : ${currentAccount.options.minPaymentDue}
                           <br />
                           <Button
                             variant='contained'

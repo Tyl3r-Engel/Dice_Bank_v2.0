@@ -10,7 +10,7 @@ export const LoanInfo = [
     options : {
       'type' : 'loan',
       'amount' : '',
-      'interestRate' : '.001',
+      'interestRate' : .001,
       'paymentAmount' : 0,
       'extraInput' : {
         'name' : 'Loan Amount',
@@ -38,7 +38,7 @@ export const LoanInfo = [
     options : {
       'type' : 'loan',
       'amount' : '',
-      'interestRate' : '1',
+      'interestRate' : 1,
       'paymentAmount' : 0,
       'extraInput' : {
         'name' : 'Loan Amount',
@@ -66,7 +66,7 @@ export const LoanInfo = [
     options : {
       'type' : 'loan',
       'amount' : '',
-      'interestRate' : '2',
+      'interestRate' : 2,
       'paymentAmount' : 0,
       'extraInput' : {
         'name' : 'Loan Amount',
@@ -94,7 +94,7 @@ export const LoanInfo = [
     options : {
       'type' : 'loan',
       'amount' : '',
-      'interestRate' : '0',
+      'interestRate' : 0,
       'paymentAmount' : 0,
       'extraInput' : {
         'name' : 'Loan Amount',

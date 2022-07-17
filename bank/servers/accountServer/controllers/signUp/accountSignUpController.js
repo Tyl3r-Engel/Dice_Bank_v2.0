@@ -1,10 +1,7 @@
-const pool = require('../../../dataBase/pool')
+const pool = require('../../../../dataBase/pool')
 const axios = require('axios')
-
-const isOptionsConflict = (options, type, accountBal, accountName) => {
-  if (type === 'loan' && accountName !== '4U Loan') options.paymentAmount = accountBal
-  return false
-}
+const setUpPayments = require('./setUpPayments')
+const isOptionsConflict = require('./isOptionsConflict')
 
 const accountSignUpController = async (req, res) => {
   const { user: { username, userid }, accountName, userAccountName, accountBal, hasAgreed, options: { type, ...otherOptions} } = req.body
@@ -49,10 +46,17 @@ const accountSignUpController = async (req, res) => {
   }
 
   try {
-    await pool.query(QUERY_STRING, [userid, type, otherOptions, true, userAccountName, accountName, date, accountBal, genAccountNumber(), await genAccountSecret()])
+    if (type === 'creditCard' || type === 'loan' || otherOptions.promo) {
+      const accountNumber = genAccountNumber()
+      const newAccountBal = await setUpPayments(type, otherOptions, accountBal, accountName, date, accountNumber, async (newAccountBal) => {
+        await pool.query(QUERY_STRING, [userid, type, otherOptions, true, userAccountName, accountName, date, newAccountBal, accountNumber, await genAccountSecret()])
+      })
+      if (newAccountBal?.message) throw new Error(newAccountBal?.message)
+    } else {
+      await pool.query(QUERY_STRING, [userid, type, otherOptions, true, userAccountName, accountName, date, accountBal, genAccountNumber(), await genAccountSecret()])
+    }
     res.sendStatus(200)
-  } catch (e) {
-    console.log(e)
+  } catch {
     res.sendStatus(500)
   }
 }
