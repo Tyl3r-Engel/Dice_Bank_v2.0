@@ -1,7 +1,8 @@
 const pool = require('../../../dataBase/pool')
 const axios = require('axios')
 
-const isOptionsConflict = options => {
+const isOptionsConflict = (options, type, accountBal, accountName) => {
+  if (type === 'loan' && accountName !== '4U Loan') options.paymentAmount = accountBal
   return false
 }
 
@@ -15,7 +16,7 @@ const accountSignUpController = async (req, res) => {
     || !(accountBal >= 0)
     || hasAgreed !== true
     || !type
-    || isOptionsConflict(otherOptions)
+    || isOptionsConflict(otherOptions, type, accountBal, accountName)
   ) return res.sendStatus(400)
 
   const date = new Date()

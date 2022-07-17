@@ -39,12 +39,20 @@ export default function NavMenu () {
         open={isOpen}
         onClose={handleOpen}
       >
-        <Box sx={{background : '#cc171d', width : '100%', height : '100%'}}>
-
+        <Box
+          sx={{
+            background : '#cc171d',
+            width : '400px',
+            height : '100%',
+            overflowY : 'scroll',
+            marginY : '1em',
+            marginLeft : '1em'
+          }}
+        >
           <Grid container
-          direction = 'column'
-          spacing={5}
-          sx={{ textAlign : 'center' }}
+            direction = 'column'
+            spacing={5}
+            sx={{ textAlign : 'center' }}
           >
             {
               auth.isAuth && (
@@ -70,7 +78,11 @@ export default function NavMenu () {
                 { !auth.isAuth && <img src={logo} alt='logo' />}
                 <Grid container direction='column' spacing={5}>
                   {
-                    [{type : 'dashboard', name : auth.isAuth ? 'Dashboard' : 'Home' }, ...navElements].map((element, index) => (
+                    [
+                      {type : 'dashboard', name : auth.isAuth ? 'Dashboard' : 'Home' },
+                      {type : auth.isAuth ? 'transfer' : 'register', name : auth.isAuth ? 'Transfer' : 'register' },
+                      ...navElements
+                    ].map((element, index) => (
                       <Grid item key={`${index} nmem`}>
                         <Paper
                           sx={{

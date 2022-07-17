@@ -13,17 +13,20 @@ export default function Transfer() {
   const navigate = useNavigate()
   const axios = useAxiosPrivate()
   const [redirectAccountName] = useState(location?.state?.name)
+
   const [fromAccount, setFromAccount] = useState({})
   const [fromAccountAmount, setFromAccountAmount] = useState('')
-  const handleFromAccountChange = (event) => setFromAccount(event.target.value)
+  const handleFromAccountChange = (e) => setFromAccount(e.target.value)
+
+  const [createPayment] = useState({ isPayment : true })
   const [toAccount, setToAccount] = useState({})
-  const handleToAccountChange = (event) => setToAccount(event.target.value)
+  const handleToAccountChange = (e) => setToAccount(e.target.value)
+
   const [accountList, setAccountList] = useState([])
   const [isMounted, setIsMounted] = useState(false)
   const [toOtherAccount, setToOtherAccount] = useState({ accountnumber : '', accountsecret : ''})
   const [error, setError] = useState({ status : false , message : ''})
   const handleErrorClose = () => setError({ state : false, message : ''})
-
   const handleTransfer = async () => {
     try {
       if (
@@ -59,7 +62,12 @@ export default function Transfer() {
           setToAccount({})
           setToOtherAccount({ accountnumber : '', accountsecret : ''})
           setFromAccountAmount('')
-          fromAccount.balance = String(fromAccount.balance -= fromAccountAmount).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+
+          if (toAccount.isPayment && fromAccount.type === 'loan') {
+            fromAccount.options.paymentAmount -= fromAccountAmount
+          } else {
+            fromAccount.balance = String(fromAccount.balance -= toAccount.isPayment ? (0 - fromAccountAmount) : fromAccountAmount).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+          }
           setTimeout(() => navigate('/viewAccount', { replace : true,  state : { ...fromAccount } }), 2000)
         } else throw new Error(response.response.data)
       } else throw new Error('Can not have 2 accounts to transfer to selected or forgot to fill out a field')
@@ -206,12 +214,18 @@ export default function Transfer() {
                     <Box sx={{padding : '1em', textAlignLast : 'center'}}>
                       <Select
                         defaultValue='none'
-                        value={Object.keys(toAccount).length > 0 ? toAccount : 'none'}
                         onChange={handleToAccountChange}
                       >
-                        <MenuItem value='none' onClick={() => setToAccount({})} >
+                        <MenuItem value='none'>
                           <em>None</em>
                         </MenuItem>
+                        {
+                          ((fromAccount.type === 'loan' && fromAccount.options.paymentAmount !== 0) || fromAccount.type === 'creditCard') && (
+                            <MenuItem value={createPayment}>
+                              <em>Make Payment</em>
+                            </MenuItem>
+                          )
+                        }
                         {
                           accountList.map((element, index) => element.name !== fromAccount.name
                           ? <MenuItem key={`${index} altm`} value={element}>{element.name}</MenuItem>
@@ -219,6 +233,33 @@ export default function Transfer() {
                         }
                       </Select>
                       <FormHelperText>Your account to transfer to</FormHelperText>
+                      {
+                        ((fromAccount.type === 'loan' || fromAccount.type === 'creditCard') && toAccount?.isPayment) && (
+                          <>
+                            <Select
+                              defaultValue='pick account'
+                              onChange={(e) => {
+                                setToAccount(
+                                  prev => ({
+                                    ...e.target.value,
+                                    ...prev
+                                  })
+                                )
+                              }}
+                            >
+                              <MenuItem disabled value='pick account'>
+                                <em>Pick An Account</em>
+                              </MenuItem>
+                              {
+                                accountList.map((element, index) => element.name !== fromAccount.name
+                                ? <MenuItem key={`${index} altm`} value={element}>{element.name}</MenuItem>
+                                : <MenuItem disabled key={`${index} altm`} value={element}>{element.name}</MenuItem>)
+                              }
+                            </Select>
+                            <FormHelperText>Your account to transfer payment from</FormHelperText>
+                          </>
+                        )
+                      }
                     </Box>
 
                     <Divider />

@@ -1,6 +1,6 @@
-const pool = require('../../../dataBase/pool')
-const Transaction = require('../classes/Transaction')
-
+const pool = require('../../../../dataBase/pool')
+const Transaction = require('./Transaction')
+const handlePayment = require('./handlePayment')
 const checkAccounts = async (toUser, fromUser) => {
   const { rows } = await pool.query(`
     SELECT status, balance, accountnumber
@@ -60,21 +60,37 @@ const getToUserName = async accountnumber => {
 }
 
 const transferController = async (req, res) => {
-  const { to, from, amount: tempAmount } = req.body
+  let { to, from, amount: tempAmount } = req.body
   try {
-    if (!to || !from || !tempAmount) throw new Error('the amount or the to or from user is undefined')
+    if (!to || !from || !tempAmount) throw new Error('The amount or the to or from user is undefined')
     if (from.userid !== req.userid) throw new Error('User does not own the account being withdrawn from')
+    if (to?.type === 'loan' || to?.type === 'creditCard') throw new Error('The account to Transfer to is a credit account(you can only make payments to credit accounts)')
 
     //check
     const results = await checkAccounts(to, from)
-
-    const tempToBal = results.filter(element =>Number(element.accountnumber) === to.accountnumber)[0]
-    const tempFromBal = results.filter(element => Number(element.accountnumber) === from.accountnumber)[0]
-    const toBal = Number(tempToBal.balance)
-    const fromBal = Number(tempFromBal.balance)
+    const toBal = Number(results.filter(element =>Number(element.accountnumber) === to.accountnumber)[0].balance)
+    const fromBal = Number(results.filter(element => Number(element.accountnumber) === from.accountnumber)[0].balance)
     const amount = Number(tempAmount)
+    if (to?.isPayment) {
+      try {
+        const didError = await handlePayment(
+          [to, toBal],
+          [from, fromBal],
+          amount,
+          update,
+          Transaction,
+          handleFail
+        )
+        if (didError) throw didError
+        return res.sendStatus(200)
+      } catch(e) {
+        res.status(500)
+        res.send(e.message)
+        return res.end()
+      }
+    }
 
-    if (fromBal - amount < 0) throw new Error('Amount is more then account balance')
+    if (!(from.type === 'creditCard') && fromBal - amount < 0) throw new Error('Amount is more then account balance')
 
     //update
     //* to account

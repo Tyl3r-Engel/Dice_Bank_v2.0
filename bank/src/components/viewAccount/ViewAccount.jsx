@@ -1,5 +1,5 @@
 import React,{ useState } from 'react';
-import { Grid, Typography} from '@mui/material';
+import { Grid, Typography, Box, Paper, Button } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import NavBar from '../navBar/NavBar';
 import Footer from '../footer/Footer';
@@ -29,6 +29,17 @@ export default function ViewAccount() {
       }
     }
     getTransactions()
+    if (currentAccount.options?.paymentAmount) {
+      setCurrentAccount(prev => (
+        {
+          ...prev,
+          options: {
+            ...prev.options,
+            paymentAmount : String(currentAccount.options.paymentAmount).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+          }
+        }
+      ))
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
   if(!isMounted) return <Loading />
@@ -63,6 +74,108 @@ export default function ViewAccount() {
               >
               ${currentAccount.balance}
             </Typography>
+            {
+              (currentAccount.type === 'loan' && currentAccount.options?.paymentAmount !== 0) && (
+                <Box sx ={{ textAlign : '-webkit-center'}}>
+                  <Paper
+                    sx={{ borderRadius : '50%', width : '50%' }}
+                    elevation={24}
+                  >
+                    <Box
+                      sx={{
+                        borderRadius : '50%',
+                        background : '#cc171d',
+                        padding : '1em'
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          borderRadius : '50%',
+                          background : 'white',
+                          padding : '1em'
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            textAlign : 'center',
+                            padding : '1em'
+                          }}
+                          variant='h6'
+                        >
+                          Payment balance : ${currentAccount.options.paymentAmount}
+                          <br />
+                          Next payment due by : {new Date().getFullYear()}
+                          <br />
+                          Minimum payment : ${3242234243}
+                          <br />
+                          <Button
+                            variant='contained'
+                            sx={{
+                              color : 'white',
+                              backgroundColor : '#325765',
+                              margin : '.5em'
+                            }}
+                            onClick={() => navigate('/transfer', { state : currentAccount})}
+                          >
+                            pay
+                          </Button>
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Paper>
+                </Box>
+              )
+            }
+            {
+              (currentAccount.type === 'creditCard') && (
+                <Box sx ={{ textAlign : '-webkit-center'}}>
+                 <Paper
+                    sx={{ borderRadius : '50%', width : '50%' }}
+                    elevation={24}
+                  >
+                    <Box
+                      sx={{
+                        borderRadius : '50%',
+                        background : '#cc171d',
+                        padding : '1em'
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          borderRadius : '50%',
+                          background : 'white',
+                          padding : '1em'
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            textAlign : 'center',
+                            padding : '1em'
+                          }}
+                          variant='h6'
+                        >
+                          Next payment due by : {new Date().getFullYear()}
+                          <br />
+                          Minimum payment : ${3242234243}
+                          <br />
+                          <Button
+                            variant='contained'
+                            sx={{
+                              color : 'white',
+                              backgroundColor : '#325765',
+                              margin : '.5em'
+                            }}
+                            onClick={() => navigate('/transfer', { state : currentAccount})}
+                          >
+                            pay
+                          </Button>
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Paper>
+                </Box>
+              )
+            }
             <TransactionsList transactions={currentAccount.transactions} type={currentAccount.type} />
           </Grid>
           <Grid item xs={4} sx={{ display : 'block'}}>

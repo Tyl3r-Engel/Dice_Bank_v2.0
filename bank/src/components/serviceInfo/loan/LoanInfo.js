@@ -95,7 +95,7 @@ export const LoanInfo = [
       'type' : 'loan',
       'amount' : '',
       'interestRate' : '0',
-      'paymentAmount' : '100%',
+      'paymentAmount' : 0,
       'extraInput' : {
         'name' : 'Loan Amount',
         'helperText' : 'Input must be amount must be above 0 and less than 9007199254740990',
