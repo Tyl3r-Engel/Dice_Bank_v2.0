@@ -4,7 +4,7 @@ const cors = require('cors')
 const verifyJWT = require('../middleware/verifyJWT')
 const cookieParser = require('cookie-parser')
 const app = express()
-require('../../dataBase/pool')
+const manageAccounts = require('./manageAccounts')
 
 const whiteList = ['http://localhost:3000']
 const corsOptions = {
@@ -32,6 +32,7 @@ app.use('/transfer', require('./routes/transfer'))
 app.use('/accountDelete', require('./routes/accountDelete'))
 
 
-
-
-app.listen(7777, () => console.log('server running on 7777'))
+app.listen(7777, () => {
+  console.log('server running on 7777')
+  manageAccounts()
+})

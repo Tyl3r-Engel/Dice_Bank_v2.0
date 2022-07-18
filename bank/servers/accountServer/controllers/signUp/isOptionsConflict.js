@@ -46,16 +46,19 @@ module.exports = (options, type, accountBal, accountName) => {
           Object.keys(options).length === 1
           && Number(options.interestRate) === 1
           && type === 'checking'
-        )
+          )
     else if (accountName === 'You Set Your Rate Savings')
-      return !(
-        Object.keys(options).length === 1
-        && (Number(options.interestRate) <= 100 && Number(options.interestRate) > 0)
-        && type === 'checking'
+          return !(
+            Object.keys(options).length === 1
+            && (Number(options.interestRate) <= 100 && Number(options.interestRate) > 0)
+            && type === 'checking'
       )
-    else if (accountName === 'Trading')
+    else if (accountName === 'Trading Account')
       return !(
-       type === 'trading'
+        Object.keys(options).length === 2
+        && Number(options.interestRate) === .05
+        &&  options.promo === '25% init deposit'
+        && type === 'trading'
       )
     else return true
   } else if ( type === 'creditCard') {

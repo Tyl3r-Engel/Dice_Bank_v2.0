@@ -6,6 +6,7 @@ import useAuth from '../../hooks/useAuth'
 import useDash from '../../hooks/useDash';
 import CreditCard from './accounts/CreditCard';
 import Loan from './accounts/Loan';
+import Trading from './accounts/Trading';
 
 export default function AccountList() {
   const { auth } = useAuth()
@@ -25,6 +26,7 @@ export default function AccountList() {
           Accounts
         </Typography>
         <Box sx={{background : '#FAF9F6', padding : '1em', borderRadius : '25px'}} >
+          {accounts.trading &&( <Trading tradingAccounts={accounts.trading}/> )}
           {accounts.checking &&( <Checking checkingAccounts={accounts.checking}/> )}
           {accounts.savings && ( <Savings savingsAccounts={accounts.savings}/> )}
           {accounts.creditCard && ( <CreditCard creditCardAccounts={accounts.creditCard}/> )}

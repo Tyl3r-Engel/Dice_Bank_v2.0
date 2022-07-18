@@ -91,7 +91,7 @@ export default function AccountDisplay({ account }) {
           marginBottom : '0em'
         }}
       >
-        <img src={account.image} alt='accountImage'/>
+        <img src={account.image} style={{width : '300px', height : '300px'}} alt='accountImage'/>
       </Grid>
 
       <Grid item

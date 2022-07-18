@@ -25,7 +25,7 @@ export default function Advert () {
     {
       name : 'stocks',
       imgSrc : stocks,
-      description : 'Stocks (WIP)',
+      description : 'Stock Trading',
       onClick : function() { return navigate('/trading')}
     }
   ]
