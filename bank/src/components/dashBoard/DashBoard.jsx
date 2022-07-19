@@ -10,11 +10,13 @@ import useDash from '../hooks/useDash';
 import { Navigate } from 'react-router-dom';
 import AccountAdFiller from '../accountAdFiller/AccountAdFiller';
 import Loading from '../../loading/Loading';
+import useUser from '../hooks/useUser';
 
 export default function DashBoard() {
   const [errorFlag, setErrorFlag] = useState(false)
   const { isMounted, setIsMounted, setAccounts, accounts } = useDash()
   const { setAuth } = useAuth()
+  const { windowSize } = useUser()
   const axiosPrivate = useAxiosPrivate()
 
   useEffect(() => {
@@ -32,7 +34,6 @@ export default function DashBoard() {
     getDash()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
-
   if (errorFlag) return <Navigate to='/' />
   if (!isMounted) return <Loading />
   return(
@@ -45,22 +46,37 @@ export default function DashBoard() {
         {
           Object.keys(accounts).length !== 0 ? (
             <Grid container spacing={2}>
-              <Grid item xs={7}>
-                <AccountList />
-              </Grid>
-
-              <Grid item xs={5}>
-                  <Typography variant='h3' sx={{ textAlign : 'center', padding : '.5em'}}>
-                    Recent Transactions:
-                  </Typography>
-                  <DashTransactions />
-              </Grid>
-
+              {
+                windowSize.width > 1300 ? (
+                  <>
+                    <Grid item xs={7}>
+                      <AccountList />
+                    </Grid>
+                    <Grid item xs={5}>
+                      <Typography variant='h3' sx={{ textAlign : 'center', padding : '.5em'}}>
+                        Recent Transactions:
+                      </Typography>
+                      <DashTransactions />
+                    </Grid>
+                  </>
+                ) : (
+                <Grid item xs={12}>
+                  <AccountList />
+                </Grid>
+                )
+              }
               <Grid item xs={12}>
                 <Typography variant='h3' sx={{ textAlign : 'center', padding : '.5em'}}>
                   Other Accounts:
                 </Typography>
-                <AccountAdFiller size={3} />
+                <AccountAdFiller
+                size={
+                  windowSize.width > 1300 ? 3
+                  :
+                    windowSize.width > 600 ? 2
+                    :1
+                }
+                />
               </Grid>
             </Grid>
           ) : (
@@ -69,7 +85,14 @@ export default function DashBoard() {
                 <Typography variant='h3' sx={{ textAlign : 'center', margin : '1em'}}>
                   Looks like you don't have any accounts. Lets change that! Do any of these accounts interest you?
                 </Typography>
-                <AccountAdFiller size={2}/>
+                <AccountAdFiller
+                  size={
+                    windowSize.width > 1300 ? 3
+                    :
+                      windowSize.width > 600 ? 2
+                      :1
+                  }
+                />
               </Box>
             </Box>
           )

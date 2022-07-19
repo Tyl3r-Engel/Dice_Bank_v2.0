@@ -1,5 +1,5 @@
 import React,{ useState } from 'react';
-import { Grid, Typography, Box, Paper, Button } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import NavBar from '../navBar/NavBar';
 import Footer from '../footer/Footer';
@@ -9,12 +9,15 @@ import TransactionsList from './transactionsList/TransactionsList';
 import AccountOptions from './accountOptions/AccountOptions';
 import SpendingGraph from './spendingGraph/SpendingGraph';
 import Loading from '../../loading/Loading';
+import useUser from '../hooks/useUser';
+import Payment from './payment/Payment';
 
 export default function ViewAccount() {
   const location = useLocation()
   const [currentAccount, setCurrentAccount] = useState(location.state === null ? JSON.parse(JSON.parse(sessionStorage.getItem('currentAccount'))) : location.state)
   const axios = useAxiosPrivate()
   const [isMounted, setIsMounted] = useState(false)
+  const { windowSize } = useUser()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -62,140 +65,79 @@ export default function ViewAccount() {
       </Grid>
 
       <Grid item xs={12} sx={{ margin : '2em'}}>
-        <Grid container spacing={6} sx={{ marginBottom : '5em' }}>
-          <Grid item xs={8}>
-            <Typography
-              sx={{
-                textAlign : 'center',
-                padding : '1em',
-                paddingBottom : '0',
-                textDecoration : 'underline',
-              }}
-              variant='h2'
-            >
-              {currentAccount.name}
-            </Typography>
-            <br />
-            <Typography
-              sx={{
-                textAlign : 'center',
-                padding : '.1em',
-                marginBottom : '.6em'
-              }}
-              variant='h2'
-              >
-              ${currentAccount.balance}
-            </Typography>
-            {
-              (currentAccount.type === 'loan' && currentAccount.options?.paymentAmount !== 0) && (
-                <Box sx ={{ textAlign : '-webkit-center'}}>
-                  <Paper
-                    sx={{ borderRadius : '50%', width : '50%' }}
-                    elevation={24}
+        {
+          windowSize.width < 900 ? (
+            <Grid container sx={{ justifyContent : 'center'}}>
+              <Grid item xs={12}>
+                <Typography
+                  sx={{
+                    textAlign : 'center',
+                    padding : '1em',
+                    paddingBottom : '0',
+                    textDecoration : 'underline',
+                  }}
+                  variant='h4'
+                >
+                  {currentAccount.name}
+                </Typography>
+                <br />
+                <Typography
+                  sx={{
+                    textAlign : 'center',
+                    padding : '.1em',
+                    marginBottom : '.6em'
+                  }}
+                  variant='h4'
                   >
-                    <Box
-                      sx={{
-                        borderRadius : '50%',
-                        background : '#cc171d',
-                        padding : '1em'
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          borderRadius : '50%',
-                          background : 'white',
-                          padding : '1em'
-                        }}
-                      >
-                        <Typography
-                          sx={{
-                            textAlign : 'center',
-                            padding : '1em'
-                          }}
-                          variant='h6'
-                        >
-                          Payment balance : ${currentAccount.options.paymentAmount}
-                          <br />
-                          Next payment due by : {currentAccount.options.nextPaymentDue}
-                          <br />
-                          Minimum payment : ${currentAccount.options.minPaymentDue}
-                          <br />
-                          <Button
-                            variant='contained'
-                            sx={{
-                              color : 'white',
-                              backgroundColor : '#325765',
-                              margin : '.5em'
-                            }}
-                            onClick={() => navigate('/transfer', { state : currentAccount})}
-                          >
-                            pay
-                          </Button>
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Paper>
-                </Box>
-              )
-            }
-            {
-              (currentAccount.type === 'creditCard') && (
-                <Box sx ={{ textAlign : '-webkit-center'}}>
-                 <Paper
-                    sx={{ borderRadius : '50%', width : '50%' }}
-                    elevation={24}
+                    ${currentAccount.balance}
+                </Typography>
+                <Payment currentAccount={currentAccount} />
+              </Grid>
+
+              <Grid item sx={{ display : 'block', height : '100%', marginBottom : '2em'}}>
+                <AccountOptions currentAccount={currentAccount} setIsMounted={setIsMounted}/>
+              </Grid>
+
+              <Grid item xs={12}>
+                <TransactionsList transactions={currentAccount.transactions} type={currentAccount.type} />
+              </Grid>
+            </Grid>
+          ) : (
+            <Grid container spacing={6} sx={{ marginBottom : '5em' }}>
+              <Grid item xs={8}>
+                <Typography
+                  sx={{
+                    textAlign : 'center',
+                    padding : '1em',
+                    paddingBottom : '0',
+                    textDecoration : 'underline',
+                  }}
+                  variant='h2'
+                >
+                  {currentAccount.name}
+                </Typography>
+                <br />
+                <Typography
+                  sx={{
+                    textAlign : 'center',
+                    padding : '.1em',
+                    marginBottom : '.6em'
+                  }}
+                  variant='h2'
                   >
-                    <Box
-                      sx={{
-                        borderRadius : '50%',
-                        background : '#cc171d',
-                        padding : '1em'
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          borderRadius : '50%',
-                          background : 'white',
-                          padding : '1em'
-                        }}
-                      >
-                        <Typography
-                          sx={{
-                            textAlign : 'center',
-                            padding : '1em'
-                          }}
-                          variant='h6'
-                        >
-                          Next payment due by : {currentAccount.options.nextPaymentDue}
-                          <br />
-                          Minimum payment : ${currentAccount.options.minPaymentDue}
-                          <br />
-                          <Button
-                            variant='contained'
-                            sx={{
-                              color : 'white',
-                              backgroundColor : '#325765',
-                              margin : '.5em'
-                            }}
-                            onClick={() => navigate('/transfer', { state : currentAccount})}
-                          >
-                            pay
-                          </Button>
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Paper>
-                </Box>
-              )
-            }
-            <TransactionsList transactions={currentAccount.transactions} type={currentAccount.type} />
-          </Grid>
-          <Grid item xs={4} sx={{ display : 'block', height : '100%', marginBottom : '2em'}}>
-            <AccountOptions currentAccount={currentAccount} setIsMounted={setIsMounted}/>
-            <br/>
-            <SpendingGraph transactions={currentAccount.transactions} type={currentAccount.type}/>
-          </Grid>
-        </Grid>
+                  ${currentAccount.balance}
+                </Typography>
+                <Payment currentAccount={currentAccount} />
+                <TransactionsList transactions={currentAccount.transactions} type={currentAccount.type} />
+              </Grid>
+              <Grid item xs={4} sx={{ display : 'block', height : '100%', marginBottom : '2em'}}>
+                <AccountOptions currentAccount={currentAccount} setIsMounted={setIsMounted}/>
+                <br/>
+                <SpendingGraph transactions={currentAccount.transactions} type={currentAccount.type}/>
+              </Grid>
+            </Grid>
+          )
+        }
       </Grid>
 
       <Grid item xs={12}>

@@ -7,6 +7,7 @@ import stocks from './images/stocks.png'
 import GetMainAd from './mainAd'
 import { useNavigate } from 'react-router-dom';
 
+
 export default function Advert () {
   const navigate = useNavigate()
   const subCardInfo = [

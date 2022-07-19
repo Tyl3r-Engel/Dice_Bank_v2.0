@@ -4,12 +4,14 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import useAuth from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../loading/Loading';
+import useUser from '../hooks/useUser';
 
 export default function AccountDisplay({ account }) {
   //! need a better way of doing this
   // eslint-disable-next-line no-new-func
   account = JSON.parse(JSON.stringify(account), (key, value) => value && typeof value === 'string' && value.startsWith('function') ? new Function('return ' + value)() : value)
   const { auth: { userName: username, userid } } = useAuth()
+  const { windowSize } = useUser()
   const axios = useAxiosPrivate()
   const navigate = useNavigate()
   const [accountName, setAccountName] = useState(`My ${account.name}`)
@@ -114,7 +116,7 @@ export default function AccountDisplay({ account }) {
             padding : '1em'
           }}
         >
-          <Typography variant='h5' sx={{padding : '1em', fontWeight : 'light', lineHeight : '1.4em'}}>
+          <Typography variant={windowSize.width < 600 ? 'body1' : 'h5'} sx={{padding : '1em', fontWeight : 'light', lineHeight : '1.4em'}}>
             {account.dis}
           </Typography>
         </Box>
@@ -185,7 +187,7 @@ export default function AccountDisplay({ account }) {
                   <Checkbox checked={isChecked} onClick={() => setIsChecked(!isChecked)} />
                 }
                 label ={
-                  <Typography variant='subtitle2' >
+                  <Typography variant='subtitle2' fontSize={windowSize.width < 600 ? 'x-small' : 'small'} >
                     I understand this account is in noway actually real and all the "money" and or other perks said to be granted are false.
                   </Typography>
                 }

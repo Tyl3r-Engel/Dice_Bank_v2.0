@@ -77,6 +77,9 @@ export default function LetterAvatars() {
                 >
                   Login
                 </Button>
+                <Typography variant='body2' sx={{textAlign : 'center'}} fontSize='x-small'>
+                  *If you are logged in on a mobile device rotate your screen up right to get a privacy blocker
+                </Typography>
               </Box>
             </form>
           </Box>

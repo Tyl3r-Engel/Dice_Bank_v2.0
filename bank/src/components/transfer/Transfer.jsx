@@ -7,8 +7,10 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { Box } from '@mui/system';
 import transactionImg from './transactionImg.png'
 import Loading from '../../loading/Loading';
+import useUser from '../hooks/useUser';
 
 export default function Transfer() {
+  const { windowSize } = useUser()
   const location = useLocation()
   const navigate = useNavigate()
   const axios = useAxiosPrivate()
@@ -134,10 +136,9 @@ export default function Transfer() {
 
       <Grid item xs={12}>
         <Paper elevation={24} sx={{ padding : '3em', margin : '3em'}}>
-          <Grid container spacing={5} sx={{alignItems : 'center'}}>
-            <Grid item xs={1} />
-            <Grid item xs={4}>
-              <Paper elevation={24} sx={{ borderRadius : '50px'}}>
+          <Grid container spacing={3} sx={{justifyContent : 'center'}} direction={windowSize.width < 1120 ? 'column' : 'row'}>
+            <Grid xs={1} item sx={{ alignSelf : 'center', minWidth : 'fit-content'}}>
+              <Paper elevation={24} sx={{ borderRadius : '50px', minWidth : '100px'}}>
                 <Box
                   sx={{
                     background : '#325765',
@@ -180,8 +181,9 @@ export default function Transfer() {
               </Paper>
             </Grid>
 
-            <Grid item xs={2} sx={{ textAlign : 'center'}}>
-              <img style={{width : '100%'}} src={transactionImg} alt='transactionImg' />
+            <Grid xs={1} sx={{ alignSelf : 'center', minWidth : 'fit-content', textAlign : 'center'}}>
+              <img style={{width : '150px', height : '150px'}} src={transactionImg} alt='transactionImg' />
+              <br />
               <Button onClick={handleTransfer}>
                 Make transfer
               </Button>
@@ -197,7 +199,7 @@ export default function Transfer() {
               </Snackbar>
             </Grid>
 
-            <Grid item xs={4}>
+            <Grid xs={1} sx={{ minWidth : 'fit-content', alignSelf : 'center' }}>
               <Paper elevation={24} sx={{ borderRadius : '50px'}}>
                 <Box
                   sx={{

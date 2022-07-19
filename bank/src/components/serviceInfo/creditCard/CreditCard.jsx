@@ -6,8 +6,10 @@ import { CreditCardInfo } from './CreditCardInfo';
 import ServiceElement from '../ServiceElement';
 import { Box } from '@mui/system';
 import backgroundImage from '../serviceBackground.png';
+import useUser from '../../hooks/useUser';
 
 export default function CreditCard() {
+  const { windowSize } = useUser()
   return (
     <Grid container direction='column'>
     <Grid item xs={12} >
@@ -17,7 +19,21 @@ export default function CreditCard() {
     <Grid item xs={12}>
       <Box sx={{ backgroundImage : `url(${backgroundImage})`, padding : '1em'}}>
         {
-          CreditCardInfo.map((element, index) =>{ element.noSignUp = false; return <ServiceElement key={`${index} ccem`} element={element}/> })
+          CreditCardInfo.map((element, index) => {
+            element.onSignUp = false;
+            return (
+              <ServiceElement
+                key={`${index} casem`}
+                element={element}
+                size={
+                  windowSize.width > 1300 ? 3
+                  :
+                    windowSize.width > 600 ? 2
+                    :1
+                }
+              />
+            )
+          })
         }
       </Box>
     </Grid>

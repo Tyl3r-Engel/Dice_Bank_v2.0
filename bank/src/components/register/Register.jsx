@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { Grid, TextField, Box, Button, Paper, Typography, Alert } from '@mui/material';
-import logo from '../navBar/logo.png';
+import NavBar from '../navBar/NavBar';
 import axios from '../../api/axios';
 import handleLogin from '../HomePage/handleLogin';
 import useAuth from '../hooks/useAuth';
 import Footer from '../footer/Footer';
 import { useNavigate } from 'react-router-dom';
+import useUser from '../hooks/useUser';
 
 export default function Register() {
   const { setAuth } = useAuth()
+  const { windowSize } = useUser()
   const [hasFailed, setHasFailed] = useState(false)
   const [formValues, setFormValues] = useState({userName : '', userPass : '', errMsg : ''})
   const navigate = useNavigate()
@@ -40,27 +42,24 @@ export default function Register() {
     }
   }
   return (
-    <Grid container>
+    <Grid container sx={{ justifyContent : 'center'}}>
       <Grid item xs={12}>
-        <a href='/'>
-          <img src={logo} alt='logo' />
-        </a>
+        <NavBar />
       </Grid>
 
-      <Grid item xs={3} />
-
-      <Grid item xs={6}>
+      <Grid item xs={6} sx={{ maxWidth : '500px', marginTop : '5em'}}>
         <Paper elevation={20} sx={{padding : '5em', textAlign : 'center'}}>
-        <Typography variant='h4'>
-          Welcome to Dice Bank, Register here
-        </Typography>
-        {
-          hasFailed && (
-            <>
-              <Alert severity="error">{formValues.errMsg}</Alert>
-            </>
-          )
-        }
+          <Typography variant={windowSize.width < 800 ? 'body' : 'h4'}>
+            <strong>Welcome to Dice Bank, Register here</strong>
+          </Typography>
+          {
+            hasFailed && (
+              <>
+                <Alert severity="error">{formValues.errMsg}</Alert>
+              </>
+            )
+          }
+
           <form onSubmit={handleSubmit}>
             <Box sx={{padding : '1em'}}>
               <TextField
@@ -99,10 +98,9 @@ export default function Register() {
               </Button>
             </Box>
           </form>
+
         </Paper>
       </Grid>
-
-      <Grid item xs={3} />
 
       <Grid item xs={12} >
         <Footer />
