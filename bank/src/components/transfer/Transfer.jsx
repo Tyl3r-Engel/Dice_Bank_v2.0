@@ -48,7 +48,6 @@ export default function Transfer() {
           ( ( toOtherAccount.accountnumber !== '' || toOtherAccount.accountnumber !== 0 ) && toOtherAccount.accountsecret !== '' )
         )
       ) {
-        console.log((Object.keys(toAccount).length !== 0 || Object.keys(toAccount).length !== 4) , (toOtherAccount.accountnumber === '' || toOtherAccount.accountnumber === 0 ) && toOtherAccount.accountsecret === '', toOtherAccount)
          const data = {
           to : ((Object.keys(toAccount).length !== 0 || Object.keys(toAccount).length !== 4) && (toOtherAccount.accountnumber === '' || toOtherAccount.accountnumber === 0 ) && toOtherAccount.accountsecret === '' ) ? toAccount : toOtherAccount,
           from : fromAccount,

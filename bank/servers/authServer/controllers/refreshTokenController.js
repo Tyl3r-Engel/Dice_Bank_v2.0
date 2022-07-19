@@ -8,7 +8,7 @@ const handleRefreshToken = (req, res) => {
   const refreshToken = cookies.jwt
   try {
     pool.query('SELECT username, userid FROM sessions WHERE refreshToken=$1', [refreshToken], (err, { rows }) => {
-      if (err) {console.log(err); return res.sendStatus(403)}
+      if (err) return res.sendStatus(403)
       if (rows.length === 0) {
         res.clearCookie('jwt', { httpOnly : true, path : '/' })
         return res.status(403).json({ message: 'error: please try again'})

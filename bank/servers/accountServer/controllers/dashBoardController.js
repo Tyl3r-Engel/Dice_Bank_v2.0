@@ -28,8 +28,7 @@ const dashBoardController = async (req, res) => {
     const accounts = {}
     rows.forEach(accGroup => accounts[accGroup.type] = accGroup.accounts)
     res.set({ 'Cache-Control' : 'no-cache' }).json(accounts)
-  } catch(e) {
-    console.log(e)
+  } catch {
     return res.sendStatus(500)
   }
 }

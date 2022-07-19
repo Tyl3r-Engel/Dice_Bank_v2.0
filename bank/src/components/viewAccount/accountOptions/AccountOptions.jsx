@@ -20,8 +20,8 @@ export default function AccountOptions({ currentAccount, setIsMounted }) {
       await axios.post(`/toggleAccountStatus/${currentAccount.accountnumber}-${currentAccount.id}`, { status : !accountStatus})
       setAccountStatus(!accountStatus)
     } catch(e) {
-      setIsMounted(true)
-      console.log(e)
+      setIsMounted(false)
+      navigate('/', { replace : true })
     }
   }
 
@@ -32,8 +32,8 @@ export default function AccountOptions({ currentAccount, setIsMounted }) {
         axios.delete(`/deleteAccount/${currentAccount.accountnumber}-${currentAccount.id}`)
         setTimeout(() => navigate('/', { repalce : true }), 2000)
       } catch(e){
-        setIsMounted(true)
-        console.log(e)
+        setIsMounted(false)
+        navigate('/', { replace : true })
       }
       return
     }
@@ -46,8 +46,8 @@ export default function AccountOptions({ currentAccount, setIsMounted }) {
         axios.post(`/accountNameChange/${currentAccount.accountnumber}-${currentAccount.id}`, { newAccountName : accountName})
         setTimeout(() => navigate('/', { replace : true }), 2000)
       } catch(e){
-        setIsMounted(true)
-        console.log(e)
+        setIsMounted(false)
+        navigate('/', { replace : true })
       }
       return
     }

@@ -22,8 +22,7 @@ const accountNameChangeController = async (req, res) => {
     if (!(await checkIfUserAccount(accountid, req.userid))) return res.sendStatus(403)
     await pool.query(QUERY_STRING, [newAccountName, Number(accountNumber)])
     res.sendStatus(402)
-  } catch(e) {
-    console.log(e)
+  } catch {
     res.sendStatus(500)
   }
 }

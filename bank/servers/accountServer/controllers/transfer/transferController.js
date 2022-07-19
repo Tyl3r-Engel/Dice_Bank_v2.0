@@ -138,7 +138,6 @@ const transferController = async (req, res) => {
 
     return res.sendStatus(200)
   } catch(e) {
-    console.log(e)
     res.status(500)
     res.send(e.message)
     return res.end()

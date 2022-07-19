@@ -21,8 +21,7 @@ const deleteAccountController = async (req, res) => {
     if (!(await checkIfUserAccount(accountid, req.userid))) return res.sendStatus(403)
     await pool.query(QUERY_STRING, [Number(accountNumber)])
     res.sendStatus(200)
-  } catch(e) {
-    console.log(e)
+  } catch {
     res.sendStatus(500)
   }
 }

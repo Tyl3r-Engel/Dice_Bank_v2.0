@@ -24,8 +24,7 @@ export default function DashBoard() {
         if (response?.response?.status === 403 || response?.response?.status === 401) throw new Error('unauthorized')
         setAccounts(response.data)
         setIsMounted(true)
-      } catch(e) {
-        console.log('ERROR:::', e)
+      } catch {
         setAuth({})
         setErrorFlag(true)
       }

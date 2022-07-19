@@ -55,7 +55,6 @@ export default function ViewAccount() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
   if(!isMounted) return <Loading />
-  console.log(currentAccount)
   return(
     <Grid container direction='column'>
       <Grid item xs={12}>

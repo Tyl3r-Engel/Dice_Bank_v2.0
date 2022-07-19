@@ -8,7 +8,7 @@ require('../../dataBase/pool')
 
 const whiteList = ['http://localhost:7777']
 const corsOptions = {
-  origin : (origin, callback) => {console.log(origin) ; return whiteList.indexOf(origin) !== -1 ? callback(null, true) : callback(new Error('Blocked by CORS'), null)},
+  origin : (origin, callback) => whiteList.indexOf(origin) !== -1 ? callback(null, true) : callback(new Error('Blocked by CORS'), null),
   optionsSuccessStatus : 200,
   credentials : true
 }

@@ -21,8 +21,7 @@ const accountTransactionsController = async (req, res) => {
     if (!(await checkIfUserAccount(accountid, req.userid))) return res.sendStatus(403)
     const { rows: transactions } = await pool.query(QUERY_STRING, [Number(accountNumber)])
     res.json(transactions.reverse())
-  } catch(e) {
-    console.log(e)
+  } catch {
     res.sendStatus(500)
   }
 }
