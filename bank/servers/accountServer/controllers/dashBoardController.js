@@ -1,5 +1,5 @@
 const pool = require('../../../dataBase/pool')
-
+const path = require('path')
 const dashBoardController = async (req, res) => {
   const QUERY_STRING = `
     SELECT type,
@@ -23,6 +23,7 @@ const dashBoardController = async (req, res) => {
   `;
 
   try {
+    if(req?.wasRefresh) return res.sendFile(path.join(__dirname, '../../../build'))
     const { rows } = await pool.query(QUERY_STRING, [req.userid])
     const accounts = {}
     rows.forEach(accGroup => accounts[accGroup.type] = accGroup.accounts)

@@ -56,14 +56,14 @@ export default function Transfer() {
         }
         const response = await axios.post('/transfer', data)
 
-        console.log(response)
         if (response?.status === 200) {
           setIsMounted(false)
           setToAccount({})
           setToOtherAccount({ accountnumber : '', accountsecret : ''})
           setFromAccountAmount('')
 
-          if (toAccount.isPayment && fromAccount.type === 'loan') {
+          if (fromAccount.defaultname === 'We Pay For Your Credit') fromAccount.balance += 0;
+          else if (toAccount.isPayment && fromAccount.type === 'loan') {
             fromAccount.options.paymentAmount -= fromAccountAmount
             fromAccount.options.minPaymentDue  = (fromAccount.options.minPaymentDue - fromAccountAmount) < 0 ? 0 : fromAccount.options.minPaymentDue - fromAccountAmount
           } else if (toAccount.isPayment && fromAccount.type === 'creditCard') {
@@ -87,8 +87,8 @@ export default function Transfer() {
         if (response?.response?.status === 403 || response?.response?.status === 401) throw new Error('unauthorized')
 
         const tempAccountList = []
+        if (Object.keys(response.data).length === 0) throw new Error('You have no accounts')
         for (let key in response.data) response.data[key].forEach(element => tempAccountList.push(element))
-
         let flag = false
         if(redirectAccountName) {
           setFromAccount(tempAccountList.find(element => element.name === redirectAccountName))

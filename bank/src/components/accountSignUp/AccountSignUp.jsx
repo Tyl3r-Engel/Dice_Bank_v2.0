@@ -13,16 +13,28 @@ export default function AccountSignUp() {
   const navigate = useNavigate()
   const { auth } = useAuth()
   const [selectedAccount, setSelectedAccount] = useState(location?.state)
+  useEffect(() => {setSelectedAccount(JSON.parse(location?.state))}, [location?.state])
 
   const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
     if (!auth.isAuth) return navigate('/register', { replace : true })
+    if(selectedAccount === null) {
+      if (!JSON.parse(sessionStorage.getItem('selectedAccount'))) return navigate('/', {replace : true})
+      setSelectedAccount(JSON.parse(sessionStorage.getItem('selectedAccount')))
+    } else {
+      if (sessionStorage.getItem('selectedAccount')) {
+        sessionStorage.clear()
+      }
+       sessionStorage.setItem('selectedAccount', selectedAccount)
+    }
     setIsMounted(true)
+
+    return function cleanUp() {
+      sessionStorage.clear()
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
-
-  useEffect(() => {setSelectedAccount(JSON.parse(location?.state))}, [location?.state])
 
   if (!isMounted) return <Loading />
   return (

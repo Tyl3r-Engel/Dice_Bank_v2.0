@@ -1,9 +1,30 @@
 const jwt = require('jsonwebtoken')
+const axios = require('axios')
 require('dotenv').config()
 
-module.exports = (req, res, next) => {
-  const authHeader = req.headers['authorization']
-  if(!authHeader) return res.sendStatus(401)
+module.exports = async (req, res, next) => {
+  let authHeader = req.headers['authorization']
+  if(!authHeader && req.cookies.jwt) {
+    try {
+      const{ data: { accessToken, username, userid } }= await axios.get(
+        'http://localhost:9999/refresh',
+        {
+          withCredentials: true,
+          headers : {
+            'origin' : 'http://localhost:7777',
+            cookie : `jwt=${req.cookies.jwt}`
+          }
+        }
+      )
+      req.username = username
+      req.userid = userid
+      authHeader = `Bearer ${accessToken}`
+      req.wasRefresh = true
+    } catch {
+      return res.sendStatus(401)
+    }
+  }
+
   if(!req.cookies.jwt) return res.sendStatus(401)
   jwt.verify(
     authHeader.split(' ')[1],

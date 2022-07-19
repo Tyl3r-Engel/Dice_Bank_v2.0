@@ -9,13 +9,14 @@ export default function ServiceElement({ element, size }) {
   if (!size) {
      size = 3
   } else if (!(size === 1 || size === 2 || size === 3)) throw new Error('size prop not set to 1, 2, or 3')
+  const navigate = useNavigate()
   const location = useLocation()
   const [isOpen, setIsOpen] = useState(false)
   const [isAlertOpen, setIsAlertOpen] = useState(false)
   const handleClose = () => setIsOpen(!isOpen)
   const handleAlert = () => setIsAlertOpen(!isAlertOpen)
   const { auth } = useAuth()
-  const navigate = useNavigate()
+
   const handleSignUp = () => {
     if (!auth.isAuth){ setIsAlertOpen(true); return}
     navigate(
@@ -114,9 +115,19 @@ export default function ServiceElement({ element, size }) {
                     <Alert onClose={handleAlert} severity="warning" sx={{ width: '100%' }}>
                       <span>
                         {'You need to be logged in! You can register '}
-                        <a href='/register'>
+                        <p
+                        onClick={() => navigate('/register')}
+                        style={{
+                          color : 'blue',
+                          textDecoration : 'underline',
+                          display : 'inline',
+                          '&:hover': {
+                            cursor: 'pointer'
+                          },
+                        }}
+                        >
                           here.
-                        </a>
+                        </p>
                       </span>
                     </Alert>
                   </Snackbar>

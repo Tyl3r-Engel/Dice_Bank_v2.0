@@ -1,8 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Typography, Grid } from '@mui/material'
 import logo from '../navBar/logo.png'
+import useRefreshToken from '../hooks/useRefreshToken';
 
 export default function Footer () {
+  const refresh = useRefreshToken()
+  useEffect(() => {
+    const checkRefresh = async () => {
+      try {
+        await refresh()
+      } catch {}
+    }
+    checkRefresh()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
+
   return (
     <Box sx={{
         marginTop : '3em',
@@ -21,6 +33,10 @@ export default function Footer () {
         <Grid item xs={4}>
           <div style={{ textAlign : 'center', fontSize : 'small'}}>
             Dice Bank, a passion project designed and built by Tyler Engel
+            <br />
+            If you encounter any bugs or problems let me know!
+            <br />
+            Thank you for visiting Dice Bank.
             <Typography variant='body1' style={{ marginBottom : '0', fontSize : 'medium'}}>
               Get in contact:
             </Typography>

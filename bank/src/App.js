@@ -21,45 +21,58 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
+          <Route
+            path="/checkingAndSavings"
+            element={
+              <CheckingAndSavings />
+            }
+            replace
+          />
+
+          <Route
+            path="/creditCard"
+            element={
+              <CreditCard />
+            }
+            replace
+          />
+
+          <Route
+            path="/loan"
+            element={
+              <Loan />
+            }
+            replace
+          />
+
+          <Route
+            path="/trading"
+            element={
+              <Trading />
+            }
+            replace
+          />
+
+          <Route
+            path="/register"
+            element={
+              auth?.isAuth
+                ? <Navigate to="/dashboard" replace />
+                : <Register />
+            }
+            replace
+          />
+
+
+          <Route path="*" element={<Navigate to="/" replace /> }/>
+
           <Route element={<PersistLogin />} >
             <Route
-              path="/checkingAndSavings"
-              element={
-                <CheckingAndSavings />
-              }
-              replace
-            />
-
-            <Route
-              path="/creditCard"
-              element={
-                <CreditCard />
-              }
-              replace
-            />
-
-            <Route
-              path="/loan"
-              element={
-                <Loan />
-              }
-              replace
-            />
-
-            <Route
-              path="/trading"
-              element={
-                <Trading />
-              }
-              replace
-            />
-
-            <Route
-              path="/register"
+              path="/"
               element={
                 auth?.isAuth
                 ? <Navigate to="/dashboard" replace />
-                : <Register />
+                : <HomePage />
               }
             />
             {/* these are the protected routes */}
@@ -78,36 +91,25 @@ function App() {
                 element={
                   <ViewAccount />
                 }
-                />
+              />
 
               <Route
                 path='/transfer'
                 element={
                   <Transfer />
                 }
-                />
+              />
 
-            </Route>
+              <Route
+                path="/accountSignUp"
+                element={
+                  <AccountSignUp />
+                }
+              />
             {/* End of protected routes */}
-
-            <Route
-              path="/accountSignUp"
-              element={
-                <AccountSignUp />
-              }
-            />
-
-            <Route
-              path="/"
-              element={
-                auth?.isAuth
-                ? <Navigate to="/dashboard" replace />
-                : <HomePage />
-              }
-            />
+            </Route>
+          {/* end of persist login */}
           </Route>
-
-          <Route path="*" element={<Navigate to="/" replace /> }/>
         </Routes>
       </div>
     </Router>

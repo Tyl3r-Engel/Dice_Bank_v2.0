@@ -5,6 +5,7 @@ const isOptionsConflict = require('./isOptionsConflict')
 
 const accountSignUpController = async (req, res) => {
   const { user: { username, userid }, accountName, userAccountName, accountBal, hasAgreed, options: { type, ...otherOptions} } = req.body
+
   if (
     !username
     || !userid

@@ -25,7 +25,7 @@ export default function SpendingGraph({ transactions, type }) {
 
   if (!isMounted) return <></>
   return (
-    <Box sx={{ background : '#325765', borderRadius : '50px', padding : '1em'}}>
+    <Box sx={{ background : '#325765', borderRadius : '50px', padding : '1em', height : '100%'}}>
       <Box sx={{ background : 'white', margin : '1em', padding : '1em', borderRadius : '50px' }}>
 
         <Typography sx={{ textAlign : 'center' }} variant='h5'>

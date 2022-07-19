@@ -12,7 +12,7 @@ import Loading from '../../loading/Loading';
 
 export default function ViewAccount() {
   const location = useLocation()
-  const [currentAccount, setCurrentAccount] = useState(location.state)
+  const [currentAccount, setCurrentAccount] = useState(location.state === null ? JSON.parse(JSON.parse(sessionStorage.getItem('currentAccount'))) : location.state)
   const axios = useAxiosPrivate()
   const [isMounted, setIsMounted] = useState(false)
   const navigate = useNavigate()
@@ -28,6 +28,14 @@ export default function ViewAccount() {
         navigate('/', { replace : true})
       }
     }
+    if (!currentAccount) return navigate('/', { replace : true })
+    if(location.state !== null) {
+      if (sessionStorage.getItem('currentAccount')) {
+        sessionStorage.clear()
+      }
+      sessionStorage.setItem('currentAccount', JSON.stringify(currentAccount, (key, val) => typeof val === 'object' ? JSON.stringify(val) : val))
+    }
+
     getTransactions()
     if (currentAccount.options?.paymentAmount) {
       setCurrentAccount(prev => (
@@ -40,9 +48,14 @@ export default function ViewAccount() {
         }
       ))
     }
+    return function cleanUp() {
+      setIsMounted(false)
+      sessionStorage.clear()
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
   if(!isMounted) return <Loading />
+  console.log(currentAccount)
   return(
     <Grid container direction='column'>
       <Grid item xs={12}>
@@ -50,7 +63,7 @@ export default function ViewAccount() {
       </Grid>
 
       <Grid item xs={12} sx={{ margin : '2em'}}>
-        <Grid container spacing={6}>
+        <Grid container spacing={6} sx={{ marginBottom : '5em' }}>
           <Grid item xs={8}>
             <Typography
               sx={{
@@ -178,7 +191,7 @@ export default function ViewAccount() {
             }
             <TransactionsList transactions={currentAccount.transactions} type={currentAccount.type} />
           </Grid>
-          <Grid item xs={4} sx={{ display : 'block'}}>
+          <Grid item xs={4} sx={{ display : 'block', height : '100%', marginBottom : '2em'}}>
             <AccountOptions currentAccount={currentAccount} setIsMounted={setIsMounted}/>
             <br/>
             <SpendingGraph transactions={currentAccount.transactions} type={currentAccount.type}/>

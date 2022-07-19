@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { Grid, Typography, Box, Button, TextField, Alert } from '@mui/material';
 import handleLogin from './handleLogin';
 import useAuth from '../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function LetterAvatars() {
   const { setAuth } = useAuth()
   const [formValues, setFormValues] = useState({userName : '', userPass : '', errMsg: ''});
   const [hasFailed, setHasFailed] = useState(false)
+  const navigate = useNavigate()
 
   const handleChange = e => {
     const { name, value } = e.target
@@ -99,7 +101,7 @@ export default function LetterAvatars() {
             </Typography>
 
             <Button
-              href='/register'
+              onClick={() => navigate('/register', { replace : true })}
               variant='outlined'
               color='inherit'
               sx={{padding : '.5em', color : 'white'}}

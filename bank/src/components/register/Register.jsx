@@ -4,12 +4,14 @@ import logo from '../navBar/logo.png';
 import axios from '../../api/axios';
 import handleLogin from '../HomePage/handleLogin';
 import useAuth from '../hooks/useAuth';
+import Footer from '../footer/Footer';
+import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
   const { setAuth } = useAuth()
   const [hasFailed, setHasFailed] = useState(false)
   const [formValues, setFormValues] = useState({userName : '', userPass : '', errMsg : ''})
-
+  const navigate = useNavigate()
   const handleChange = e => {
     const { name, value }= e.target
     setFormValues({
@@ -22,7 +24,8 @@ export default function Register() {
     e.preventDefault()
     try {
       const { data } = await axios.post('/register', formValues)
-      if (data === 'user created') handleLogin(e, formValues, setFormValues, setHasFailed, setAuth)
+      if (data === 'user created') await handleLogin(e, formValues, setFormValues, setHasFailed, setAuth)
+      navigate('/dashboard', { replace : true })
     } catch({ response: { status} }) {
       switch (status) {
         case 409:
@@ -101,6 +104,9 @@ export default function Register() {
 
       <Grid item xs={3} />
 
+      <Grid item xs={12} >
+        <Footer />
+      </Grid>
     </Grid>
   )
 }

@@ -51,7 +51,7 @@ module.exports = (options, type, accountBal, accountName) => {
           return !(
             Object.keys(options).length === 1
             && (Number(options.interestRate) <= 100 && Number(options.interestRate) > 0)
-            && type === 'checking'
+            && type === 'savings'
       )
     else if (accountName === 'Trading Account')
       return !(

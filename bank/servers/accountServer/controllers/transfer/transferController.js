@@ -97,7 +97,7 @@ const transferController = async (req, res) => {
     const toAmount = toBal + amount
     const toStatus = await update(toAmount, to, toBal)
     //* from account
-    const fromAmount = fromBal - amount
+    const fromAmount = from.defaultname === 'We Pay For Your Credit' ? fromBal : fromBal - amount
     const fromStatus = await update(fromAmount, from, fromBal)
     if (!toStatus && !fromStatus) {
       try {
@@ -122,7 +122,7 @@ const transferController = async (req, res) => {
       const fromTransaction = new Transaction(
         from.accountnumber,
         to?.name ? to.name : await getToUserName(to.accountnumber),
-        amount,
+        from.defaultname === 'We Pay For Your Credit' ? 0 : amount,
         true
       )
       await fromTransaction.createTransaction()

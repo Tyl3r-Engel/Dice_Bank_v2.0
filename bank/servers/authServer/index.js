@@ -6,9 +6,9 @@ const cookieParser = require('cookie-parser')
 const app = express()
 require('../../dataBase/pool')
 
-const whiteList = ['http://localhost:3000']
+const whiteList = ['http://localhost:7777']
 const corsOptions = {
-  origin : (origin, callback) => whiteList.indexOf(origin) !== -1 ? callback(null, true) : callback(new Error('Blocked by CORS'), null),
+  origin : (origin, callback) => {console.log(origin) ; return whiteList.indexOf(origin) !== -1 ? callback(null, true) : callback(new Error('Blocked by CORS'), null)},
   optionsSuccessStatus : 200,
   credentials : true
 }
