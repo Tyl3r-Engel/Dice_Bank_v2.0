@@ -26,6 +26,8 @@ connect it to their TEMP NAME account enabling the user the
 ability to buy and sell stocks.
 ## Technology
 
+NodeJs and PosgreSQL are required to run this project locally
+
 FrontEnd:
 
 ![JavaScript](https://img.shields.io/badge/JavaScript%20-162337.svg?&style=for-the-badge&logo=javascript&logoColor=%#325765)
@@ -110,9 +112,25 @@ Add pool.js to the database directory
   module.exports = pool;
 ```
 
+Create a .env file in the bank directory
+```javascript
+  ACCESS_TOKEN_SECRET = *
+  REFRESH_TOKEN_SECRET = *
+```
+*Open your termainal and type 'node' then run
+```javascript
+  console.log(require('crypto').randomBytes(64).toString('hex'))
+```
+copy the output and replace the * with it, do this for both the ACCESS_TOKEN_SECRET and REFRESH_TOKEN_SECRET
+
 Run build
 ```bash
     npm run build
+```
+
+Init Db the account server
+```bash
+  npm run db-init
 ```
 
 Start the auth server
@@ -123,11 +141,6 @@ Start the auth server
 Start the account server
 ```bash
   npm run accountServer
-```
-
-Init Db the account server
-```bash
-  npm run db-init
 ```
 
 In the browser go to http://localhost:7777
@@ -150,7 +163,8 @@ I would say I have solid understanding of how they work and operate.
 
 At this point there are no major Optimizations I want to make,
 however there are components that could use to be rewritten,
-logic that could probably be simplified, and code formatting to be done.
+logic that could probably be simplified, code formatting and
+bug squashing to be done.
 
 note: the backend will need to be added to for other app interaction
 
