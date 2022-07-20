@@ -22,7 +22,7 @@ export const UserProVider = ({ children }) => {
     return () => {
       window.removeEventListener('resize', getWindowDimensions)
     }
-  }, [])
+  }, [windowSize])
 
   if(!windowSize?.width) return <Loading />
   if(auth?.isAuth && windowSize.width < 500) {
