@@ -79,41 +79,53 @@ Dice bank is deployed on aws
 ## Run Locally
 
 Clone the project
-
 ```bash
   git clone https://github.com/Tyl3r-Engel/Dice_Bank.git
 ```
 
 Go to the bank
-
 ```bash
   cd bank
 ```
 
 Install dependencies
-
 ```bash
   npm install
 ```
 
-Run build
+Add pool.js to the database directory
+```javascript
+  const { Pool } = require('pg')
 
+  const pool = new Pool({
+    host: 'localhost',
+    database : 'dice_bank'
+  })
+
+  module.exports = pool;
+```
+
+Run build
 ```bash
     npm run build
 ```
 
 Start the auth server
-
 ```bash
   npm run authServer
 ```
 
 Start the account server
-
 ```bash
   npm run accountServer
 ```
 
+Init Db the account server
+```bash
+  npm run db-init
+```
+
+In the browser go to http://localhost:7777
 
 ## Lessons Learned
 
@@ -156,6 +168,8 @@ note: the backend will need to be added to for other app interaction
 
 As for now Dice Bank is getting a pin
 while work starts on the stock trading app to go along side it.
+
+- index database
 
 - Getting tests written
 
