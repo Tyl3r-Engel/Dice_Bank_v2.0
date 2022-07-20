@@ -46,9 +46,9 @@ Backend:
 https://hexcolorpedia.com/color/?q=325765
 | Color             | Hex                                                                |
 | ----------------- | ------------------------------------------------------------------ |
-| Petro Blue | ![#325765](https://via.placeholder.com/10/325765?text=+) #325765 |
-| Fire Axe Red | ![#cc171d](https://via.placeholder.com/10/cc171d?text=+) #cc171d |
-| Yankees Blue | ![#162337](https://via.placeholder.com/10/162337?text=+) #162337 |
+| Petro Blue | #325765 |
+| Fire Axe Red | #cc171d |
+| Yankees Blue |  #162337 |
 
 
 ## Screenshots
@@ -70,6 +70,10 @@ svg and excalidraw file in ReadmeFiles
 ## Demo
 
 
+https://user-images.githubusercontent.com/62031957/179885998-ee6db999-be9f-4960-b92a-8e25bcbeb904.mp4
+
+
+
 ## Deployment
 
 PUT DEPLOYED LINK HERE
@@ -87,6 +91,7 @@ Clone the project
 Go to the bank
 
 ```bash
+
   cd bank
 ```
 
