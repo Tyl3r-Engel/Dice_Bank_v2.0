@@ -1,5 +1,4 @@
 import axios from '../../api/axios';
-
 export default async function handleLogin (e, { userName, userPass }, setFormValues, setHasFailed, setAuth) {
   e.preventDefault()
   try {
@@ -11,7 +10,7 @@ export default async function handleLogin (e, { userName, userPass }, setFormVal
       {
         headers: {
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'http://localHost:9999',
+            'Access-Control-Allow-Origin': `http://${process.env.REACT_APP_IP}:7777`,
           },
         withCredentials : true
       }
