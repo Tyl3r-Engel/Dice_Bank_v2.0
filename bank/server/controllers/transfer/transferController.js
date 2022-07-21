@@ -1,4 +1,4 @@
-const pool = require('../../../../dataBase/pool')
+const pool = require('../../../dataBase/pool')
 const Transaction = require('./Transaction')
 const handlePayment = require('./handlePayment')
 const checkAccounts = async (toUser, fromUser) => {

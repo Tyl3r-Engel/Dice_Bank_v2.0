@@ -1,4 +1,4 @@
-const pool = require('../../../../dataBase/pool')
+const pool = require('../../../dataBase/pool')
 
 const checkOptions = async (options, accountNumber) => {
   try {

@@ -7,7 +7,7 @@ module.exports = async (req, res, next) => {
   if(!authHeader && req.cookies.jwt) {
     try {
       const{ data: { accessToken, username, userid } }= await axios.get(
-        'http://localhost:9999/refresh',
+        'http://localhost:7777/refresh',
         {
           withCredentials: true,
           headers : {

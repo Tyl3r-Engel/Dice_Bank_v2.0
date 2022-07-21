@@ -1,4 +1,4 @@
-const pool = require('../../dataBase/pool')
+const pool = require('../dataBase/pool')
 const Transaction = require('./controllers/transfer/Transaction')
 
 module.exports = () => {

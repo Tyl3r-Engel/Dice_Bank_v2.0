@@ -1,4 +1,4 @@
-const pool = require('../../../dataBase/pool')
+const pool = require('../../dataBase/pool')
 
 const checkIfUserAccount = async (accountId, reqUserId) => {
   try{
@@ -10,20 +10,20 @@ const checkIfUserAccount = async (accountId, reqUserId) => {
   return false
 }
 
-const deleteAccountController = async (req, res) => {
-  const [accountNumber, accountid] = req.baseUrl.split('/')[2].split('-')
+const accountTransactionsController = async (req, res) => {
+  const [accountNumber, accountid] = req.baseUrl.substr(21).split('-')
   const QUERY_STRING = `
-    DELETE
-    FROM accounts
+    SELECT *
+    FROM transactions
     WHERE accountNumber = $1
   `;
   try {
     if (!(await checkIfUserAccount(accountid, req.userid))) return res.sendStatus(403)
-    await pool.query(QUERY_STRING, [Number(accountNumber)])
-    res.sendStatus(200)
+    const { rows: transactions } = await pool.query(QUERY_STRING, [Number(accountNumber)])
+    res.json(transactions.reverse())
   } catch {
     res.sendStatus(500)
   }
 }
 
-module.exports = deleteAccountController
+module.exports = accountTransactionsController
