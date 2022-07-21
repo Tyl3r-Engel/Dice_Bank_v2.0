@@ -78,9 +78,9 @@ https://user-images.githubusercontent.com/62031957/179885998-ee6db999-be9f-4960-
 
 ## Deployment
 
-PUT DEPLOYED LINK HERE
+http://107.23.190.5
 
-Dice bank is deployed on AWS
+Dice bank is deployed on an AWS EC2 instance
 
 ## Run Locally
 
