@@ -1,4 +1,4 @@
-const pool = require('../../../../dataBase/pool')
+const pool = require('../../../dataBase/pool')
 const axios = require('axios')
 const setUpPayments = require('./setUpPayments')
 const isOptionsConflict = require('./isOptionsConflict')

@@ -1,10 +1,11 @@
 const express = require('express')
 const path = require('path')
 const cors = require('cors')
-const verifyJWT = require('../middleware/verifyJWT')
+const verifyJWT = require('./middleware/verifyJWT')
 const cookieParser = require('cookie-parser')
 const app = express()
 const manageAccounts = require('./manageAccounts')
+require('../dataBase/pool')
 
 const corsOptions = {
   origin : '*',
@@ -16,18 +17,25 @@ app.use(cors(corsOptions))
 app.use(express.json())
 app.use(cookieParser())
 
-app.use('/', express.static(path.join(__dirname, '../../build')));
+app.use('/', express.static(path.join(__dirname, '../build')));
 
-app.use('/checkingAndSavings', express.static(path.join(__dirname, '../../build')));
-app.use('/creditCard', express.static(path.join(__dirname, '../../build')));
-app.use('/loan', express.static(path.join(__dirname, '../../build')));
-app.use('/trading', express.static(path.join(__dirname, '../../build')));
+app.use('/checkingAndSavings', express.static(path.join(__dirname, '../build')));
+app.use('/creditCard', express.static(path.join(__dirname, '../build')));
+app.use('/loan', express.static(path.join(__dirname, '../build')));
+app.use('/trading', express.static(path.join(__dirname, '../build')));
 app.use('/register', (req, res, next) => {
   if(req.cookies.jwt) {
     return res.redirect('/')
   }
   next()
-}, express.static(path.join(__dirname, '../../build')));
+}, express.static(path.join(__dirname, '../build')));
+
+
+app.use('/register', require('./routes/register'))
+app.use('/login', require('./routes/login'))
+app.use('/refresh', require('./routes/refresh'))
+app.use('/logout', require('./routes/logout'))
+
 
 app.use(verifyJWT)
 app.use('/dashBoard', require('./routes/dashBoard'))
@@ -40,9 +48,9 @@ app.use('/accountSignUp', require('./routes/accountSignUp'))
 app.use('/transfer', require('./routes/transfer'))
 app.use('/accountDelete', require('./routes/accountDelete'))
 
-app.use('/viewAccount', express.static(path.join(__dirname, '../../build')))
-app.use('/transfer', express.static(path.join(__dirname, '../../build')))
-app.use('/accountSignUp', express.static(path.join(__dirname, '../../build')))
+app.use('/viewAccount', express.static(path.join(__dirname, '../build')))
+app.use('/transfer', express.static(path.join(__dirname, '../build')))
+app.use('/accountSignUp', express.static(path.join(__dirname, '../build')))
 
 app.use('*', (req, res) => res.redirect('/'))
 

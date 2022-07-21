@@ -28,8 +28,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "authServer": "nodemon ./servers/authServer/index.js",
-    "accountServer": "nodemon ./servers/accountServer/index.js",
+    "server": "nodemon ./server/index.js",
     "db-init": "psql -f ./dataBase/models/schema.sql",
     "build": "react-scripts build",
     "test": "react-scripts test",

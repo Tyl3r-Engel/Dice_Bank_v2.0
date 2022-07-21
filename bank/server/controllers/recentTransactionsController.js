@@ -1,4 +1,4 @@
-const pool = require('../../../dataBase/pool')
+const pool = require('../../dataBase/pool')
 
 const recentTransactionController = async (req, res) => {
   const accountNumbers = req.baseUrl.replace('/recentTransactions/','%20').split('%20').slice(1).map(element => Number(element))

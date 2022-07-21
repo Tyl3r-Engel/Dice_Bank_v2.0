@@ -15,7 +15,7 @@ export default function AccountDisplay({ account }) {
   const axios = useAxiosPrivate()
   const navigate = useNavigate()
   const [accountName, setAccountName] = useState(`My ${account.name}`)
-  const [accountBal, setAccountBal] = useState({})
+  const [accountBal, setAccountBal] = useState('')
   const [balError, setBalError] = useState(false)
   const [isChecked, setIsChecked] = useState(false)
   const [extraInput, setExtraInput] = useState('')

@@ -1,4 +1,4 @@
-const pool = require('../../../../dataBase/pool')
+const pool = require('../../../dataBase/pool')
 
 class Transaction {
   constructor(accountnumber, fromname, amount, waswithdrawl) {
