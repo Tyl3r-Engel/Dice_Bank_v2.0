@@ -7,11 +7,11 @@ module.exports = async (req, res, next) => {
   if(!authHeader && req.cookies.jwt) {
     try {
       const{ data: { accessToken, username, userid } }= await axios.get(
-        'http://localhost:7777/refresh',
+        `http://${process.env.IP}:7777/refresh`,
         {
           withCredentials: true,
           headers : {
-            'origin' : 'http://localhost:7777',
+            'origin' : `http://${process.env.IP}:7777`,
             cookie : `jwt=${req.cookies.jwt}`
           }
         }

@@ -115,6 +115,8 @@ Create a .env file in the bank directory
 ```javascript
   ACCESS_TOKEN_SECRET = *
   REFRESH_TOKEN_SECRET = *
+  REACT_APP_IP = localhost
+  IP = localhost
 ```
 *Open your termainal and type 'node' then run
 ```javascript
