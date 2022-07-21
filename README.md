@@ -80,7 +80,7 @@ https://user-images.githubusercontent.com/62031957/179885998-ee6db999-be9f-4960-
 
 PUT DEPLOYED LINK HERE
 
-Dice bank is deployed on aws
+Dice bank is deployed on AWS
 
 ## Run Locally
 
@@ -91,7 +91,6 @@ Clone the project
 
 Go to the bank
 ```bash
-
   cd bank
 ```
 
@@ -133,14 +132,9 @@ Init Db the account server
   npm run db-init
 ```
 
-Start the auth server
+Start Server
 ```bash
-  npm run authServer
-```
-
-Start the account server
-```bash
-  npm run accountServer
+  npm run server
 ```
 
 In the browser go to http://localhost:7777
