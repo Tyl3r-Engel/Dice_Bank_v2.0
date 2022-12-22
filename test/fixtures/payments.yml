@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# one:
+#   credit_account: one
+#   due_date: 2022-12-01
+#   bal:
+#   payed?: false
+
+# two:
+#   credit_account: two
+#   due_date: 2022-12-01
+#   bal:
+#   payed?: false

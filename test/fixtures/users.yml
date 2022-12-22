@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: 1
+  user_name: user_one
+  display_name: user one
+  password_digest: $2a$12$2SC8uKFTJU505yYcO71D6uZhevABuGaSgGlPaffAEWUqvqvboUDsO
+  role: one
+  primary_account_num:
+
+two:
+  id: 2
+  user_name: user_two
+  display_name: user two
+  password_digest: $2a$12$2SC8uKFTJU505yYcO71D6uZhevABuGaSgGlPaffAEWUqvqvboUDsO
+  role: two
+  primary_account_num:

@@ -1,0 +1,12 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: 1
+  title: checking account
+  description: a basic checking account
+  img_urls: []
+
+# two:
+#   title: MyString
+#   description: MyString
+#   img_urls: MyString

@@ -1,0 +1,23 @@
+.header-logo-img {
+  margin: 10px;
+  max-width: 50vw;
+  max-height: auto;
+}
+
+.header-login-container {
+  font-size: 4vw;
+  width: 100%;
+  text-align: right;
+}
+
+.header-menu-container {
+  display: flex;
+  align-content: right;
+  width: 100%;
+  height: auto;
+}
+
+.header-menu-container button {
+  margin-left: auto;
+  margin-right: 0;
+}

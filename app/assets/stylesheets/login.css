@@ -1,0 +1,279 @@
+.login-container {
+  height: 100%;
+  display: grid;
+}
+
+.login-content-container {
+  position: relative;
+  z-index: 20;
+  height: max-content;
+  align-self: center;
+  margin-left: 10vw;
+  margin-right: 10vw;
+  text-align: center;
+}
+
+.login-background-container, .login-content-container {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.login-background-container {
+  position: relative;
+  z-index: 10;
+}
+
+.login-background-top {
+  position: relative;
+
+  animation: login-background-top-keyf .5s linear both;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.75);
+  height: 50vh;
+}
+
+.login-background-bottom {
+  position: relative;
+
+  animation: login-background-bottom-keyf .5s linear both;
+  z-index: 10;
+  background-color: rgb(0, 0, 0, 0.75);
+  height: 50vh;
+}
+
+
+@keyframes login-background-bottom-keyf {
+  0%{ right: 100%; }
+  1%{ right: 99%; }
+  2%{ right: 98%; }
+  3%{ right: 97%; }
+  4%{ right: 96%; }
+  5%{ right: 95%; }
+  6%{ right: 94%; }
+  7%{ right: 93%; }
+  8%{ right: 92%; }
+  9%{ right: 91%; }
+  10%{ right: 90%; }
+  11%{ right: 89%; }
+  12%{ right: 88%; }
+  13%{ right: 87%; }
+  14%{ right: 86%; }
+  15%{ right: 85%; }
+  16%{ right: 84%; }
+  17%{ right: 83%; }
+  18%{ right: 82%; }
+  19%{ right: 81%; }
+  20%{ right: 80%; }
+  21%{ right: 79%; }
+  22%{ right: 78%; }
+  23%{ right: 77%; }
+  24%{ right: 76%; }
+  25%{ right: 75%; }
+  26%{ right: 74%; }
+  27%{ right: 73%; }
+  28%{ right: 72%; }
+  29%{ right: 71%; }
+  30%{ right: 70%; }
+  31%{ right: 69%; }
+  32%{ right: 68%; }
+  33%{ right: 67%; }
+  34%{ right: 66%; }
+  35%{ right: 65%; }
+  36%{ right: 64%; }
+  37%{ right: 63%; }
+  38%{ right: 62%; }
+  39%{ right: 61%; }
+  40%{ right: 60%; }
+  41%{ right: 59%; }
+  42%{ right: 58%; }
+  43%{ right: 57%; }
+  44%{ right: 56%; }
+  45%{ right: 55%; }
+  46%{ right: 54%; }
+  47%{ right: 53%; }
+  48%{ right: 52%; }
+  49%{ right: 51%; }
+  50%{ right: 50%; }
+  51%{ right: 49%; }
+  52%{ right: 48%; }
+  53%{ right: 47%; }
+  54%{ right: 46%; }
+  55%{ right: 45%; }
+  56%{ right: 44%; }
+  57%{ right: 43%; }
+  58%{ right: 42%; }
+  59%{ right: 41%; }
+  60%{ right: 40%; }
+  61%{ right: 39%; }
+  62%{ right: 38%; }
+  63%{ right: 37%; }
+  64%{ right: 36%; }
+  65%{ right: 35%; }
+  66%{ right: 34%; }
+  67%{ right: 33%; }
+  68%{ right: 32%; }
+  69%{ right: 31%; }
+  70%{ right: 30%; }
+  71%{ right: 29%; }
+  72%{ right: 28%; }
+  73%{ right: 27%; }
+  74%{ right: 26%; }
+  75%{ right: 25%; }
+  76%{ right: 24%; }
+  77%{ right: 23%; }
+  78%{ right: 22%; }
+  79%{ right: 21%; }
+  80%{ right: 20%; }
+  81%{ right: 19%; }
+  82%{ right: 18%; }
+  83%{ right: 17%; }
+  84%{ right: 16%; }
+  85%{ right: 15%; }
+  86%{ right: 14%; }
+  87%{ right: 13%; }
+  88%{ right: 12%; }
+  89%{ right: 11%; }
+  90%{ right: 10%; }
+  91%{ right: 9%; }
+  92%{ right: 8%; }
+  93%{ right: 7%; }
+  94%{ right: 6%; }
+  95%{ right: 5%; }
+  96%{ right: 4%; }
+  97%{ right: 3%; }
+  98%{ right: 2%; }
+  99%{ right: 1%; }
+  100%{ right: 0%; }
+}
+
+@keyframes login-background-top-keyf {
+  0%{ left: 100%; }
+  1%{ left: 99%; }
+  2%{ left: 98%; }
+  3%{ left: 97%; }
+  4%{ left: 96%; }
+  5%{ left: 95%; }
+  6%{ left: 94%; }
+  7%{ left: 93%; }
+  8%{ left: 92%; }
+  9%{ left: 91%; }
+  10%{ left: 90%; }
+  11%{ left: 89%; }
+  12%{ left: 88%; }
+  13%{ left: 87%; }
+  14%{ left: 86%; }
+  15%{ left: 85%; }
+  16%{ left: 84%; }
+  17%{ left: 83%; }
+  18%{ left: 82%; }
+  19%{ left: 81%; }
+  20%{ left: 80%; }
+  21%{ left: 79%; }
+  22%{ left: 78%; }
+  23%{ left: 77%; }
+  24%{ left: 76%; }
+  25%{ left: 75%; }
+  26%{ left: 74%; }
+  27%{ left: 73%; }
+  28%{ left: 72%; }
+  29%{ left: 71%; }
+  30%{ left: 70%; }
+  31%{ left: 69%; }
+  32%{ left: 68%; }
+  33%{ left: 67%; }
+  34%{ left: 66%; }
+  35%{ left: 65%; }
+  36%{ left: 64%; }
+  37%{ left: 63%; }
+  38%{ left: 62%; }
+  39%{ left: 61%; }
+  40%{ left: 60%; }
+  41%{ left: 59%; }
+  42%{ left: 58%; }
+  43%{ left: 57%; }
+  44%{ left: 56%; }
+  45%{ left: 55%; }
+  46%{ left: 54%; }
+  47%{ left: 53%; }
+  48%{ left: 52%; }
+  49%{ left: 51%; }
+  50%{ left: 50%; }
+  51%{ left: 49%; }
+  52%{ left: 48%; }
+  53%{ left: 47%; }
+  54%{ left: 46%; }
+  55%{ left: 45%; }
+  56%{ left: 44%; }
+  57%{ left: 43%; }
+  58%{ left: 42%; }
+  59%{ left: 41%; }
+  60%{ left: 40%; }
+  61%{ left: 39%; }
+  62%{ left: 38%; }
+  63%{ left: 37%; }
+  64%{ left: 36%; }
+  65%{ left: 35%; }
+  66%{ left: 34%; }
+  67%{ left: 33%; }
+  68%{ left: 32%; }
+  69%{ left: 31%; }
+  70%{ left: 30%; }
+  71%{ left: 29%; }
+  72%{ left: 28%; }
+  73%{ left: 27%; }
+  74%{ left: 26%; }
+  75%{ left: 25%; }
+  76%{ left: 24%; }
+  77%{ left: 23%; }
+  78%{ left: 22%; }
+  79%{ left: 21%; }
+  80%{ left: 20%; }
+  81%{ left: 19%; }
+  82%{ left: 18%; }
+  83%{ left: 17%; }
+  84%{ left: 16%; }
+  85%{ left: 15%; }
+  86%{ left: 14%; }
+  87%{ left: 13%; }
+  88%{ left: 12%; }
+  89%{ left: 11%; }
+  90%{ left: 10%; }
+  91%{ left: 9%; }
+  92%{ left: 8%; }
+  93%{ left: 7%; }
+  94%{ left: 6%; }
+  95%{ left: 5%; }
+  96%{ left: 4%; }
+  97%{ left: 3%; }
+  98%{ left: 2%; }
+  99%{ left: 1%; }
+  100%{ left: 0%; }
+}
+
+.login-modal-form {
+  margin: .5em;
+  padding: 1em;
+  border-radius: 10px;
+  background-color: rgb(239, 235, 235);
+}
+
+.login-header {
+  display: grid;
+}
+
+.login-title, .login-close-button {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.login-title {
+  margin-top: .3em;
+  text-decoration: underline;
+  font-size: 8vw;
+}
+
+.login-close-button {
+  width: min-content;
+  position: relative;
+  justify-self: right;
+}

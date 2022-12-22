@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# one:
+#   account: one
+#   title: MyString
+#   friend_user_id:
+#   to_account_num:
+#   bal:
+#   status: MyString
+#   transfer_time: 2022-12-01 23:14:20
+
+# two:
+#   account: two
+#   title: MyString
+#   friend_user_id:
+#   to_account_num:
+#   bal:
+#   status: MyString
+#   transfer_time: 2022-12-01 23:14:20

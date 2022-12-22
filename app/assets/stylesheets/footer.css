@@ -1,0 +1,16 @@
+
+.footer {
+  background-color: rgb(2, 2, 2);
+  padding: 3vw;
+}
+
+.footer-img-container {
+  border-radius: 5px;
+  width: fit-content;
+  height: fit-content;
+  background-color: rgb(239, 235, 235);
+}
+
+.footer-logo-img {
+  max-width: 30vw;
+}

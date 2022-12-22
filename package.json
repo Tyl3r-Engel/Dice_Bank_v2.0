@@ -1,0 +1,33 @@
+{
+  "name": "app",
+  "private": "true",
+  "scripts": {
+    "bundle": "ruby ./ts_bundler/bundle_tsx.rb --js_dir_path=app/javascript/ --out_dir_path=app/assets/builds/",
+    "test": "jest",
+    "dbreset": "rails db:drop db:create db:migrate db:seed && rails c"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/icons-material": "^5.10.16",
+    "@mui/material": "^5.10.16",
+    "@rails/actioncable": "^7.0.4",
+    "axios": "^1.2.0",
+    "esbuild": "^0.15.16",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.4.5"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@types/jest": "^29.2.4",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "eslint": "^8.29.0",
+    "eslint-plugin-react": "^7.31.11",
+    "jest-environment-jsdom": "^29.3.1",
+    "ts-jest": "^29.0.3",
+    "typescript": "^4.9.4"
+  }
+}

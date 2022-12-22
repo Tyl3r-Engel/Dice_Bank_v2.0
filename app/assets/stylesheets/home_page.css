@@ -1,0 +1,116 @@
+.homePage {
+  margin-left: 3vw;
+  margin-right: 3vw;
+}
+
+/**/
+/*
+/*
+/*     Home Page Hero Image Styles
+/*     text background color => rgba(255, 255, 255, 0.5)
+/*     text highlight color => rgba(249, 228, 105, 0.898)
+/*
+/*
+/**/
+
+.hero-img-container {
+  margin-bottom: 20px;
+}
+
+.hero-img {
+  display: block;
+  width: 100%;
+  border-radius: 5px;
+}
+
+.hero-img-text-positioner {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  min-width: 100%;
+  height: auto;
+  padding-top: .7em;
+}
+
+.hero-img-text-container {
+  display: inline;
+  padding: .3em;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 15px;
+  font-size: 4vw;
+}
+
+.hero-img-text {
+  color:black;
+  text-align: center;
+}
+
+.text-highlight {
+  display: inline;
+  background-color: rgba(249, 228, 105, 0.898);
+  padding-left: 2px;
+  padding-right: 2px;
+  border-radius: 7px;
+}
+
+/**/
+/*
+/*
+/*     Home Page Service Styles
+/*     Card color => rgb(239, 235, 235)
+/*
+/*
+/**/
+
+.services-title {
+  font-size: 5vw;
+  padding-bottom: 3px;
+  border-bottom: 2px solid black;
+}
+
+.service-card-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  border-radius: 5px;
+}
+
+.service-card {
+  display: inline-block;
+  height: auto;
+  width: 35vw;
+  /* max-width: 400px; */
+  margin: 1em;
+}
+
+.service-card-thumbnail-container {
+  display: flex;
+  justify-content: center;
+}
+
+.service-card-thumbnail {
+  margin-top: .6em;
+  width: 25vw;
+  height: 25vw;
+  border-bottom: 1px solid lightgray;
+}
+
+.service-card-thumbnail:hover {
+  background-color: gray;
+  border-radius: 90px;
+}
+
+.service-card-text-container {
+  margin: 1em;
+  padding: 1em;
+  background-color: black;
+  border-radius: 15px;
+  text-align: center;
+  color: rgb(239, 235, 235);
+  font-size: 2vw;
+  height: auto;
+}
+
+.service-card-title {
+  font-size: 3vw;
+}

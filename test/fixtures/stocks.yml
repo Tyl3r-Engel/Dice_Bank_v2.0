@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# one:
+#   investment_account: one
+#   user: one
+#   call_name: MyString
+#   shares: 1.5
+
+# two:
+#   investment_account: two
+#   user: two
+#   call_name: MyString
+#   shares: 1.5

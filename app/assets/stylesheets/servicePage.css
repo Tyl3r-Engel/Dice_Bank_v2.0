@@ -1,0 +1,97 @@
+@media only screen and (max-width: 1000px) {
+  .service-page-main-container {
+    font-size: 1em;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .service-page-main-container {
+    font-size: .8em;
+  }
+}
+
+.service-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.service-page-title {
+  font-size: 8vw;
+  text-align: center;
+  margin-bottom: .3em;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid black;
+}
+
+.service-page-main-container {
+  display: grid;
+  align-self: center;
+  margin-left: 3vw;
+  margin-right: 3vw;
+  max-width: 900px;
+}
+
+.service-page-main-img, .service-page-blurb, .service-page-description {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.service-page-main-img {
+  border-radius: 20px;
+  width: 100%;
+}
+
+.service-page-blurb {
+  position: relative;
+  justify-self: right;
+  text-align: right;
+  background-color: darkgray;
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
+  margin-top: 20px;
+  margin-left: 30px;
+  padding-left: .3em;
+  padding-right: .3em;
+  height: fit-content;
+}
+.service-page-blurb p {
+  text-align: center;
+}
+
+.service-page-description {
+  position: relative;
+  bottom: -75%;
+  background-color: darkgray;
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+  margin-right: 30px;
+  padding-left: .3em;
+  padding-right: .3em;
+  height: fit-content;
+  width: fit-content;
+}
+.service-page-description p {
+  text-align: center;
+}
+
+.service-page-form {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  /* max-width: 500px; */
+}
+
+.disclaimer-input-container {
+  align-self: center;
+}
+
+.disclaimer-modal-text-container {
+  position: absolute;
+  background-color: white;
+  text-align: center;
+  padding : 1em;
+  top: 50%;
+}
