@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
 module Api
   class UsersController < ApplicationController
     skip_before_action :verify_authenticity_token
 
-    def register # POST -> user_name, password, display_name
+    # POST -> user_name, password, display_name
+    def register
       # checks
       #   - user not logged in
       #   - user supplied input not null or false
@@ -11,21 +14,21 @@ module Api
       # logs user in
       # returns user
       c = check_params :user_name, :password, :display_name
-      if c.instance_of? Error then return render json: c.to_h, status: 400 end
+      return render json: c.to_h, status: 400 if c.instance_of? Error
 
-      s = has_session? to_be: false
-      if s.instance_of? Error then return render json: s.to_h, status: 403 end
+      s = session? to_be: false
+      return render json: s.to_h, status: 403 if s.instance_of? Error
 
-      if User.find_by(user_name: params[:user_name]);
-         return render json: Error.new("User name '#{params[:user_name]}' already exists").to_h, status: 409 end
+      if User.find_by(user_name: params[:user_name])
+        return render json: Error.new("User name '#{params[:user_name]}' already exists").to_h, status: 409 end
 
       new_user = User.create({
-        user_name: params[:user_name].strip,
-        display_name: params[:display_name].strip,
-        password: params[:password],
-        primary_account_num: nil,
-        role: Role.find_by(name: "Basic User")
-      })
+                               user_name: params[:user_name].strip,
+                               display_name: params[:display_name].strip,
+                               password: params[:password],
+                               primary_account_num: nil,
+                               role: Role.find_by(name: "Basic User")
+                             })
 
       if new_user.valid?
         new_user.save
@@ -36,7 +39,8 @@ module Api
       end
     end
 
-    def login # POST -> user_name, password
+    # POST -> user_name, password
+    def login
       # checks
       #   - user not logged in
       #   - user_name exists?
@@ -45,14 +49,15 @@ module Api
       # returns user on success
 
       c = check_params :user_name, :password
-      if c.instance_of? Error then return render json: c.to_h, status: 400 end
+      return render json: c.to_h, status: 400 if c.instance_of? Error
 
       user = User.find_by(user_name: params[:user_name])
-      if user.nil?;
-        return render json: Error.new("Login failed, no user found with user name -> '#{params[:user_name]}'!").to_h, status: 409 end
+      if user.nil?
+        return render json: Error.new("Login failed, no user found with user name -> '#{params[:user_name]}'!").to_h,
+                      status: 409 end
 
-      s = has_session?({ to_be: false, user_id: user.id })
-      if s.instance_of? Error then return render json: s.to_h, status: 403 end
+      s = session?({ to_be: false, user_id: user.id })
+      return render json: s.to_h, status: 403 if s.instance_of? Error
 
       if user.authenticate(params[:password])
         session[:user_id] = user.id
@@ -62,35 +67,38 @@ module Api
       end
     end
 
-    def logout # GET
+    # GET
+    def logout
       # checks
       #   - user is logged in
       # removes user session
       # returns 200
       c = check_params :user_id
-      if c.instance_of? Error then return render json: c.to_h, status: 400 end
+      return render json: c.to_h, status: 400 if c.instance_of? Error
 
-      s = has_session?({ to_be: true, user_id: params[:user_id] })
-      if s.instance_of? Error then return render json: s.to_h, status: 403 end
+      s = session?({ to_be: true, user_id: params[:user_id] })
+      return render json: s.to_h, status: 403 if s.instance_of? Error
 
       session.delete(:user_id)
       reset_session
       head 200
     end
 
-    def show # GET
+    # GET
+    def show
       # checks
       #   - user is logged in
       #   - params are clean
       # return user
-      s = has_session?({ to_be: true, user_id: params[:user_id] })
-      if s.instance_of? Error then return render json: s.to_h, status: 403 end
+      s = session?({ to_be: true, user_id: params[:user_id] })
+      return render json: s.to_h, status: 403 if s.instance_of? Error
 
       user = User.find_by(id: params[:user_id])
       render json: UserSerializer.new(user).serialized_json, status: 200
     end
 
-    def edit # PATCH -> ?
+    # PATCH -> ?
+    def edit
       # checks
       #   - user is logged in
       #   - passed params are clean
@@ -101,13 +109,14 @@ module Api
       #   and would update the display_name column to "Timmy w"
       # return user
       clean_params = params.require(:user).permit(:user_name, :display_name, :primary_account_num)
-      clean_params[:password] = params[:password] if !params[:password].nil?
-      if clean_params.to_h.length == 0 then return render json: Error.new("No attributes to update givin").to_h, status: 400 end
+      clean_params[:password] = params[:password] unless params[:password].nil?
+      if clean_params.to_h.length.zero? then return render json: Error.new("No attributes to update givin").to_h,
+                                                           status: 400 end
 
       user = User.find_by(id: params[:user_id])
 
-      s = has_session?({ to_be: true, user_id: params[:user_id] })
-      if s.instance_of? Error then return render json: s.to_h, status: 403 end
+      s = session?({ to_be: true, user_id: params[:user_id] })
+      return render json: s.to_h, status: 403 if s.instance_of? Error
 
       clean_params.each do |attribute|
         column_name, value = attribute
@@ -127,6 +136,5 @@ module Api
         render json: Error.new("Unable to update account #{user.errors}"), status: 500
       end
     end
-
   end
 end

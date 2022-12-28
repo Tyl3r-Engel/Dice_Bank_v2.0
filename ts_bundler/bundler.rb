@@ -1,110 +1,97 @@
+# frozen_string_literal: true
+
 require "digest"
 require "json"
 
 class Bundler
+  attr_reader :change_count
+
   def bundle(file_path_array, options)
-    @dbInstance = Db.new
+    @db_instance = Db.new
     @change_count = 0
 
     file_path_array.each do |file_path|
-      if file_path.include? ".test.tsx" then next end
+      next if file_path.include? ".test.tsx"
+
       if file_changed? file_path
         puts "-"
         puts " CHANGE -> #{file_path}"
         @change_count += 1
 
         sub_out_dir = file_path.split("/")[2..-2].join("/")
-        full_out_dir = "#{options[:out_dir]}#{if sub_out_dir.length != 0 then "/#{sub_out_dir}" end}"
-        %x"esbuild #{file_path} --bundle --minify --outdir=#{full_out_dir}"
+        full_out_dir = "#{options[:out_dir]}#{"/#{sub_out_dir}" unless sub_out_dir.empty?}"
+        `esbuild #{file_path} --bundle --minify --outdir=#{full_out_dir}`
+
         puts "-"
       else
         puts "NO CHANGE -> #{file_path}"
       end
     end
 
-    @dbInstance.save
-  end
-
-  def get_change_count
-    @change_count
+    @db_instance.save
   end
 
   private
 
   def file_changed?(file_path)
-    sha256_hash = nil
-    File.open(file_path, "r") do |file|
-      sha256_hash = Digest::SHA256.hexdigest file.read
-    end
-
-    file_fingerPrint = @dbInstance.get_file_fingerPrint file_path
-
-    if sha256_hash == file_fingerPrint
-      return false
-    else
+    file_finger_print = @db_instance.get_file_finger_print file_path
+    if @db_instance.create_sha256(file_path).to_s != file_finger_print.to_s
+      @db_instance.create_file_finger_print file_path
       return true
     end
+    false
   end
 
   class Db
     def initialize
       @file_db = nil
-      File.open("#{__dir__}/file_fingerprints.json", "a+") do |f|
+      File.open("#{__dir__}/file_finger_prints.json", "a+") do |f|
         data = f.read
-        if data == ""
-          @file_db = {}
-        else
-          @file_db = JSON.parse(data)
-        end
+        @file_db = data == "" ? {} : JSON.parse(data)
       end
     end
 
     def save
-      File.open("#{__dir__}/file_fingerprints.json", "w") do |f|
+      File.open("#{__dir__}/file_finger_prints.json", "w") do |f|
         f.write(JSON.generate(@file_db))
       end
     end
 
-    def get_file_fingerPrint(file_path)
-      split_file_path = file_path.split("/")
-
-      db_search = lambda { |array, hash|
-        if array.length == 1
-          return hash["#{array[0]}"]
-        else
-          hash = hash["#{array[0]}"]
-          return nil if hash == nil
-          array.shift
-        end
-        db_search.call(array, hash)
-      }
-
-      fingerPrint = db_search.call(split_file_path, @file_db)
-      create_file_fingerPrint(file_path) if fingerPrint == nil
-      return fingerPrint
+    def create_sha256(file_path)
+      File.open(file_path, "r") do |file|
+        return Digest::SHA256.hexdigest file.read
+      end
     end
 
-    def create_file_fingerPrint(file_path)
+    def get_file_finger_print(file_path)
       split_file_path = file_path.split("/")
 
-      db_create = lambda { |hash, array|
-        # puts "this runs -->#{hash}, #{array}"
-        key = array[0]
-        if hash.include? key
-          array.shift
-          db_create.call(hash["#{key}"] , array)
-        else
-          if array.length == 1
-            File.open(file_path, "r") do |file|
-              hash["#{key}"] = Digest::SHA256.hexdigest file.read
-            end
-            return
-          end
-          hash["#{key}"] = {}
-          array.shift
-          db_create.call(hash["#{key}"], array)
+      db_search = lambda do |array, hash|
+        key = array.shift
+        return hash[key] if array.empty?
+
+        hash = hash[key]
+        hash.nil? ? nil : db_search.call(array, hash)
+      end
+
+      finger_print = db_search.call(split_file_path, @file_db)
+      create_file_finger_print(file_path) if finger_print.nil?
+      finger_print
+    end
+
+    def create_file_finger_print(file_path)
+      split_file_path = file_path.split("/")
+
+      db_create = lambda do |hash, array|
+        key = array.shift
+        if array.empty?
+          hash[key] = create_sha256 file_path
+          return
         end
-      }
+
+        unless hash.include? key; hash[key] = {} end
+        db_create.call(hash[key], array)
+      end
 
       db_create.call(@file_db, split_file_path)
     end

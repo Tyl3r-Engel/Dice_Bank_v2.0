@@ -1,0 +1,29 @@
+#* https://github.com/rubocop/rubocop/blob/master/config/default.yml
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/Not:
+  Enabled: false
+
+#* needs to be false because creates error loop when creating one line unless
+#* test = [1,2,3,4,5,6,7,8,9]
+#* unless test.include? 10; test.push 10 end
+Style/IfWithSemicolon:
+  Enabled: false
+
+Style/IfUnlessModifier:
+  Enabled: false
+# *
+
+Layout/CaseIndentation:
+  IndentOneStep: true
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 20
+
+AllCops:
+  SuggestExtensions: false

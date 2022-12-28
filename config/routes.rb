@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -21,9 +23,7 @@ Rails.application.routes.draw do
       patch "/me/edit", to: "users#edit"
       get "/logout", to: "users#logout"
     end
-
   end
 
   get "*path", to: "react#index", via: :all
-
 end

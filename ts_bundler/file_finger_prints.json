@@ -1,0 +1,50 @@
+{
+  "app": {
+    "javascript": {
+      "App.tsx": "28546fe561e4c183c9885935db5209da775b0a4559f0f2d090fec08133abbe79",
+      "application.tsx": "aac870e6f0e4391c5849f567974605a3afb9565c3020f02d79f4e01d1ef94c6c",
+      "components": {
+        "footer": {
+          "Footer.tsx": "5e1235ae4f626cd0ff0cd5fafba946cc11b47ed38ab550bdc33a2debb611768c"
+        },
+        "header": {
+          "Header.tsx": "ededef2b0dd053caf4ec92a0910ce3a1005589963a0a63f65329c1238d40733d",
+          "HeaderMenu.tsx": "7a0fa09cbcda55f4a051a355becf71cde7d10f09a814e856d1fe8fa5c44d0b9d"
+        },
+        "home_page": {
+          "HeroImg.tsx": "05b68b92340f9aad8354d0c5aba03d973948db0ad35d85bf632bf1734bdc4da1",
+          "HomePage.tsx": "36924a640a55c387ab16ddd8984529b676700e057145cc48bbb776ab6e049167",
+          "ServiceBlurbs.tsx": "6f11b739ff8982e9c811684c09379a6768d93a83f65a008557034c91bdb920f3"
+        },
+        "login": {
+          "LoginForm.tsx": "e5d5e25631da2475a0ad93f1f2369ad2caa0050adec3d5cfff971496205fb78a",
+          "LoginModal.tsx": "5c16f7ce98b701e9d3948ef1c3ec6b13c7df1fec6127ed4747346d35826e519d",
+          "RegisterForm.tsx": "6bdad717c24a3b8cf6770fef77559c41115ad8a607e81371eed370c5985a10c2"
+        },
+        "services": {
+          "ServicePage.tsx": "f816f5729ccd1597599aa71af0d9c28344d5d620475d00d640344be5a5f0f3f6"
+        },
+        "user": {
+          "dashboard": {
+            "Dashboard.tsx": "44ecc59bc750fcce9aa6453637eea5fd3ef4d6c72c79ca9b1d7100c4f5101b56"
+          },
+          "view_account": {
+            "ViewAccount.tsx": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      "contexts": {
+        "AppProvider.tsx": "1701c01943d0b7dbca7c910de8a36c32710ce8f6135f87ffec21e06578a3e420",
+        "DashboardProvider.tsx": "2f6ab72ce4863b073f732cd993d99c40b8d7ffc47ac7d260f527eb52d1922a54",
+        "HomePageProvider.tsx": "e03555dd83b3d9f165c161ddfff1d63412265933e5e8ff07d9c364e87076349d",
+        "NotificationProvider.tsx": "f710f66a6ca12935a9ed498e67dbdfa8efe4c0f64a086ebe2a7ef87901d17fc6"
+      },
+      "hooks": {
+        "useApp.tsx": "921e5f2870815c64c81f2c4417b153a80476a421ab5dd0971cff7a4fe666de45",
+        "useDash.tsx": "a978da324c220ae10c6c21b14268057524cadbb8ab2169a1ab0c62d0a45226ad",
+        "useHomePage.tsx": "68e04baa93585baa35a472ebfafe37506ce3db6a203a8e1b3df223630519981a",
+        "useNotification.tsx": "25aed6535741333a67d264e5b31b05843d9ab5299647781f4d234382982629bf"
+      }
+    }
+  }
+}

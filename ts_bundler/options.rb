@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "optparse"
 class Options
   def initialize
@@ -15,21 +17,22 @@ class Options
       end
     end.parse!
 
-    required_input = [:js_dir_path, :out_dir]
-    get_non_passed = -> {
+    required_input = %i[js_dir_path out_dir]
+    get_non_passed = lambda {
       required_input.select do |needed_input|
         @options[needed_input].nil?
-      end.map {|e| e = " --#{e}"}.join(",")
+      end.map { |e| e = " --#{e}" }.join(",")
     }
 
     if @options[:js_dir_path].nil? || @options[:out_dir].nil?
-      raise Exception.new("options not passed ->>#{get_non_passed.call}")
+      raise StandardError, "options not passed ->>#{get_non_passed.call}"
     end
+
     @options[:js_dir_path] = @options[:js_dir_path][0..-2] if @options[:js_dir_path][-1] == "/"
     @options[:out_dir] = @options[:out_dir][0..-2] if @options[:out_dir][-1] == "/"
   end
 
   def get_options
-    return @options
+    @options
   end
 end

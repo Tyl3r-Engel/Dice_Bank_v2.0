@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserSerializer
   include FastJsonapi::ObjectSerializer
   attributes :user_name, :display_name, :primary_account_num

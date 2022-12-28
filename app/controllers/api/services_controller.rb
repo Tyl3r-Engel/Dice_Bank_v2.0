@@ -1,19 +1,24 @@
+# frozen_string_literal: true
+
 module Api
   class ServicesController < ApplicationController
     skip_before_action :verify_authenticity_token
 
-    def list # GET
+    # GET
+    def list
       # returns list of all services
       render json: ServiceSerializer.new(Service.all).serialized_json, status: 200
     end
 
-    def show # GET
+    # GET
+    def show
       # returns one service based on id
       render json: ServiceSerializer.new(Service.find_by(id: params[:service_id])).serialized_json, status: 200
     end
 
-    #admin
-    def create # POST -> user_id, title, description, img_urls
+    # admin
+    # POST -> user_id, title, description, img_urls
+    def create
       # checks
       #    - user supplied attributes
       #    - user is logged in
@@ -23,17 +28,18 @@ module Api
       c = check_params :user_id, :title, :description, :img_urls
       if c.instance_of? Error then return render json: c.to_h, status: 400 end
 
-      s = has_session?({ to_be: true, user_id: params[:user_id] })
+      s = session?({ to_be: true, user_id: params[:user_id] })
       if s.instance_of? Error then return render json: s.to_h, status: 403 end
 
-      if !is_admin? params[:user_id];
-        return render json: Error.new("User is not Admin").to_h, status: 403 end
+      unless admin? params[:user_id]
+        return render json: Error.new("User is not Admin").to_h, status: 403
+      end
 
       new_service = Service.create({
-        title: params[:title],
+                                     title: params[:title],
         description: params[:description],
         img_urls: params[:img_urls]
-      })
+                                   })
 
       if new_service.valid?
         new_service.save
@@ -43,8 +49,9 @@ module Api
       end
     end
 
-    #admin
-    def delete # delete -> user_id, service_id
+    # admin
+# delete -> user_id, service_id
+    def delete
       # checks
       #    - user supplied attributes
       #    - user is logged in
@@ -54,11 +61,12 @@ module Api
       c = check_params :user_id, :service_id
       if c.instance_of? Error then return render json: c.to_h, status: 400 end
 
-      s = has_session?({ to_be: true, user_id: params[:user_id] })
+      s = session?({ to_be: true, user_id: params[:user_id] })
       if s.instance_of? Error then return render json: s.to_h, status: 403 end
 
-      if !is_admin? params[:user_id];
-        return render json: Error.new("User is not Admin").to_h, status: 403 end
+      unless admin? params[:user_id]
+        return render json: Error.new("User is not Admin").to_h, status: 403
+      end
 
       Service.delete_by(id: params[:service_id])
       deleted_service = Service.find_by(id: params[:service_id])
@@ -70,8 +78,9 @@ module Api
       end
     end
 
-    #admin
-    def edit # PATCH -> user_id, ?
+    # admin
+# PATCH -> user_id, ?
+    def edit
       # checks
       #   - user is logged in
       #   - user is an admin
@@ -80,15 +89,17 @@ module Api
       #   column name = each passed param
       # returns updated service
       clean_params = params.require(:service).permit(:title, :description, :img_urls)
-      if clean_params.to_h.length == 0 then return render json: Error.new("No attributes to update givin").to_h, status: 400 end
+      if clean_params.to_h.length.zero? then return render json: Error.new("No attributes to update givin").to_h,
+status: 400 end
 
       service = Service.find_by(id: params[:service_id])
 
-      s = has_session?({ to_be: true, user_id: params[:user_id] })
+      s = session?({ to_be: true, user_id: params[:user_id] })
       if s.instance_of? Error then return render json: s.to_h, status: 403 end
 
-      if !is_admin? params[:user_id];
-        return render json: Error.new("User is not Admin").to_h, status: 403 end
+      unless admin? params[:user_id]
+        return render json: Error.new("User is not Admin").to_h, status: 403
+      end
 
       clean_params.each do |attribute|
         column_name, value = attribute
@@ -102,6 +113,5 @@ module Api
         render json: Error.new("Unable to update the service"), status: 500
       end
     end
-
   end
 end

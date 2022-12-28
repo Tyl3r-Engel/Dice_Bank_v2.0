@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class ServicesControllerTest < ActionDispatch::IntegrationTest
@@ -11,21 +13,22 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
       ServiceSerializer.new(service).serialized_json
     }
 
-    @create = -> {
-      post "/api/admin/#{@admin_user[:id]}/serviceCreate", params: { title: "test", description: "testing", img_urls: [] }
+    @create = lambda {
+      post "/api/admin/#{@admin_user[:id]}/serviceCreate",
+           params: { title: "test", description: "testing", img_urls: [] }
     }
 
-    @delete = -> {
+    @delete = lambda {
       delete "/api/admin/#{@admin_user[:id]}/serviceDelete/#{@service[:id]}"
     }
 
-    @edit = -> {
-      patch "/api/admin/#{@admin_user[:id]}/serviceEdit/#{@service[:id]}", params: { service: {description: "edited description"} }
+    @edit = lambda {
+      patch "/api/admin/#{@admin_user[:id]}/serviceEdit/#{@service[:id]}",
+            params: { service: { description: "edited description" } }
     }
-
   end
 
- #* ---------------LIST---------------------- *#
+  # * ---------------LIST---------------------- *#
 
   test "Listing should return list of all services" do
     get "/api/services"
@@ -33,7 +36,7 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
     assert_equal @response.body, @serialize_service.call(Service.all)
   end
 
-  #* ---------------show---------------------- *#
+  # * ---------------show---------------------- *#
 
   test "Showing should return one service based on id" do
     get "/api/services/1"
@@ -41,11 +44,11 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
     assert_equal @response.body, @serialize_service.call(Service.find_by(id: 1))
   end
 
- #* ---------------CREATE---------------------- *#
+  # * ---------------CREATE---------------------- *#
 
   test "Creating should create service in data base" do
     login(@admin_user)
-    assert_difference "Service.count"  do
+    assert_difference "Service.count" do
       @create.call
       assert_response 201
     end
@@ -53,9 +56,10 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
 
   test "Creating should not work if user is not of the admin role" do
     login(@basic_user)
-    assert !is_admin?(@basic_user)
+    assert !admin?(@basic_user)
     assert_no_changes "Service.count" do
-      post "/api/admin/#{@basic_user[:id]}/serviceCreate", params: { title: "test", description: "testing", img_urls: [] }
+      post "/api/admin/#{@basic_user[:id]}/serviceCreate",
+           params: { title: "test", description: "testing", img_urls: [] }
       assert_response 403
     end
   end
@@ -71,9 +75,9 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
     assert_equal @response.body, @serialize_service.call(Service.last)
   end
 
- #* ---------------DELETE---------------------- *#
+  # * ---------------DELETE---------------------- *#
 
- test "Deleting should destroy service in data base" do
+  test "Deleting should destroy service in data base" do
     login(@admin_user)
     assert_difference("Service.count", -1) do
       @delete.call
@@ -82,7 +86,7 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
 
   test "Deleting should not work if user is not of the admin role" do
     login(@basic_user)
-    assert !is_admin?(@basic_user)
+    assert !admin?(@basic_user)
     assert_no_changes "Service.count" do
       delete "/api/admin/#{@basic_user[:id]}/serviceDelete/#{@service[:id]}"
       assert_response 403
@@ -100,7 +104,7 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
     assert_response 200
   end
 
- #* ---------------EDIT---------------------- *#
+  # * ---------------EDIT---------------------- *#
 
   test "Editing should update a service" do
     login(@admin_user)
@@ -116,8 +120,9 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
 
   test "Editing should not work if user is not of the admin role" do
     login(@basic_user)
-    assert !is_admin?(@basic_user)
-    patch "/api/admin/#{@basic_user[:id]}/serviceEdit/#{@service[:id]}", params: { service: {description: "edited description"} }
+    assert !admin?(@basic_user)
+    patch "/api/admin/#{@basic_user[:id]}/serviceEdit/#{@service[:id]}",
+          params: { service: { description: "edited description" } }
     assert_response 403
   end
 
@@ -131,5 +136,4 @@ class ServicesControllerTest < ActionDispatch::IntegrationTest
     @edit.call
     assert_equal @response.body, @serialize_service.call(Service.find_by(id: @service[:id]))
   end
-
 end
